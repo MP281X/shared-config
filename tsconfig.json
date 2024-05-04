@@ -1,5 +1,42 @@
 {
-	"extends": ["./configs/tsconfig.json"],
-	"include": ["**/*.js", "**/*.ts"],
-	"exclude": ["**/node_modules", "**/.*/", "**/dist"]
+	"compilerOptions": {
+		// ts version and module resolution (use the lasted ts/js features and types)
+		"lib": ["ESNext"],
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleDetection": "force",
+		"moduleResolution": "bundler",
+
+		// type checking
+		"allowUnreachableCode": false, // disable unreachable code
+		"allowUnusedLabels": false, // mostly typos if found
+		"alwaysStrict": true, // parse every file as strict
+		"exactOptionalPropertyTypes": true, // don't allow undefined values on optional keys
+		"noFallthroughCasesInSwitch": true, // check that every statement in the swtich is valid
+		"noImplicitAny": true, // error if a value has no type set so it would have defaulted to any
+		"noImplicitReturns": true, // check that every code path has the correct return type
+		"noImplicitThis": true, // don't allow this where it would be any
+		"noPropertyAccessFromIndexSignature": true, // allow not defined key to be accessed only by obj["key_name"]
+		"noUncheckedIndexedAccess": true, // when you access an element of an array at a specific index the type is (arrayType | undefined)
+		"noUnusedLocals": true, // disable unused variables
+		"noUnusedParameters": true, // disable unused function parameters
+		"strict": true, // enable all type checking
+		"strictBindCallApply": true, // check bind/call/apply methods
+		"strictFunctionTypes": true, // function parameter are more strict
+		"strictNullChecks": true, // make null and undefined two different types
+		"useUnknownInCatchVariables": true, // mark the catch arg as unknown instead of any
+
+		// other config
+		"allowJs": true, // don't allow js file import
+		"checkJs": true, // type check js files
+		"resolveJsonModule": true, // allow json import
+		"allowImportingTsExtensions": true, // allow importing ts file
+		"forceConsistentCasingInFileNames": true, // no different casing importing the same file
+		"verbatimModuleSyntax": true, // if i only import a type from a file don't drop the import after compilation
+		"noEmit": true, // don't output code
+		"sourceMap": true, // enable sourcemap
+		"skipLibCheck": true, // don't check .d.ts files
+		"esModuleInterop": true, // fix problem when importing older packages
+		"isolatedModules": true // ensure that the types you write are checkable looking at a single file
+	}
 }
