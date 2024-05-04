@@ -1,9 +1,8 @@
 {
 	"type": "module",
-	"version": "1.0.6",
+	"version": "1.0.8",
 	"name": "@mp281x/shared-config",
 	"scripts": { "dev": "tsup-node --watch" },
-	"files": ["./dist/**", "./tsconfig.json"],
 	"exports": {
 		"./prettier": { "default": "./dist/prettier.js", "types": "./dist/prettier.d.ts" },
 		"./eslint": { "default": "./dist/eslint.js", "types": "./dist/eslint.d.ts" },

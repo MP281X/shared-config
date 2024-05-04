@@ -20,14 +20,13 @@ jobs:
       - name: install
         run: pnpm install
 
-      - name: check
-        run: |
-          pnpm tsc --noEmit;
-          pnpm prettier --ignore-path .gitignore --log-level warn --check .;
-          pnpm eslint --report-unused-disable-directives .;
-
       - name: build
         run: pnpm tsup-node
+
+      - name: check
+        run: |
+          pnpm prettier --ignore-path .gitignore --log-level warn --check .;
+          pnpm eslint --report-unused-disable-directives .;
 
       - name: publish
         run: pnpm publish --access=restricted

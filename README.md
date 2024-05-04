@@ -1,4 +1,5 @@
 # tsconfig.json
+
 ```jsonc
 {
 	"extends": ["@mp281x/shared-config/tsconfig"],
@@ -8,11 +9,13 @@
 ```
 
 # eslint.config.js
+
 ```js
 export { default } from '@mp281x/shared-config/eslint'
 ```
 
 # prettier.config.js
+
 ```js
 export { default } from '@mp281x/shared-config/prettier'
 ```
