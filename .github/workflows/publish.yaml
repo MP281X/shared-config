@@ -15,11 +15,7 @@ jobs:
 
       - name: setup Node
         uses: actions/setup-node@v4
-        with:
-          cache: pnpm
-          node-version: 'latest'
-          scope: '@mp281x'
-          registry-url: 'https://npm.pkg.github.com'
+        with: { node-version: 'latest' }
 
       - name: install
         run: pnpm install

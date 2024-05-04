@@ -5,3 +5,4 @@
 # other files/folders
 **/.DS_Store
 **/node_modules
+**/pnpm-lock.yaml
