@@ -1,27 +1,35 @@
 {
-	"name": "@mp281x/shared-config",
-	"version": "1.0.5",
 	"type": "module",
+	"version": "1.0.6",
+	"name": "@mp281x/shared-config",
+	"scripts": { "dev": "tsup-node --watch" },
+	"files": ["./dist/**", "./tsconfig.json"],
 	"exports": {
-		"./eslint": "./eslint.config.js",
-		"./prettier": "./prettier.config.js",
+		"./prettier": { "default": "./dist/prettier.js", "types": "./dist/prettier.d.ts" },
+		"./eslint": { "default": "./dist/eslint.js", "types": "./dist/eslint.d.ts" },
 		"./tsconfig": "./tsconfig.json"
 	},
-	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 	"dependencies": {
-		"@eslint/js": "^9.2.0",
 		"eslint": "^9.2.0",
-		"eslint-config-prettier": "^9.1.0",
-		"eslint-plugin-astro": "^1.1.2",
-		"eslint-plugin-functional": "^6.5.1",
-		"eslint-plugin-svelte": "^2.36.0-next.4",
-		"eslint-plugin-unicorn": "^52.0.0",
-		"prettier": "^3.2.5",
+		"@fsouza/prettierd": "^0.25.3",
 		"prettier-plugin-astro": "^0.13.0",
 		"prettier-plugin-svelte": "^3.2.3",
-		"prettier-plugin-tailwindcss": "^0.5.14",
-		"typescript-eslint": "^7.8.0"
+		"prettier-plugin-tailwindcss": "^0.5.14"
 	},
-	"devDependencies": { "typescript": "5.4.5" },
-	"pnpm": { "overrides": { "eslint": "^9.2.0" } }
+	"devDependencies": {
+		"prettier": "^3.2.5",
+		"@eslint/js": "^9.2.0",
+		"typescript-eslint": "^7.8.0",
+		"eslint-plugin-astro": "^1.1.2",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-unicorn": "^52.0.0",
+		"eslint-plugin-functional": "^6.5.1",
+		"eslint-plugin-svelte": "^2.38.0",
+
+		"tsup": "^8.0.2",
+		"typescript": "5.4.5",
+		"@types/node": "^20.12.8"
+	},
+	"pnpm": { "overrides": { "eslint": "^9.2.0" } },
+	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" }
 }
