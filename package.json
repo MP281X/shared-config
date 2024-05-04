@@ -1,5 +1,5 @@
 {
-	"name": "shared-config",
+	"name": "@mp281x/shared-config",
 	"version": "1.0.0",
 	"type": "module",
 	"exports": {
