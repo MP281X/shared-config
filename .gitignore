@@ -1,0 +1,7 @@
+# generated/cache files
+**/dist
+**/.eslintcache
+
+# other files/folders
+**/.DS_Store
+**/node_modules
