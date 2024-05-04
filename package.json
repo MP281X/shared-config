@@ -1,12 +1,8 @@
 {
 	"name": "@mp281x/shared-config",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"type": "module",
-	"exports": {
-		"eslint": "eslint.js",
-		"prettier": "prettier.js",
-		"tsconfig": "tsconfig.json"
-	},
+	"main": "./prettier.config.js",
 	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 	"dependencies": {
 		"@eslint/js": "^9.2.0",
