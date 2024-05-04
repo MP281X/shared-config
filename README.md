@@ -7,9 +7,9 @@
 ```
 
 ```js
-export { default } from './configs/eslint.js'
+export { default } from '@mp281x/shared-config/eslint'
 ```
 
 ```js
-export { default } from './configs/eslint.js'
+export { default } from '@mp281x/shared-config/prettier'
 ```
