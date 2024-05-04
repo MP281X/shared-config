@@ -1,0 +1,32 @@
+name: publish
+
+on: { push: { branches: [main] } }
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup PNPM
+        uses: pnpm/action-setup@v3
+        with: { version: 8 }
+
+      - name: setup Node
+        uses: actions/setup-node@v4
+        with: { node-version: 'latest', cache: pnpm }
+
+      - name: install
+        run: pnpm install
+
+      - name: check
+        run: |
+          pnpm tsc --noEmit;
+          pnpm prettier --ignore-path .gitignore --log-level warn --check .;
+          pnpm eslint --report-unused-disable-directives .;
+
+      - name: publish
+        run: pnpm publish
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
