@@ -25,7 +25,7 @@ export default ts.config(
 
 	js.configs.recommended,
 	...ts.configs.strictTypeChecked,
-	{ ignores: ['dist/**', 'node_modules/**', 'bin/**', 'build/**'] },
+	{ ignores: ['dist/**', 'node_modules/**', 'bin/**', 'build/**', '*lock*'] },
 	{
 		// @ts-expect-error: process is not defined because the node types are not installed
 		// eslint-disable-next-line
