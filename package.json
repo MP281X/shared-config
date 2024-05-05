@@ -1,6 +1,6 @@
 {
 	"type": "module",
-	"version": "1.0.19",
+	"version": "1.0.20",
 	"name": "@mp281x/shared-config",
 	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 
@@ -39,7 +39,6 @@
 
 	"devDependencies": {
 		"tsup": "8.0.2",
-		"prettier": "3.2.5",
 		"typescript": "5.4.5",
 		"@types/node": "20.12.8"
 	},

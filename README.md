@@ -1,4 +1,4 @@
-# tsconfig.json
+### tsconfig.json
 
 ```jsonc
 {
@@ -8,14 +8,20 @@
 }
 ```
 
-# eslint.config.js
+### eslint.config.js
 
 ```js
 export { default } from '@mp281x/shared-config/eslint'
 ```
 
-# prettier.config.js
+### prettier.config.js
 
 ```js
 export { default } from '@mp281x/shared-config/prettier'
+```
+
+### package.json
+```js
+"type": "module",
+"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } }
 ```
