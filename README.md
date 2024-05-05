@@ -1,3 +1,20 @@
+### package.json
+
+```jsonc
+{
+	"type": "module",
+	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } },
+	"devDependencies": { "@mp281x/shared-config": "latest", "@fsouza/prettierd": "latest" }
+}
+```
+
+### .npmrc
+
+```.npmrc
+@mp281x:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${REGISTRY_TOKEN}
+```
+
 ### tsconfig.json
 
 ```jsonc
@@ -18,11 +35,4 @@ export { default } from '@mp281x/shared-config/eslint'
 
 ```js
 export { default } from '@mp281x/shared-config/prettier'
-```
-
-### package.json
-
-```js
-"type": "module",
-"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } }
 ```
