@@ -1,6 +1,6 @@
 {
 	"type": "module",
-	"version": "1.0.18",
+	"version": "1.0.19",
 	"name": "@mp281x/shared-config",
 	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 

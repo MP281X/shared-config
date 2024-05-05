@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
+import fs from 'fs'
+
 // @ts-expect-error: no type definitions
 import js from '@eslint/js'
 import ts from 'typescript-eslint'
@@ -26,7 +28,15 @@ const baseConfig = ts.config(
 
 	js.configs.recommended,
 	...ts.configs.strictTypeChecked,
-	{ ignores: ['*'] },
+
+	{
+		ignores: fs
+			.readFileSync('.gitignore')
+			.toString()
+			.split('\n')
+			.map((line) => line.split('#').shift()?.trim())
+			.filter((line) => line !== '' && line !== undefined)
+	},
 	{
 		languageOptions: {
 			parserOptions: {
@@ -36,7 +46,7 @@ const baseConfig = ts.config(
 				tsconfigRootDir: process.cwd()
 			}
 		},
-		files: ['**/*.js', '**/*.ts', '**/*.tsx', '**/*.svelte', '**/*.astro'],
+		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte', '**/*.astro'],
 		plugins: { unicorn, functional },
 		rules: {
 			'no-var': 'error', // disable var keyword
