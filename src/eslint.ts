@@ -17,7 +17,7 @@ import eslintPluginAstro from 'eslint-plugin-astro'
 // @ts-expect-error: no type definitions
 import prettier from 'eslint-config-prettier'
 
-export default ts.config(
+const baseConfig = ts.config(
 	prettier,
 
 	// @ts-expect-error invalid types
@@ -26,7 +26,7 @@ export default ts.config(
 
 	js.configs.recommended,
 	...ts.configs.strictTypeChecked,
-	{ ignores: ['dist/**', 'node_modules/**', 'bin/**', 'build/**'] },
+	{ ignores: ['*'] },
 	{
 		languageOptions: {
 			parserOptions: {
@@ -134,3 +134,6 @@ export default ts.config(
 		}
 	}
 ) as ConfigWithExtends[]
+
+export default baseConfig
+export const mergeConfig = (config: ConfigWithExtends) => [...baseConfig, config]
