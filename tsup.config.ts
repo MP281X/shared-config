@@ -5,6 +5,5 @@ export default defineConfig({
 	entryPoints: ['src/eslint.ts', 'src/prettier.ts'],
 	format: ['esm', 'cjs'],
 	dts: true,
-	shims: true,
 	clean: true
 })
