@@ -21,6 +21,7 @@ export { default } from '@mp281x/shared-config/prettier'
 ```
 
 ### package.json
+
 ```js
 "type": "module",
 "pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } }
