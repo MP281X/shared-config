@@ -6,6 +6,5 @@ export default defineConfig({
 	format: ['esm', 'cjs'],
 	dts: true,
 	shims: true,
-	clean: true,
-	treeshake: true
+	clean: true
 })
