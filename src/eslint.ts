@@ -13,18 +13,15 @@ import type { ConfigWithExtends } from 'typescript-eslint'
 import unicorn from 'eslint-plugin-unicorn'
 import functional from 'eslint-plugin-functional/flat'
 
-import svelte from 'eslint-plugin-svelte'
-import astro from 'eslint-plugin-astro'
-
 // @ts-expect-error: no type definitions
 import prettier from 'eslint-config-prettier'
+import svelte from 'eslint-plugin-svelte'
 
 const baseConfig = ts.config(
 	prettier,
 
 	// @ts-expect-error invalid types
 	...svelte.configs['flat/recommended'],
-	...astro.configs.recommended,
 
 	js.configs.recommended,
 	...ts.configs.strictTypeChecked,
@@ -46,7 +43,7 @@ const baseConfig = ts.config(
 				tsconfigRootDir: process.cwd()
 			}
 		},
-		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte', '**/*.astro'],
+		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
 		plugins: { unicorn, functional },
 		rules: {
 			'no-var': 'error', // disable var keyword

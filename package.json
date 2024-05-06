@@ -1,6 +1,6 @@
 {
 	"type": "module",
-	"version": "1.0.23",
+	"version": "1.0.24",
 	"name": "@mp281x/shared-config",
 	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 
@@ -22,6 +22,8 @@
 	},
 
 	"dependencies": {
+		"typescript": "5.4.5",
+
 		"prettier": "3.2.5",
 		"prettier-plugin-astro": "0.13.0",
 		"prettier-plugin-svelte": "3.2.3",
@@ -30,17 +32,14 @@
 		"eslint": "9.2.0",
 		"@eslint/js": "9.2.0",
 		"typescript-eslint": "7.8.0",
-		"eslint-plugin-astro": "1.1.2",
 		"eslint-plugin-svelte": "2.38.0",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-unicorn": "52.0.0",
-		"eslint-plugin-functional": "6.5.1",
-		"@typescript-eslint/parser": "7.8.0"
+		"eslint-plugin-functional": "6.5.1"
 	},
 
 	"devDependencies": {
 		"tsup": "8.0.2",
-		"typescript": "5.4.5",
 		"@types/node": "20.12.8"
 	},
 
