@@ -23,6 +23,15 @@ const baseConfig = ts.config(
 	...ts.configs.strictTypeChecked,
 
 	{
+		ignores: fs
+			.readFileSync('.gitignore')
+			.toString()
+			.split('\n')
+			.map((line) => line.split('#').shift()?.trim())
+			.filter((line) => line !== '' && line !== undefined) as string[]
+	},
+
+	{
 		languageOptions: {
 			parserOptions: {
 				ecmaVersion: 'latest',
@@ -30,13 +39,7 @@ const baseConfig = ts.config(
 				project: true,
 				tsconfigRootDir: process.cwd()
 			}
-		},
-		ignores: fs
-			.readFileSync('.gitignore')
-			.toString()
-			.split('\n')
-			.map((line) => line.split('#').shift()?.trim())
-			.filter((line) => line !== '' && line !== undefined) as string[]
+		}
 	},
 
 	// @ts-expect-error invalid types
