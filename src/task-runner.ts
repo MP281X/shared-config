@@ -15,60 +15,52 @@ if (process.stdin.isTTY) {
 	})
 }
 
-type Args = '--check' | '--apply'
-let task = process.argv[2]?.trim()
-const checkArgs = (arg: Args) => {
-	if (!task?.startsWith(arg)) return false
-
-	task = task.replace(arg, '')
-	task = task.trim()
-	if (task === '') task = undefined
-
-	return true
-}
+const task = process.argv.slice(2)
 
 // check if all the formatting rules, linting rules and types are correct
-if (checkArgs('--check')) {
+if (task[0] === undefined || task[0] === '--check') {
 	await execCmd({
 		title: 'prettier',
-		cmd: 'prettier --ignore-path .gitignore --log-level warn --cache --check .',
+		cmd: ['prettier', '--ignore-path=.gitignore', '--log-level=warn', '--cache', '--check', '.'],
 		mode: 'sync'
 	})
 
 	await execCmd({
 		title: 'eslint',
-		cmd: 'eslint --no-color --cache .',
+		cmd: ['eslint', '--no-color', '--cache', '.'],
 		mode: 'sync'
 	})
 
 	// type check
 	await execCmd({
 		title: 'tsc',
-		cmd: 'tsc --noEmit',
+		cmd: ['tsc', '--noEmit'],
 		mode: 'sync'
 	})
+
+	process.exit(0)
 }
 
 // apply formatting and linting rules
-if (checkArgs('--apply')) {
+if (task[0] === '--apply') {
 	await execCmd({
 		title: 'prettier',
-		cmd: 'prettier --ignore-path .gitignore --log-level warn --write .',
+		cmd: ['prettier', '--ignore-path .gitignore', '--log-level warn', '--write', '.'],
 		mode: 'sync'
 	})
 
 	await execCmd({
 		title: 'eslint',
-		cmd: 'eslint --no-color --fix .',
+		cmd: ['eslint', '--no-color', '--fix', '.'],
 		mode: 'sync'
 	})
-}
 
-if (!task) process.exit(0)
+	process.exit(0)
+}
 
 // execute a cmd
 await execCmd({
-	title: 'cmd',
+	title: task[0],
 	cmd: task,
 	mode: 'async'
 })

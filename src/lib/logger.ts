@@ -45,7 +45,6 @@ invalidLogs.push(
 	'✔',
 	'✨',
 	'VITE',
-	'➜  Local:',
 	'hmr for .svelte',
 	'[vite] page reload',
 	'vite-plugin-svelte',
@@ -72,6 +71,9 @@ const formatLog = (title: string, input: string, color: number) => {
 
 		if (txt.includes('./index.js')) txt = txt.slice(2)
 		if (txt.includes('file truncated')) txt = 'FILE CLEARED'
+
+		if (txt.startsWith('  ➜  Local:   ')) txt = txt.replace('  ➜  Local:   ', '')
+		if (txt.startsWith('  ➜  Network: ')) txt = txt.replace('  ➜  Network: ', '')
 
 		printLog(txt)
 	}

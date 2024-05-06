@@ -1,5 +1,5 @@
 import { log } from './logger.ts'
-import { exec } from 'child_process'
+import { spawn } from 'child_process'
 import fs from 'fs'
 
 export const getPackageManager = () => {
@@ -15,19 +15,17 @@ export const getPackageManager = () => {
 
 export const asyncCommands: Promise<void>[] = []
 
-type ExecCmd = { title: string; cmd: string; mode: 'sync' | 'async'; cwd?: string }
+type ExecCmd = { title: string; cmd: string[]; mode: 'sync' | 'async'; cwd?: string }
 export const execCmd = async ({ title, cmd, mode, cwd }: ExecCmd) => {
 	const execPromise = new Promise<void>((resolve, _) => {
-		const output = exec(`${getPackageManager()} ${cmd}`, {
+		const output = spawn(getPackageManager(), cmd, {
 			cwd: cwd ?? process.cwd(),
-			env: {
-				...process.env
-			} as NodeJS.ProcessEnv
+			env: { ...process.env }
 		})
 
-		output.stdout?.on('data', (msg: Buffer) => void log.info(title, msg))
+		output.stdout.on('data', (msg: Buffer) => void log.info(title, msg))
 
-		output.stderr?.on('data', (msg: Buffer) => void log.error(title, msg))
+		output.stderr.on('data', (msg: Buffer) => void log.error(title, msg))
 
 		output.on('exit', (exitCode) => {
 			if (exitCode === 0 || exitCode === null) return resolve()
