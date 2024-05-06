@@ -1,23 +1,20 @@
+// @ts-expect-error: no type definitions
+import eslint from '@eslint/js'
+// @ts-expect-error: no type definitions
+import prettier from 'eslint-config-prettier'
+import functional from 'eslint-plugin-functional/flat'
+import svelte from 'eslint-plugin-svelte'
+// @ts-expect-error: no type definitions
+import unicorn from 'eslint-plugin-unicorn'
+import fs from 'fs'
+import ts from 'typescript-eslint'
+import type { ConfigWithExtends } from 'typescript-eslint'
+
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import fs from 'fs'
-
-// @ts-expect-error: no type definitions
-import js from '@eslint/js'
-import ts from 'typescript-eslint'
-import type { ConfigWithExtends } from 'typescript-eslint'
-
-// @ts-expect-error: no type definitions
-import unicorn from 'eslint-plugin-unicorn'
-import functional from 'eslint-plugin-functional/flat'
-
-// @ts-expect-error: no type definitions
-import prettier from 'eslint-config-prettier'
-import svelte from 'eslint-plugin-svelte'
-
-const baseConfig = ts.config(
+export default ts.config(
 	{
 		ignores: fs
 			.readFileSync('.gitignore')
@@ -27,19 +24,8 @@ const baseConfig = ts.config(
 			.filter((line) => line !== '' && line !== undefined) as string[]
 	},
 	{
-		languageOptions: {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			parser: ts.parser as any,
-			parserOptions: {
-				ecmaVersion: 'latest',
-				sourceType: 'module',
-				project: true,
-				tsconfigRootDir: process.cwd(),
-				extraFileExtensions: ['.svelte']
-			}
-		},
 		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
-		extends: [prettier, js.configs.recommended, ...ts.configs.strictTypeChecked],
+		extends: [prettier, eslint.configs.recommended, ...ts.configs.strictTypeChecked, ...ts.configs.stylisticTypeChecked],
 		plugins: { unicorn, functional },
 		rules: {
 			'no-var': 'error', // disable var keyword
@@ -141,8 +127,9 @@ const baseConfig = ts.config(
 			'svelte/no-useless-mustaches': 'error', // don't allow useless {}
 			'svelte/sort-attributes': 'error' // html attributes needs to be sorted
 		}
+	},
+	{
+		linterOptions: { reportUnusedDisableDirectives: true },
+		languageOptions: { parserOptions: { project: true } }
 	}
 ) as ConfigWithExtends[]
-
-export default baseConfig
-export const mergeConfig = (config: ConfigWithExtends) => [...baseConfig, config]

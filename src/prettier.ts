@@ -1,6 +1,6 @@
 import type { Config } from 'prettier'
 
-const baseConfig = {
+export default {
 	semi: false,
 	useTabs: true,
 	printWidth: 150,
@@ -8,14 +8,7 @@ const baseConfig = {
 	trailingComma: 'none',
 	arrowParens: 'always',
 	quoteProps: 'consistent',
+	importOrderSortSpecifiers: true,
 	overrides: [{ files: '*.json', options: { parser: 'jsonc' } }],
-	plugins: ['prettier-plugin-svelte', 'prettier-plugin-astro', 'prettier-plugin-tailwindcss']
+	plugins: ['prettier-plugin-svelte', 'prettier-plugin-astro', 'prettier-plugin-tailwindcss', '@trivago/prettier-plugin-sort-imports']
 } satisfies Config
-
-export default baseConfig
-export const mergeConfig = (config: Config): Config => ({
-	...baseConfig,
-	...config,
-	overrides: [...baseConfig.overrides, ...(config.overrides ?? [])],
-	plugins: [...baseConfig.plugins, ...(config.plugins ?? [])]
-})
