@@ -19,21 +19,9 @@ import svelte from 'eslint-plugin-svelte'
 
 const baseConfig = ts.config(
 	prettier,
-
-	// @ts-expect-error invalid types
-	...svelte.configs['flat/recommended'],
-
 	js.configs.recommended,
 	...ts.configs.strictTypeChecked,
 
-	{
-		ignores: fs
-			.readFileSync('.gitignore')
-			.toString()
-			.split('\n')
-			.map((line) => line.split('#').shift()?.trim())
-			.filter((line) => line !== '' && line !== undefined)
-	},
 	{
 		languageOptions: {
 			parserOptions: {
@@ -43,6 +31,17 @@ const baseConfig = ts.config(
 				tsconfigRootDir: process.cwd()
 			}
 		},
+		ignores: fs
+			.readFileSync('.gitignore')
+			.toString()
+			.split('\n')
+			.map((line) => line.split('#').shift()?.trim())
+			.filter((line) => line !== '' && line !== undefined) as string[]
+	},
+
+	// @ts-expect-error invalid types
+	...svelte.configs['flat/recommended'],
+	{
 		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
 		plugins: { unicorn, functional },
 		rules: {
