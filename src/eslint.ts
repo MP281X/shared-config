@@ -14,7 +14,7 @@ import unicorn from 'eslint-plugin-unicorn'
 import functional from 'eslint-plugin-functional/flat'
 
 import svelte from 'eslint-plugin-svelte'
-import eslintPluginAstro from 'eslint-plugin-astro'
+import astro from 'eslint-plugin-astro'
 
 // @ts-expect-error: no type definitions
 import prettier from 'eslint-config-prettier'
@@ -24,7 +24,7 @@ const baseConfig = ts.config(
 
 	// @ts-expect-error invalid types
 	...svelte.configs['flat/recommended'],
-	...eslintPluginAstro.configs.recommended,
+	...astro.configs.recommended,
 
 	js.configs.recommended,
 	...ts.configs.strictTypeChecked,
