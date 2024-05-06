@@ -38,8 +38,8 @@ const baseConfig = ts.config(
 				extraFileExtensions: ['.svelte']
 			}
 		},
-		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
-		extends: [prettier, js.configs.recommended, ...ts.configs.strictTypeChecked, ...svelte.configs['flat/recommended']],
+		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
+		extends: [prettier, js.configs.recommended, ...ts.configs.strictTypeChecked],
 		plugins: { unicorn, functional },
 		rules: {
 			'no-var': 'error', // disable var keyword
@@ -122,8 +122,14 @@ const baseConfig = ts.config(
 					selector: 'objectLiteralProperty',
 					format: ['camelCase', 'snake_case', 'UPPER_CASE']
 				}
-			], // enforce variable naming style
-
+			] // enforce variable naming style
+		}
+	},
+	{
+		files: ['**/*.svelte'],
+		// @ts-expect-error
+		extends: [...svelte.configs['flat/recommended']],
+		rules: {
 			// svelte
 			'svelte/infinite-reactive-loop': 'error', // prevent reactivity bug
 			'svelte/no-export-load-in-svelte-module-in-kit-pages': 'error', // no function called load in script
