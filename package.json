@@ -1,6 +1,6 @@
 {
 	"type": "module",
-	"version": "1.0.24",
+	"version": "1.0.25",
 	"name": "@mp281x/shared-config",
 	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 
@@ -32,10 +32,10 @@
 		"eslint": "9.2.0",
 		"@eslint/js": "9.2.0",
 		"typescript-eslint": "7.8.0",
-		"eslint-plugin-svelte": "2.38.0",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-unicorn": "52.0.0",
-		"eslint-plugin-functional": "6.5.1"
+		"eslint-plugin-functional": "6.5.1",
+		"eslint-plugin-svelte": "^2.36.0-next.4"
 	},
 
 	"devDependencies": {
