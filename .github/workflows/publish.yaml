@@ -26,9 +26,7 @@ jobs:
         run: pnpm tsup-node
 
       - name: check
-        run: |
-          pnpm prettier --ignore-path .gitignore --log-level warn --check .;
-          pnpm eslint --report-unused-disable-directives .;
+        run: pnpm run check
 
       - name: publish
         run: pnpm publish --access=restricted

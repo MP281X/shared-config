@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		// ts version and module resolution (use the lasted ts/js features and types)
-		"lib": ["ESNext"],
+		"lib": ["ESNext", "dom", "dom.iterable"],
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleDetection": "force",
@@ -29,6 +29,7 @@
 		// other config
 		"allowJs": true, // don't allow js file import
 		"checkJs": true, // type check js files
+		"jsx": "preserve", // allow importing jsx/tsx files but don't transpile the jsx templates
 		"resolveJsonModule": true, // allow json import
 		"allowImportingTsExtensions": true, // allow importing ts file
 		"forceConsistentCasingInFileNames": true, // no different casing importing the same file

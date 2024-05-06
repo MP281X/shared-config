@@ -85,7 +85,8 @@ export default ts.config(
 		rules: {
 			'no-var': 'error', // disable var keyword
 			'no-undef': 'off', // already checked by typescript
-			'no-constant-condition': 'off', // already checked in the typescript rules
+			'no-constant-condition': 'off', // already checked by typescript
+			'no-unused-vars': 'off', // already checked by typescript
 			'spaced-comment': ['error', 'always'], // space after comment
 			'array-callback-return': ['error', { checkForEach: true, allowVoid: true, allowImplicit: false }], // check for return type in map, foreach, ...
 			'no-restricted-syntax': ['error', 'TryStatement > FinallyClause'], // disable try-finally

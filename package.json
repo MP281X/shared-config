@@ -1,10 +1,10 @@
 {
 	"type": "module",
-	"version": "1.0.43",
+	"version": "1.1.0",
 	"name": "@mp281x/shared-config",
 	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 
-	"scripts": { "dev": "tsup-node --watch", "test": "echo 'task-runner'" },
+	"scripts": { "dev": "tsup-node --watch", "check": "./dist/task-runner.js" },
 
 	"files": ["./dist/*", "./src/tsconfig.json"],
 	"bin": { "task-runner": "./dist/task-runner.js" },
@@ -22,8 +22,6 @@
 	},
 
 	"dependencies": {
-		"typescript": "5.4.5",
-
 		"prettier": "3.2.5",
 		"prettier-plugin-astro": "0.13.0",
 		"prettier-plugin-svelte": "3.2.3",
@@ -41,6 +39,7 @@
 
 	"devDependencies": {
 		"tsup": "8.0.2",
+		"typescript": "5.4.5",
 		"@types/node": "20.12.8"
 	},
 
