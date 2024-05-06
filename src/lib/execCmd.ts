@@ -15,10 +15,22 @@ export const getPackageManager = () => {
 
 export const asyncCommands: Promise<void>[] = []
 
-type ExecCmd = { title: string; cmd: string; mode: 'sync' | 'async'; cwd?: string }
-export const execCmd = async ({ title, cmd, cwd, mode }: ExecCmd) => {
+type ExecCmd = { title: string; cmd: string; mode: 'sync' | 'async'; cwd?: string; customCmd?: boolean }
+export const execCmd = async ({ title, cmd, mode, cwd, customCmd }: ExecCmd) => {
 	const execPromise = new Promise<void>((resolve, _) => {
-		const output = spawn(getPackageManager(), cmd.split(' '), {
+		let command: string
+		let args: string[]
+
+		const splittedCmd = cmd.split(' ') as [string, ...string[]]
+		if (customCmd) {
+			command = splittedCmd[0]
+			args = splittedCmd.slice(1)
+		} else {
+			command = getPackageManager()
+			args = splittedCmd
+		}
+
+		const output = spawn(command, args, {
 			cwd: cwd ?? process.cwd(),
 			env: {
 				...process.env

@@ -21,13 +21,13 @@ const task = process.argv[2] as undefined | 'apply' | (string & {}) // eslint-di
 if (task === 'apply') {
 	await execCmd({
 		title: 'prettier',
-		cmd: 'prettier --ignore-path .gitignore --log-level warn --cache --format .',
+		cmd: 'prettier --ignore-path .gitignore --log-level warn --format .',
 		mode: 'sync'
 	})
 
 	await execCmd({
 		title: 'eslint',
-		cmd: 'eslint --no-color --cache --fix .',
+		cmd: 'eslint --no-color --fix .',
 		mode: 'sync'
 	})
 
@@ -62,7 +62,8 @@ if (task === undefined) {
 await execCmd({
 	title: 'cmd',
 	cmd: task,
-	mode: 'async'
+	mode: 'async',
+	customCmd: true
 })
 
 await Promise.all(asyncCommands).then(() => process.exit(0))
