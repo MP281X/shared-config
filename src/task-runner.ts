@@ -21,7 +21,7 @@ const task = process.argv[2] as undefined | 'apply' | (string & {}) // eslint-di
 if (task === 'apply') {
 	await execCmd({
 		title: 'prettier',
-		cmd: 'prettier --ignore-path .gitignore --log-level warn --format .',
+		cmd: 'prettier --ignore-path .gitignore --log-level warn --write .',
 		mode: 'sync'
 	})
 
