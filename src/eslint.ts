@@ -19,8 +19,12 @@ import svelte from 'eslint-plugin-svelte'
 
 const baseConfig = ts.config(
 	prettier,
+
 	js.configs.recommended,
 	...ts.configs.strictTypeChecked,
+
+	// @ts-expect-error invalid types
+	...svelte.configs['flat/recommended'],
 
 	{
 		ignores: fs
@@ -28,9 +32,8 @@ const baseConfig = ts.config(
 			.toString()
 			.split('\n')
 			.map((line) => line.split('#').shift()?.trim())
-			.filter((line) => line !== '' && line !== undefined) as string[]
+			.filter((line) => line !== '' && line !== undefined)
 	},
-
 	{
 		languageOptions: {
 			parserOptions: {
@@ -39,12 +42,7 @@ const baseConfig = ts.config(
 				project: true,
 				tsconfigRootDir: process.cwd()
 			}
-		}
-	},
-
-	// @ts-expect-error invalid types
-	...svelte.configs['flat/recommended'],
-	{
+		},
 		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
 		plugins: { unicorn, functional },
 		rules: {
