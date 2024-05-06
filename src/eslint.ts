@@ -7,6 +7,7 @@ import svelte from 'eslint-plugin-svelte'
 // @ts-expect-error: no type definitions
 import unicorn from 'eslint-plugin-unicorn'
 import fs from 'fs'
+import svelteParser from 'svelte-eslint-parser'
 import ts from 'typescript-eslint'
 import type { ConfigWithExtends } from 'typescript-eslint'
 
@@ -23,12 +24,67 @@ export default ts.config(
 			.map((line) => line.split('#').shift()?.trim())
 			.filter((line) => line !== '' && line !== undefined) as string[]
 	},
+	// typescript
 	{
-		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
-		extends: [prettier, eslint.configs.recommended, ...ts.configs.strictTypeChecked, ...ts.configs.stylisticTypeChecked],
+		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
+		extends: [...ts.configs.strictTypeChecked],
+		rules: {
+			'@typescript-eslint/array-type': 'error', // use X[] instead of Array<X>
+			'@typescript-eslint/ban-types': 'error', // disable problematic types -> {}
+			'@typescript-eslint/consistent-generic-constructors': 'error', // specify types on constructor instead of on the variable
+			'@typescript-eslint/consistent-indexed-object-style': 'error', // use Record<string,string> instead of {[key: string]:string}
+			'@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': false }], // allow only the @ts-expect-error
+			'@typescript-eslint/consistent-type-assertions': ['error', { assertionStyle: 'as' }], // disable as (as const still work)
+			'@typescript-eslint/unbound-method': 'off', // cause errors with the typescript compiler api
+			'@typescript-eslint/consistent-type-definitions': ['error', 'type'], // disable interface
+			'@typescript-eslint/consistent-type-exports': 'error', // separate type export
+			'@typescript-eslint/no-unnecessary-boolean-literal-compare': 'off', // allow writing if (var1 === false) instead of only if (!var1)
+			'@typescript-eslint/no-confusing-void-expression': 'off', // enable returning void -> ()=>console.log("ok")
+			'@typescript-eslint/method-signature-style': 'error', // allow only arrow functions in types
+			'@typescript-eslint/no-inferrable-types': 'error', // don't specify type for inferrable types
+			'@typescript-eslint/no-meaningless-void-operator': 'off', // allow returning void, return void console.log("ok")
+			'@typescript-eslint/no-non-null-assertion': 'off', // allow non null assestion
+			'@typescript-eslint/no-require-imports': 'error', // disable require
+			'@typescript-eslint/no-unnecessary-condition': ['error', { allowConstantLoopConditions: true }], // diable const condition exept for loops
+			'@typescript-eslint/prefer-for-of': 'error', // use for (const x of []) instead of normal for loop
+			'@typescript-eslint/prefer-function-type': 'error', // disable defining function with this { (): string } instead of ()=>string
+			'@typescript-eslint/require-array-sort-compare': 'error', // require compare function as sort argument
+			'@typescript-eslint/switch-exhaustiveness-check': 'error', // make switch check all cases
+			'@typescript-eslint/no-unused-vars': 'off', // disable error for unused variables or params (already checked by typescript)
+			'@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }], // enable using number and other
+			'@typescript-eslint/no-unsafe-argument': 'off', // the rules doesn't work as expected
+			'@typescript-eslint/no-shadow': 'error', // disable variable in inner scope with the same name o another variable
+
+			// enforce variable naming style
+			'@typescript-eslint/naming-convention': ['error', { selector: 'objectLiteralProperty', format: ['camelCase', 'snake_case', 'UPPER_CASE'] }]
+		}
+	},
+	// svelte
+	{
+		files: ['**/*.svelte'],
+		// @ts-expect-error
+		extends: svelte.configs['flat/recommended'],
+		languageOptions: { parser: svelteParser, parserOptions: { parser: ts.parser } },
+		rules: {
+			'svelte/infinite-reactive-loop': 'error', // prevent reactivity bug
+			'svelte/no-export-load-in-svelte-module-in-kit-pages': 'error', // no function called load in script
+			'svelte/no-reactive-reassign': 'error', // don't readding derived reactive values
+			'svelte/no-store-async': 'error', // disable async await in stores
+			'svelte/valid-prop-names-in-kit-pages': 'error', // disable invalid exports in +page.svelte file
+			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'] }], // require lang="ts" in the script tag
+			'svelte/no-immutable-reactive-statements': 'error', // disable reactive statement for const values
+			'svelte/no-useless-mustaches': 'error', // don't allow useless {}
+			'svelte/sort-attributes': 'error' // html attributes needs to be sorted
+		}
+	},
+	// js/ts
+	{
+		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
+		extends: [prettier, eslint.configs.recommended],
 		plugins: { unicorn, functional },
 		rules: {
 			'no-var': 'error', // disable var keyword
+			'no-undef': 'off', // already checked by typescript
 			'no-constant-condition': 'off', // already checked in the typescript rules
 			'spaced-comment': ['error', 'always'], // space after comment
 			'array-callback-return': ['error', { checkForEach: true, allowVoid: true, allowImplicit: false }], // check for return type in map, foreach, ...
@@ -74,62 +130,11 @@ export default ts.config(
 			'functional/no-this-expressions': 'error', // disable this
 			'func-style': ['error', 'expression', { allowArrowFunctions: true }], // allow only const a = () =>{} or const a = function a() {}
 			'arrow-body-style': ['error', 'as-needed'], // don't use {} for inline return
-			'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
-
-			// typescript
-			'@typescript-eslint/array-type': 'error', // use X[] instead of Array<X>
-			'@typescript-eslint/ban-types': 'error', // disable problematic types -> {}
-			'@typescript-eslint/consistent-generic-constructors': 'error', // specify types on constructor instead of on the variable
-			'@typescript-eslint/consistent-indexed-object-style': 'error', // use Record<string,string> instead of {[key: string]:string}
-			'@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': false }], // allow only the @ts-expect-error
-			'@typescript-eslint/consistent-type-assertions': ['error', { assertionStyle: 'as' }], // disable as (as const still work)
-			'@typescript-eslint/unbound-method': 'off', // cause errors with the typescript compiler api
-			'@typescript-eslint/consistent-type-definitions': ['error', 'type'], // disable interface
-			'@typescript-eslint/consistent-type-exports': 'error', // separate type export
-			'@typescript-eslint/no-unnecessary-boolean-literal-compare': 'off', // allow writing if (var1 === false) instead of only if (!var1)
-			'@typescript-eslint/no-confusing-void-expression': 'off', // enable returning void -> ()=>console.log("ok")
-			'@typescript-eslint/method-signature-style': 'error', // allow only arrow functions in types
-			'@typescript-eslint/no-inferrable-types': 'error', // don't specify type for inferrable types
-			'@typescript-eslint/no-meaningless-void-operator': 'off', // allow returning void, return void console.log("ok")
-			'@typescript-eslint/no-non-null-assertion': 'off', // allow non null assestion
-			'@typescript-eslint/no-require-imports': 'error', // disable require
-			'@typescript-eslint/no-unnecessary-condition': ['error', { allowConstantLoopConditions: true }], // diable const condition exept for loops
-			'@typescript-eslint/prefer-for-of': 'error', // use for (const x of []) instead of normal for loop
-			'@typescript-eslint/prefer-function-type': 'error', // disable defining function with this { (): string } instead of ()=>string
-			'@typescript-eslint/require-array-sort-compare': 'error', // require compare function as sort argument
-			'@typescript-eslint/switch-exhaustiveness-check': 'error', // make switch check all cases
-			'@typescript-eslint/no-unused-vars': 'off', // disable error for unused variables or params (already checked by typescript)
-			'@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }], // enable using number and other
-			'@typescript-eslint/no-unsafe-argument': 'off', // the rules doesn't work as expected
-			'@typescript-eslint/no-shadow': 'error', // disable variable in inner scope with the same name o another variable
-			'@typescript-eslint/naming-convention': [
-				'error',
-				{
-					selector: 'objectLiteralProperty',
-					format: ['camelCase', 'snake_case', 'UPPER_CASE']
-				}
-			] // enforce variable naming style
-		}
-	},
-	{
-		files: ['**/*.svelte'],
-		// @ts-expect-error
-		extends: [...svelte.configs['flat/recommended']],
-		rules: {
-			// svelte
-			'svelte/infinite-reactive-loop': 'error', // prevent reactivity bug
-			'svelte/no-export-load-in-svelte-module-in-kit-pages': 'error', // no function called load in script
-			'svelte/no-reactive-reassign': 'error', // don't readding derived reactive values
-			'svelte/no-store-async': 'error', // disable async await in stores
-			'svelte/valid-prop-names-in-kit-pages': 'error', // disable invalid exports in +page.svelte file
-			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'] }], // require lang="ts" in the script tag
-			'svelte/no-immutable-reactive-statements': 'error', // disable reactive statement for const values
-			'svelte/no-useless-mustaches': 'error', // don't allow useless {}
-			'svelte/sort-attributes': 'error' // html attributes needs to be sorted
+			'prefer-arrow-callback': ['error', { allowNamedFunctions: true }]
 		}
 	},
 	{
 		linterOptions: { reportUnusedDisableDirectives: true },
-		languageOptions: { parserOptions: { project: true } }
+		languageOptions: { parserOptions: { project: true, extraFileExtensions: ['.svelte'] } }
 	}
 ) as ConfigWithExtends[]
