@@ -4,7 +4,7 @@
 	"name": "@mp281x/shared-config",
 	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 
-	"scripts": { "dev": "tsup-node --watch", "check": "./dist/task-runner.js" },
+	"scripts": { "dev": "tsup-node", "check": "./dist/task-runner.js" },
 
 	"files": ["./dist/*", "./src/tsconfig.json"],
 	"bin": { "task-runner": "./dist/task-runner.js" },
