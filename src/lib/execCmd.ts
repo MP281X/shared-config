@@ -1,5 +1,5 @@
 import { log } from './logger.ts'
-import { spawn } from 'child_process'
+import { exec } from 'child_process'
 import fs from 'fs'
 
 export const getPackageManager = () => {
@@ -15,31 +15,19 @@ export const getPackageManager = () => {
 
 export const asyncCommands: Promise<void>[] = []
 
-type ExecCmd = { title: string; cmd: string; mode: 'sync' | 'async'; cwd?: string; customCmd?: boolean }
-export const execCmd = async ({ title, cmd, mode, cwd, customCmd }: ExecCmd) => {
+type ExecCmd = { title: string; cmd: string; mode: 'sync' | 'async'; cwd?: string }
+export const execCmd = async ({ title, cmd, mode, cwd }: ExecCmd) => {
 	const execPromise = new Promise<void>((resolve, _) => {
-		let command: string
-		let args: string[]
-
-		const splittedCmd = cmd.split(' ') as [string, ...string[]]
-		if (customCmd) {
-			command = splittedCmd[0]
-			args = splittedCmd.slice(1)
-		} else {
-			command = getPackageManager()
-			args = splittedCmd
-		}
-
-		const output = spawn(command, args, {
+		const output = exec(`${getPackageManager()} ${cmd}`, {
 			cwd: cwd ?? process.cwd(),
 			env: {
 				...process.env
 			} as NodeJS.ProcessEnv
 		})
 
-		output.stdout.on('data', (msg: Buffer) => void log.info(title, msg))
+		output.stdout?.on('data', (msg: Buffer) => void log.info(title, msg))
 
-		output.stderr.on('data', (msg: Buffer) => void log.error(title, msg))
+		output.stderr?.on('data', (msg: Buffer) => void log.error(title, msg))
 
 		output.on('exit', (exitCode) => {
 			if (exitCode === 0 || exitCode === null) return resolve()
