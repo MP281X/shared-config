@@ -18,32 +18,28 @@ import prettier from 'eslint-config-prettier'
 import svelte from 'eslint-plugin-svelte'
 
 const baseConfig = ts.config(
-	prettier,
-
-	js.configs.recommended,
-	...ts.configs.strictTypeChecked,
-
-	// @ts-expect-error invalid types
-	...svelte.configs['flat/recommended'],
-
 	{
 		ignores: fs
 			.readFileSync('.gitignore')
 			.toString()
 			.split('\n')
 			.map((line) => line.split('#').shift()?.trim())
-			.filter((line) => line !== '' && line !== undefined)
+			.filter((line) => line !== '' && line !== undefined) as string[]
 	},
 	{
 		languageOptions: {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			parser: ts.parser as any,
 			parserOptions: {
 				ecmaVersion: 'latest',
 				sourceType: 'module',
 				project: true,
-				tsconfigRootDir: process.cwd()
+				tsconfigRootDir: process.cwd(),
+				extraFileExtensions: ['.svelte']
 			}
 		},
 		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
+		extends: [prettier, js.configs.recommended, ...ts.configs.strictTypeChecked, ...svelte.configs['flat/recommended']],
 		plugins: { unicorn, functional },
 		rules: {
 			'no-var': 'error', // disable var keyword
