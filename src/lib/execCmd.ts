@@ -51,7 +51,6 @@ export const readLogFile = async ({ title, cwd }: ReadLogFile) => {
 		title: `${title}:lsp-logs`,
 		cmd: ['-f', logFile],
 		customCmd: 'tail',
-		mode: 'async',
-		cwd
+		mode: 'async'
 	})
 }

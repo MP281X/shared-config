@@ -8,7 +8,7 @@ export const getArgs = () => {
 
 	const task = args[0]!
 	if (flags.includes('--dev')) flags.push('--run')
-	if (task === 'dev') args.push('--dev')
+	if (task === 'dev') flags.push('--dev')
 
 	return { flags, task, cmd: args }
 }

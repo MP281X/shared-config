@@ -59,14 +59,18 @@ for (const { name } of projects) {
 }
 
 // run the scripts
-for (const { name, cwd, scripts, lspPlugin } of projects) {
+for (const { name, cwd, scripts } of projects) {
 	if (!flags.includes('--run')) continue
 	if (monorepo && !scripts.includes(task)) continue
 
 	if (monorepo) await execCmd({ title: `${name}:${task}`, cmd: ['run', '--silent', task], mode: 'async', cwd })
 	else await execCmd({ title: `${name}:${task}`, cmd, mode: 'async', cwd })
+}
 
-	if (lspPlugin && flags.includes('--dev')) await readLogFile({ title: name, cwd })
+for (const { name, cwd, lspPlugin } of projects) {
+	if (!lspPlugin || !flags.includes('--dev')) continue
+
+	await readLogFile({ title: name, cwd })
 }
 
 await Promise.all(asyncCommands).then(() => process.exit(0))
