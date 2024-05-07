@@ -4,13 +4,12 @@ export const getArgs = () => {
 	const args: string[] = process.argv.slice(2)
 
 	const flags: string[] = []
-	const cmd: string[] = []
-
 	while (args[0]?.startsWith('--')) flags.push(args.shift()!)
 
-	cmd.push(...args)
+	const task = args[0]!
+	if (task === 'dev') args.push('--dev')
 
-	return { flags, task: args[0]!, cmd: args }
+	return { flags, task, cmd: args }
 }
 
 export const handleKeypress = () => {

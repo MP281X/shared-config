@@ -54,8 +54,8 @@ for (const { name } of projects) {
 
 	const vitestArgs = ['--reporter=json', '--disable-console-intercept', '--passWithNoTests', '--project', name]
 
-	if (task === 'dev') await execCmd({ title: `${name}:test`, cmd: ['vitest', 'watch', ...vitestArgs], mode: 'async' })
-	if (task !== 'dev') await execCmd({ title: `${name}:test`, cmd: ['vitest', 'run', ...vitestArgs], mode: 'async' })
+	if (flags.includes('--dev')) await execCmd({ title: `${name}:test`, cmd: ['vitest', 'watch', ...vitestArgs], mode: 'async' })
+	else await execCmd({ title: `${name}:test`, cmd: ['vitest', 'run', ...vitestArgs], mode: 'async' })
 }
 
 // run the scripts
@@ -66,7 +66,7 @@ for (const { name, cwd, scripts, lspPlugin } of projects) {
 	if (monorepo) await execCmd({ title: `${name}:${task}`, cmd: ['run', '--silent', task], mode: 'async', cwd })
 	else await execCmd({ title: `${name}:${task}`, cmd, mode: 'async', cwd })
 
-	if (lspPlugin && task === 'dev') await readLogFile({ title: name, cwd })
+	if (lspPlugin && flags.includes('--dev')) await readLogFile({ title: name, cwd })
 }
 
 await Promise.all(asyncCommands).then(() => process.exit(0))
