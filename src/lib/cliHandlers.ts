@@ -7,6 +7,7 @@ export const getArgs = () => {
 	while (args[0]?.startsWith('--')) flags.push(args.shift()!)
 
 	const task = args[0]!
+	if (flags.includes('--dev')) flags.push('--run')
 	if (task === 'dev') args.push('--dev')
 
 	return { flags, task, cmd: args }
