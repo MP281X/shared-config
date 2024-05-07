@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		// ts version and module resolution (use the lasted ts/js features and types)
 		"lib": ["ESNext", "dom", "dom.iterable"],
+		"types": ["vitest/importMeta"],
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleDetection": "force",

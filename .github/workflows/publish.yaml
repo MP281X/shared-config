@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NODE_NO_WARNINGS: 1
     steps:
       - name: checkout
         uses: actions/checkout@v4

@@ -15,10 +15,10 @@ export const getPackageManager = () => {
 
 export const asyncCommands: Promise<void>[] = []
 
-type ExecCmd = { title: string; cmd: string[]; mode: 'sync' | 'async'; cwd?: string }
-export const execCmd = async ({ title, cmd, mode, cwd }: ExecCmd) => {
+type ExecCmd = { title: string; cmd: string[]; customCmd?: string; mode: 'sync' | 'async'; cwd?: string }
+export const execCmd = async ({ title, cmd, customCmd, mode, cwd }: ExecCmd) => {
 	const execPromise = new Promise<void>((resolve, _) => {
-		const output = spawn(getPackageManager(), cmd, {
+		const output = spawn(customCmd ?? getPackageManager(), cmd, {
 			cwd: cwd ?? process.cwd(),
 			env: { ...process.env }
 		})
@@ -38,4 +38,20 @@ export const execCmd = async ({ title, cmd, mode, cwd }: ExecCmd) => {
 
 	if (mode === 'sync') return await execPromise
 	return void asyncCommands.push(execPromise)
+}
+
+type ReadLogFile = { title: string; cwd: string }
+export const readLogFile = async ({ title, cwd }: ReadLogFile) => {
+	// clear the log file
+	const logFile = `${cwd}/lsp-plugin.log`
+	if (fs.existsSync(logFile)) fs.rmSync(logFile)
+	fs.writeFileSync(logFile, '')
+
+	await execCmd({
+		title: `${title}:lsp-logs`,
+		cmd: ['-f', logFile],
+		customCmd: 'tail',
+		mode: 'async',
+		cwd
+	})
 }

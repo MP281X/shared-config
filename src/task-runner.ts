@@ -1,24 +1,30 @@
 #!/usr/bin/env node
-import { asyncCommands, execCmd } from './lib/execCmd.ts'
-import readline from 'readline'
+import { getArgs, handleKeypress } from './lib/cliHandlers.ts'
+import { asyncCommands, execCmd, readLogFile } from './lib/execCmd.ts'
+import { findProjects } from './lib/findProjects.ts'
 
-if (process.stdin.isTTY) {
-	// handle console clear and exit
-	readline.emitKeypressEvents(process.stdin)
-	process.stdin.setRawMode(true)
-	process.stdin.on('keypress', (_, key: { ctrl: boolean; name: string }) => {
-		if (key.ctrl && key.name === 'c') return process.exit()
-		if (key.name === 'return') {
-			console.log('\n'.repeat(10000))
-			console.clear()
-		}
+handleKeypress()
+const { flags, task, cmd } = getArgs()
+const projects = findProjects()
+const monorepo = projects.length > 1
+
+// apply formatting and linting rules
+if (flags.includes('--apply')) {
+	await execCmd({
+		title: 'prettier',
+		cmd: ['prettier', '--ignore-path .gitignore', '--log-level warn', '--write', '.'],
+		mode: 'sync'
+	})
+
+	await execCmd({
+		title: 'eslint',
+		cmd: ['eslint', '--no-color', '--fix', '.'],
+		mode: 'sync'
 	})
 }
 
-const task = process.argv.slice(2)
-
 // check if all the formatting rules, linting rules and types are correct
-if (task[0] === undefined || task[0] === '--check') {
+if (flags.length === 0 || flags.includes('--check')) {
 	await execCmd({
 		title: 'prettier',
 		cmd: ['prettier', '--ignore-path=.gitignore', '--log-level=warn', '--cache', '--check', '.'],
@@ -32,37 +38,35 @@ if (task[0] === undefined || task[0] === '--check') {
 	})
 
 	// type check
-	await execCmd({
-		title: 'tsc',
-		cmd: ['tsc', '--noEmit'],
-		mode: 'sync'
-	})
-
-	process.exit(0)
+	for (const { name, cwd } of projects) {
+		await execCmd({
+			title: `${name}:tsc`,
+			cmd: ['tsc', '--noEmit'],
+			mode: 'sync',
+			cwd
+		})
+	}
 }
 
-// apply formatting and linting rules
-if (task[0] === '--apply') {
-	await execCmd({
-		title: 'prettier',
-		cmd: ['prettier', '--ignore-path .gitignore', '--log-level warn', '--write', '.'],
-		mode: 'sync'
-	})
+// run the tests
+for (const { name } of projects) {
+	if (!flags.includes('--test')) continue
 
-	await execCmd({
-		title: 'eslint',
-		cmd: ['eslint', '--no-color', '--fix', '.'],
-		mode: 'sync'
-	})
+	const vitestArgs = ['--reporter=json', '--disable-console-intercept', '--passWithNoTests', '--project', name]
 
-	process.exit(0)
+	if (task === 'dev') await execCmd({ title: `${name}:test`, cmd: ['vitest', 'watch', ...vitestArgs], mode: 'async' })
+	if (task !== 'dev') await execCmd({ title: `${name}:test`, cmd: ['vitest', 'run', ...vitestArgs], mode: 'async' })
 }
 
-// execute a cmd
-await execCmd({
-	title: task[0],
-	cmd: task,
-	mode: 'async'
-})
+// run the scripts
+for (const { name, cwd, scripts, lspPlugin } of projects) {
+	if (!flags.includes('--run')) continue
+	if (monorepo && !scripts.includes(task)) continue
+
+	if (monorepo) await execCmd({ title: `${name}:${task}`, cmd: ['run', '--silent', task], mode: 'async', cwd })
+	else await execCmd({ title: `${name}:${task}`, cmd, mode: 'async', cwd })
+
+	if (lspPlugin && task === 'dev') await readLogFile({ title: name, cwd })
+}
 
 await Promise.all(asyncCommands).then(() => process.exit(0))

@@ -8,7 +8,6 @@ export default {
 	trailingComma: 'none',
 	arrowParens: 'always',
 	quoteProps: 'consistent',
-	importOrderSortSpecifiers: true,
 	overrides: [{ files: '*.json', options: { parser: 'jsonc' } }],
-	plugins: ['prettier-plugin-svelte', 'prettier-plugin-astro', 'prettier-plugin-tailwindcss', '@trivago/prettier-plugin-sort-imports']
+	plugins: ['prettier-plugin-svelte', 'prettier-plugin-astro', 'prettier-plugin-tailwindcss']
 } satisfies Config

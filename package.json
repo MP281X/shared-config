@@ -1,10 +1,10 @@
 {
 	"type": "module",
-	"version": "1.1.5",
+	"version": "1.1.6",
 	"name": "@mp281x/shared-config",
 	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 
-	"scripts": { "dev": "tsup-node", "check": "./dist/task-runner.js --check" },
+	"scripts": { "dev": "tsup-node --watch", "check": "./dist/task-runner.js --check --test" },
 
 	"files": ["./dist/*", "./src/tsconfig.json"],
 	"bin": { "task-runner": "./dist/task-runner.js" },
@@ -18,6 +18,10 @@
 			"types": "./dist/eslint.d.ts",
 			"import": "./dist/eslint.js"
 		},
+		"./vitest": {
+			"types": "./dist/vitest.d.ts",
+			"import": "./dist/vitest.js"
+		},
 		"./tsconfig": "./src/tsconfig.json"
 	},
 
@@ -26,21 +30,22 @@
 		"prettier-plugin-astro": "0.13.0",
 		"prettier-plugin-svelte": "3.2.3",
 		"prettier-plugin-tailwindcss": "0.5.14",
-		"@trivago/prettier-plugin-sort-imports": "4.3.0",
 
 		"eslint": "9.2.0",
 		"@eslint/js": "9.2.0",
 		"typescript-eslint": "7.8.0",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-unicorn": "52.0.0",
-		"eslint-plugin-functional": "6.5.1",
-		"eslint-plugin-svelte": "2.38.0"
+		"eslint-plugin-svelte": "2.38.0",
+
+		"vitest": "1.5.2"
 	},
 
 	"devDependencies": {
 		"tsup": "8.0.2",
+		"yaml": "2.4.2",
 		"typescript": "5.4.5",
-		"@types/node": "20.12.8"
+		"@types/node": "20.12.10"
 	},
 
 	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } }

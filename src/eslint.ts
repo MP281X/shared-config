@@ -1,29 +1,24 @@
-// @ts-expect-error: no type definitions
-import eslint from '@eslint/js'
-// @ts-expect-error: no type definitions
-import prettier from 'eslint-config-prettier'
-import functional from 'eslint-plugin-functional/flat'
-import svelte from 'eslint-plugin-svelte'
-// @ts-expect-error: no type definitions
-import unicorn from 'eslint-plugin-unicorn'
-import fs from 'fs'
-import svelteParser from 'svelte-eslint-parser'
-import ts from 'typescript-eslint'
-import type { ConfigWithExtends } from 'typescript-eslint'
-
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
+// @ts-expect-error: no type definitions
+import eslint from '@eslint/js'
+import ts from 'typescript-eslint'
+import type { ConfigWithExtends } from 'typescript-eslint'
+
+// @ts-expect-error: no type definitions
+import prettier from 'eslint-config-prettier'
+// @ts-expect-error: no type definitions
+import unicorn from 'eslint-plugin-unicorn'
+
+import svelte from 'eslint-plugin-svelte'
+import svelteParser from 'svelte-eslint-parser'
+
+import { parseConfig } from './lib/parseConfig'
+
 export default ts.config(
-	{
-		ignores: fs
-			.readFileSync('.gitignore')
-			.toString()
-			.split('\n')
-			.map((line) => line.split('#').shift()?.trim())
-			.filter((line) => line !== '' && line !== undefined) as string[]
-	},
+	{ ignores: parseConfig<string[]>('.gitignore') ?? [] },
 	// typescript
 	{
 		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
@@ -81,7 +76,7 @@ export default ts.config(
 	{
 		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
 		extends: [prettier, eslint.configs.recommended],
-		plugins: { unicorn, functional },
+		plugins: { unicorn },
 		rules: {
 			'no-var': 'error', // disable var keyword
 			'no-undef': 'off', // already checked by typescript
@@ -113,6 +108,9 @@ export default ts.config(
 			'operator-assignment': 'error', // use x+=1 instead of x = x+1
 			'symbol-description': 'error', // allow only sibols with description ok: Symbol("a"), err: Symbol()
 			'yoda': ['error', 'never'], // variable to check before literal -> var1 === true
+			'func-style': ['error', 'expression', { allowArrowFunctions: true }], // allow only const a = () =>{} or const a = function a() {}
+			'arrow-body-style': ['error', 'as-needed'], // don't use {} for inline return
+			'prefer-arrow-callback': ['error', { allowNamedFunctions: true }], // allow only arrow functions in callback
 
 			// other js/ts rules from the unicorn package
 			'unicorn/consistent-destructuring': 'error', // consistent deconstruct (deconstruct all or nothing)
@@ -124,14 +122,7 @@ export default ts.config(
 			'unicorn/no-null': 'error', // disable null (it works inside of triple = if)
 			'unicorn/no-thenable': 'error', // disable .then
 			'unicorn/prefer-string-starts-ends-with': 'error', // use "".startsWith or "".endsWith instead of regex
-			'unicorn/prefer-string-trim-start-end': 'error', // use trimStart/trimEnd instead of trimLeft/trimRight
-
-			// functional programming
-			'functional/no-classes': 'error', // disable classes
-			'functional/no-this-expressions': 'error', // disable this
-			'func-style': ['error', 'expression', { allowArrowFunctions: true }], // allow only const a = () =>{} or const a = function a() {}
-			'arrow-body-style': ['error', 'as-needed'], // don't use {} for inline return
-			'prefer-arrow-callback': ['error', { allowNamedFunctions: true }]
+			'unicorn/prefer-string-trim-start-end': 'error' // use trimStart/trimEnd instead of trimLeft/trimRight
 		}
 	},
 	{

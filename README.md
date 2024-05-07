@@ -20,7 +20,7 @@
 ```jsonc
 {
 	"extends": ["@mp281x/shared-config/tsconfig"],
-	"include": ["index.ts", "src/**/*", "*.config.*"],
+	"include": ["index.ts", "src/**/*", "*.config.*", "vitest.*"],
 	"exclude": ["**/node_modules", "**/.*/", "**/dist", "**/build"]
 }
 ```
@@ -35,4 +35,10 @@ export { default } from '@mp281x/shared-config/eslint'
 
 ```js
 export { default } from '@mp281x/shared-config/prettier'
+```
+
+### vitest.workspace.ts
+
+```js
+export { default } from './dist/vitest.js'
 ```
