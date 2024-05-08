@@ -30,4 +30,4 @@ jobs:
         run: pnpm run check
 
       - name: publish
-        run: pnpm publish --access=restricted
+        run: pnpm publish --access=public
