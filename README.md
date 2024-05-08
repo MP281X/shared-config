@@ -14,6 +14,7 @@
 auto-install-peers = true
 
 @mp281x:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${REGISTRY_TOKEN}
 ```
 
 ### tsconfig.json
