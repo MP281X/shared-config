@@ -54,24 +54,6 @@ export default ts.config(
 			'@typescript-eslint/naming-convention': ['error', { selector: 'objectLiteralProperty', format: ['camelCase', 'snake_case', 'UPPER_CASE'] }]
 		}
 	},
-	// svelte
-	{
-		files: ['**/*.svelte'],
-		// @ts-expect-error
-		extends: svelte.configs['flat/recommended'],
-		languageOptions: { parser: svelteParser, parserOptions: { parser: ts.parser } },
-		rules: {
-			'svelte/infinite-reactive-loop': 'error', // prevent reactivity bug
-			'svelte/no-export-load-in-svelte-module-in-kit-pages': 'error', // no function called load in script
-			'svelte/no-reactive-reassign': 'error', // don't readding derived reactive values
-			'svelte/no-store-async': 'error', // disable async await in stores
-			'svelte/valid-prop-names-in-kit-pages': 'error', // disable invalid exports in +page.svelte file
-			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'] }], // require lang="ts" in the script tag
-			'svelte/no-immutable-reactive-statements': 'error', // disable reactive statement for const values
-			'svelte/no-useless-mustaches': 'error', // don't allow useless {}
-			'svelte/sort-attributes': 'error' // html attributes needs to be sorted
-		}
-	},
 	// js/ts
 	{
 		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
@@ -123,6 +105,29 @@ export default ts.config(
 			'unicorn/no-thenable': 'error', // disable .then
 			'unicorn/prefer-string-starts-ends-with': 'error', // use "".startsWith or "".endsWith instead of regex
 			'unicorn/prefer-string-trim-start-end': 'error' // use trimStart/trimEnd instead of trimLeft/trimRight
+		}
+	},
+	// svelte
+	{
+		files: ['**/*.svelte'],
+		// @ts-expect-error
+		extends: svelte.configs['flat/recommended'],
+		languageOptions: { parser: svelteParser, parserOptions: { parser: ts.parser } },
+		rules: {
+			'svelte/infinite-reactive-loop': 'error', // prevent reactivity bug
+			'svelte/no-export-load-in-svelte-module-in-kit-pages': 'error', // no function called load in script
+			'svelte/no-reactive-reassign': 'error', // don't readding derived reactive values
+			'svelte/no-store-async': 'error', // disable async await in stores
+			'svelte/valid-prop-names-in-kit-pages': 'error', // disable invalid exports in +page.svelte file
+			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'] }], // require lang="ts" in the script tag
+			'svelte/no-immutable-reactive-statements': 'error', // disable reactive statement for const values
+			'svelte/no-useless-mustaches': 'error', // don't allow useless {}
+			'svelte/sort-attributes': 'error', // html attributes needs to be sorted
+
+			// rules that doesn't work in svelte 5
+			'@typescript-eslint/no-unsafe-call': 'off',
+			'@typescript-eslint/no-unsafe-assignment': 'off',
+			'@typescript-eslint/no-unsafe-member-access': 'off'
 		}
 	},
 	{
