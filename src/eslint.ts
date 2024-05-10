@@ -67,6 +67,7 @@ export default ts.config(
 			'no-var': 'error', // disable var keyword
 			'no-shadow': 'off', // already checked by the eslint typescript plugin
 			'no-bitwise': 'error', // error if using | or & instead of || or &&
+			'no-redeclare': 'off', // already checked by typescript
 			'no-plusplus': 'error', // disable ++ and --
 			'no-sequences': 'error', // disable multiple operation inline separated by ,
 			'no-unused-vars': 'off', // already checked by typescript
