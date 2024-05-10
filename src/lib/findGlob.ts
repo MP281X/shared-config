@@ -12,7 +12,7 @@ const gitIgnore = parseConfig<string[]>(`${process.cwd()}/.gitignore`) ?? []
 export const findGlob: typeof fs.globSync = (glob, options) =>
 	fs.globSync(glob, {
 		cwd: options?.cwd ?? process.cwd(),
-		exclude: (path) => options?.exclude?.(path) || gitIgnore.includes(path)
+		exclude: path => options?.exclude?.(path) || gitIgnore.includes(path)
 	})
 
 if (import.meta.vitest) {

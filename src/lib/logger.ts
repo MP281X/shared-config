@@ -124,18 +124,18 @@ const parseVitestOutput = (input: string): { name: string; errors: string[] }[] 
 	}
 	const vitestData = JSON.parse(input) as VitestJSON
 	if (vitestData.success) return []
-	return vitestData.testResults.flatMap((testFile) => {
+	return vitestData.testResults.flatMap(testFile => {
 		const filePath = testFile.name.replace(process.cwd(), '').split('/').slice(3).join('/')
 
 		return testFile.assertionResults
-			.filter((test) => test.status === 'failed')
-			.map((test) => ({
+			.filter(test => test.status === 'failed')
+			.map(test => ({
 				name: `\x1b[91m[${filePath} -> "${test.title}"]\x1b[0m`,
 				// split on lines and on new error
 				errors: test.failureMessages
 					.join('\n')
 					.split('\n')
-					.filter((logMsg) => logMsg.trim() !== '')
+					.filter(logMsg => logMsg.trim() !== '')
 			}))
 	})
 }

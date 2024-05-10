@@ -13,13 +13,13 @@ const getWorkspaceProjects = (dir: string) => {
 	type PNPMWorkspace = { packages?: string[] }
 	globs.push(...(parseConfig<PNPMWorkspace>(`${dir}/pnpm-workspace.yaml`)?.packages ?? []))
 
-	return globs.flatMap((glob) => findGlob(glob, { cwd: dir })).filter((path) => fs.existsSync(`${dir}/${path}/package.json`))
+	return globs.flatMap(glob => findGlob(glob, { cwd: dir })).filter(path => fs.existsSync(`${dir}/${path}/package.json`))
 }
 
 export type Project = { cwd: string; name: string; scripts: string[]; lspPlugin: boolean; type: 'node' | 'svelte' }
 // find all the projects in a the monorepo/repo
 export const findProjects = (dir: string = process.cwd()): Project[] => {
-	const projects = getWorkspaceProjects(dir).flatMap((project) => findProjects(project))
+	const projects = getWorkspaceProjects(dir).flatMap(project => findProjects(project))
 
 	if (projects.length > 0) return projects
 	if (!fs.existsSync(`${dir}/package.json`)) return []
@@ -32,7 +32,7 @@ export const findProjects = (dir: string = process.cwd()): Project[] => {
 	type TSConfig = { compilerOptions?: { plugins?: { name: string }[] } }
 	const { compilerOptions } = parseConfig<TSConfig>(`${dir}/tsconfig.json`) ?? {}
 
-	const lspPlugin = compilerOptions?.plugins?.find((x) => x.name === 'lsp-plugin') !== undefined
+	const lspPlugin = compilerOptions?.plugins?.find(x => x.name === 'lsp-plugin') !== undefined
 
 	return [
 		{

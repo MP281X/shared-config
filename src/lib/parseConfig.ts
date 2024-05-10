@@ -15,8 +15,8 @@ export const parseConfig = <Res>(path: string): Res | undefined => {
 				.readFileSync(path)
 				.toString()
 				.split('\n')
-				.map((line) => line.split('#').shift()?.trim())
-				.filter((line) => line !== '' && line !== undefined) as string[]
+				.map(line => line.split('#').shift()?.trim())
+				.filter(line => line !== '' && line !== undefined) as string[]
 		}
 
 		// @ts-expect-error
