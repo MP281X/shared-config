@@ -1,6 +1,6 @@
 {
 	"type": "module",
-	"version": "1.1.14",
+	"version": "1.1.15",
 	"name": "@mp281x/shared-config",
 	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 
@@ -26,7 +26,10 @@
 	},
 
 	"dependencies": {
-		"prettier": "3.2.5",
+		"vitest": "^1.6.0",
+		"typescript": "^5.4.5",
+
+		"@fsouza/prettierd": "latest",
 		"prettier-plugin-astro": "0.13.0",
 		"prettier-plugin-svelte": "3.2.3",
 		"prettier-plugin-tailwindcss": "0.5.14",
@@ -40,14 +43,10 @@
 		"eslint-plugin-perfectionist": "2.10.0"
 	},
 
-	"peerDependencies": {
-		"vitest": "^1.6.0",
-		"typescript": "^5.4.5"
-	},
-
 	"devDependencies": {
 		"tsup": "8.0.2",
 		"yaml": "2.4.2",
+		"prettier": "3.2.5",
 		"@types/node": "20.12.11"
 	},
 
