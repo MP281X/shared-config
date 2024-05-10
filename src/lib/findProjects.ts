@@ -1,6 +1,7 @@
 import fs from 'node:fs'
-import { parseConfig } from './parseConfig.ts'
+
 import { findGlob } from './findGlob.ts'
+import { parseConfig } from './parseConfig.ts'
 
 const getWorkspaceProjects = (dir: string) => {
 	const globs: string[] = []
@@ -15,7 +16,7 @@ const getWorkspaceProjects = (dir: string) => {
 	return globs.flatMap((glob) => findGlob(glob, { cwd: dir })).filter((path) => fs.existsSync(`${dir}/${path}/package.json`))
 }
 
-export type Project = { name: string; scripts: string[]; lspPlugin: boolean; cwd: string; type: 'svelte' | 'node' }
+export type Project = { cwd: string; name: string; scripts: string[]; lspPlugin: boolean; type: 'node' | 'svelte' }
 // find all the projects in a the monorepo/repo
 export const findProjects = (dir: string = process.cwd()): Project[] => {
 	const projects = getWorkspaceProjects(dir).flatMap((project) => findProjects(project))

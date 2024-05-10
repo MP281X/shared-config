@@ -4,6 +4,7 @@ declare module 'node:fs' {
 }
 
 import fs from 'node:fs'
+
 import { parseConfig } from './parseConfig'
 
 const gitIgnore = parseConfig<string[]>(`${process.cwd()}/.gitignore`) ?? []

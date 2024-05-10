@@ -113,14 +113,14 @@ const vitestLogFormatter = (input: string, printLog: (txt: string) => void) => {
 
 const parseVitestOutput = (input: string): { name: string; errors: string[] }[] => {
 	type VitestJSON = {
-		success: boolean
 		testResults: [
 			{
 				name: string
 				status: 'passed' | 'failed'
-				assertionResults: [{ status: 'passed' | 'failed'; title: string; failureMessages: string[] }]
+				assertionResults: [{ title: string; failureMessages: string[]; status: 'passed' | 'failed' }]
 			}
 		]
+		success: boolean
 	}
 	const vitestData = JSON.parse(input) as VitestJSON
 	if (vitestData.success) return []

@@ -1,6 +1,6 @@
 {
 	"type": "module",
-	"version": "1.1.13",
+	"version": "1.1.14",
 	"name": "@mp281x/shared-config",
 	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 
@@ -34,9 +34,10 @@
 		"eslint": "9.2.0",
 		"@eslint/js": "9.2.0",
 		"typescript-eslint": "7.8.0",
-		"eslint-config-prettier": "9.1.0",
+		"eslint-plugin-svelte": "2.39.0",
 		"eslint-plugin-unicorn": "53.0.0",
-		"eslint-plugin-svelte": "2.39.0"
+		"eslint-config-prettier": "9.1.0",
+		"eslint-plugin-perfectionist": "2.10.0"
 	},
 
 	"peerDependencies": {

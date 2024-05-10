@@ -1,5 +1,5 @@
-import fs from 'node:fs'
 import yaml from 'yaml'
+import fs from 'node:fs'
 
 // parse json/yaml/.gitignore and add the custom return type
 export const parseConfig = <Res>(path: string): Res | undefined => {

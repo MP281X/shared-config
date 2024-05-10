@@ -1,6 +1,7 @@
-import { log } from './logger.ts'
-import { spawn } from 'child_process'
 import fs from 'fs'
+import { spawn } from 'child_process'
+
+import { log } from './logger.ts'
 
 export const getPackageManager = () => {
 	const currentDir = fs.readdirSync('.')
@@ -15,7 +16,7 @@ export const getPackageManager = () => {
 
 export const asyncCommands: Promise<void>[] = []
 
-type ExecCmd = { title: string; cmd: string[]; customCmd?: string; mode: 'sync' | 'async'; cwd?: string }
+type ExecCmd = { cwd?: string; title: string; cmd: string[]; customCmd?: string; mode: 'sync' | 'async' }
 export const execCmd = async ({ title, cmd, customCmd, mode, cwd }: ExecCmd) => {
 	const execPromise = new Promise<void>((resolve, _) => {
 		const output = spawn(customCmd ?? getPackageManager(), cmd, {
@@ -40,7 +41,7 @@ export const execCmd = async ({ title, cmd, customCmd, mode, cwd }: ExecCmd) => 
 	return void asyncCommands.push(execPromise)
 }
 
-type ReadLogFile = { title: string; cwd: string }
+type ReadLogFile = { cwd: string; title: string }
 export const readLogFile = async ({ title, cwd }: ReadLogFile) => {
 	// clear the log file
 	const logFile = `${cwd}/lsp-plugin.log`

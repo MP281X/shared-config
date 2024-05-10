@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup'
+
 import { findGlob } from './src/lib/findGlob'
 
 export default defineConfig({

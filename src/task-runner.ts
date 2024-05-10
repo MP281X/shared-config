@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import { getArgs, handleKeypress } from './lib/cliHandlers.ts'
-import { asyncCommands, execCmd, readLogFile } from './lib/execCmd.ts'
 import { findProjects } from './lib/findProjects.ts'
+import { getArgs, handleKeypress } from './lib/cliHandlers.ts'
+import { execCmd, readLogFile, asyncCommands } from './lib/execCmd.ts'
 
 handleKeypress()
 const { flags, task, cmd } = getArgs()
@@ -9,10 +9,10 @@ const projects = findProjects()
 const monorepo = projects.length > 1
 
 // apply formatting and linting rules
-if (flags.includes('--apply')) {
+if (flags.includes('--fix')) {
 	await execCmd({
 		title: 'prettier',
-		cmd: ['prettier', '--ignore-path .gitignore', '--log-level warn', '--write', '.'],
+		cmd: ['prettier', '--ignore-path=.gitignore', '--log-level=warn', '--write', '.'],
 		mode: 'sync'
 	})
 

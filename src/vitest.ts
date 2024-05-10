@@ -1,6 +1,7 @@
 import { defineWorkspace } from 'vitest/config'
-import { findProjects } from './lib/findProjects'
+
 import { findGlob } from './lib/findGlob'
+import { findProjects } from './lib/findProjects'
 
 export default defineWorkspace(
 	findProjects().map(({ name, cwd }) => ({
