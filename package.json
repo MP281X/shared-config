@@ -50,5 +50,5 @@
 		"@types/node": "20.12.11"
 	},
 
-	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } }
+	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*", "svelte-eslint-parser": "*" } } }
 }

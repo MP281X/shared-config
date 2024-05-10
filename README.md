@@ -3,16 +3,14 @@
 ```jsonc
 {
 	"type": "module",
-	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } },
-	"devDependencies": { "@mp281x/shared-config": "latest", "@fsouza/prettierd": "latest" }
+	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*", "svelte-eslint-parser": "*" } } },
+	"devDependencies": { "@mp281x/shared-config": "latest" }
 }
 ```
 
 ### .npmrc
 
 ```.npmrc
-auto-install-peers = true
-
 @mp281x:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${REGISTRY_TOKEN}
 ```
@@ -42,5 +40,5 @@ export { default } from '@mp281x/shared-config/prettier'
 ### vitest.workspace.ts
 
 ```js
-export { default } from './dist/vitest.js'
+export { default } from '@mp281x/shared-config/vitest'
 ```
