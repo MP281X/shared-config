@@ -147,8 +147,8 @@ export default ts.config(
 		extends: svelte.configs['flat/recommended'],
 		languageOptions: { parser: svelteParser, parserOptions: { parser: ts.parser } },
 		rules: {
+			'svelte/sort-attributes': 'off', // already checked by the "perfectionist" plugin
 			'svelte/no-store-async': 'error', // disable async await in stores
-			'svelte/sort-attributes': 'error', // html attributes needs to be sorted
 			'svelte/no-reactive-reassign': 'error', // don't readding derived reactive values
 			'svelte/no-useless-mustaches': 'error', // don't allow useless {}
 			'svelte/infinite-reactive-loop': 'error', // prevent reactivity bug
