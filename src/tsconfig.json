@@ -33,6 +33,7 @@
 		"jsx": "preserve", // allow importing jsx/tsx files but don't transpile the jsx templates
 		"resolveJsonModule": true, // allow json import
 		"allowImportingTsExtensions": true, // allow importing ts file
+		"allowSyntheticDefaultImports": true, // impot X from "x" instead of import * as X from "x"
 		"forceConsistentCasingInFileNames": true, // no different casing importing the same file
 		"verbatimModuleSyntax": true, // if i only import a type from a file don't drop the import after compilation
 		"noEmit": true, // don't output code
