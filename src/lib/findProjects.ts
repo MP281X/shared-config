@@ -15,7 +15,7 @@ const getWorkspaceProjects = (dir: string) => {
 	return globs.flatMap((glob) => findGlob(glob, { cwd: dir })).filter((path) => fs.existsSync(`${dir}/${path}/package.json`))
 }
 
-export type Project = { name: string; scripts: string[]; lspPlugin: boolean; cwd: string }
+export type Project = { name: string; scripts: string[]; lspPlugin: boolean; cwd: string; type: 'svelte' | 'node' }
 // find all the projects in a the monorepo/repo
 export const findProjects = (dir: string = process.cwd()): Project[] => {
 	const projects = getWorkspaceProjects(dir).flatMap((project) => findProjects(project))
@@ -24,8 +24,8 @@ export const findProjects = (dir: string = process.cwd()): Project[] => {
 	if (!fs.existsSync(`${dir}/package.json`)) return []
 
 	// load the package info
-	type PackageJSON = { scripts?: Record<string, string> }
-	const { scripts } = parseConfig<PackageJSON>(`${dir}/package.json`) ?? {}
+	type PackageJSON = { scripts?: Record<string, string>; devDependencies?: Record<string, string> }
+	const { scripts, devDependencies } = parseConfig<PackageJSON>(`${dir}/package.json`) ?? {}
 
 	// read the tsconfig and check if the project is using the custom lsp plugin
 	type TSConfig = { compilerOptions?: { plugins?: { name: string }[] } }
@@ -37,6 +37,7 @@ export const findProjects = (dir: string = process.cwd()): Project[] => {
 		{
 			scripts: Object.keys(scripts ?? {}),
 			name: dir.split('/').pop() ?? '',
+			type: devDependencies?.['svelte'] ? 'svelte' : 'node',
 			lspPlugin,
 			cwd: dir
 		}

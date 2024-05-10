@@ -38,13 +38,31 @@ if (flags.length === 0 || flags.includes('--check')) {
 	})
 
 	// type check
-	for (const { name, cwd } of projects) {
-		await execCmd({
-			title: `${name}:tsc`,
-			cmd: ['tsc', '--noEmit'],
-			mode: 'sync',
-			cwd
-		})
+	for (const { name, cwd, type } of projects) {
+		if (type === 'svelte') {
+			await execCmd({
+				title: `svelte-sync:${name}`,
+				cmd: ['svelte-kit', 'sync'],
+				mode: 'sync',
+				cwd
+			})
+
+			await execCmd({
+				title: `svelte-check:${name}`,
+				cmd: ['svelte-check', '--output=human', '--tsconfig=./tsconfig.json'],
+				mode: 'sync',
+				cwd
+			})
+		}
+
+		if (type === 'node') {
+			await execCmd({
+				title: `${name}:tsc`,
+				cmd: ['tsc', '--noEmit'],
+				mode: 'sync',
+				cwd
+			})
+		}
 	}
 }
 
