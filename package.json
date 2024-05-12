@@ -1,12 +1,13 @@
 {
 	"type": "module",
-	"version": "1.1.20",
+	"version": "1.1.21",
 	"name": "@mp281x/shared-config",
 	"publishConfig": { "registry": "https://npm.pkg.github.com/@mp281x" },
 
 	"scripts": {
 		"dev": "tsup-node --watch",
 		"fix": "./dist/task-runner.js --fix",
+		"test": "./dist/task-runner.js --test",
 		"check": "./dist/task-runner.js --check --test"
 	},
 

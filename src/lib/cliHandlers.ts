@@ -10,7 +10,7 @@ export const getArgs = () => {
 	if (flags.includes('--dev')) flags.push('--run')
 	if (task === 'dev') flags.push('--dev')
 
-	return { flags, task, cmd: args }
+	return { cmd: args, flags, task }
 }
 
 export const handleKeypress = () => {

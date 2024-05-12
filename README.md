@@ -20,7 +20,7 @@
 ```jsonc
 {
 	"extends": ["@mp281x/shared-config/tsconfig"],
-	"include": ["index.ts", "src/**/*", "*.config.*", "vitest.*"],
+	"include": ["index.ts", "src/**/*", "*.config.*", "vitest.*", "imports.g.ts"],
 	"exclude": ["**/node_modules", "**/.*/", "**/dist", "**/build"]
 }
 ```

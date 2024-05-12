@@ -1,5 +1,6 @@
 # generated/cache files
 **/dist
+**/*.g.ts
 **/.eslintcache
 
 # other files/folders

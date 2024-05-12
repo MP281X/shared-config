@@ -3,12 +3,12 @@ import { defineConfig } from 'tsup'
 import { findGlob } from './src/lib/findGlob'
 
 export default defineConfig({
-	outDir: 'dist',
+	clean: true,
+	dts: true,
 	entryPoints: findGlob('src/*.ts'),
 	format: ['esm'],
-	splitting: false,
-	dts: true,
-	clean: true,
+	outDir: 'dist',
 	shims: true,
+	splitting: false,
 	treeshake: true
 })

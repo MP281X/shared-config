@@ -11,8 +11,8 @@ const logFn = (type: LogType) => async (title: string, input: Input) => {
 }
 
 export const log = {
-	info: logFn('info'),
-	error: logFn('error')
+	error: logFn('error'),
+	info: logFn('info')
 }
 
 // give a task the same color for the process duration
@@ -98,7 +98,7 @@ const defaultLogFormatter = (input: string, printLog: (txt: string) => void, pre
 const vitestLogFormatter = (input: string, printLog: (txt: string) => void) => {
 	let hasLogged = false
 
-	for (const { name, errors } of parseVitestOutput(input)) {
+	for (const { errors, name } of parseVitestOutput(input)) {
 		for (let error of errors) {
 			hasLogged = true
 
