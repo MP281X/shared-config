@@ -25,16 +25,6 @@ export const objectFactory = (obj: Record<string, ts.Expression>) =>
 		true
 	)
 
-export const asyncArrowFnFactory = (expression: ts.Expression) =>
-	ts.factory.createArrowFunction(
-		[ts.factory.createToken(ts.SyntaxKind.AsyncKeyword)],
-		undefined,
-		[],
-		undefined,
-		ts.factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
-		ts.factory.createParenthesizedExpression(expression)
-	)
-
 export const defaultExportFactory = (varName: string, typeName?: string) =>
 	ts.factory.createExportAssignment(
 		undefined,
@@ -46,11 +36,6 @@ export const defaultExportFactory = (varName: string, typeName?: string) =>
 			)
 		:	ts.factory.createIdentifier(varName)
 	)
-
-// factory.createTypeReferenceNode(
-//       factory.createIdentifier("Z"),
-//       undefined
-//     )
 
 export const nodeToStr = (node: ts.Node) =>
 	// @ts-expect-error
@@ -72,11 +57,6 @@ if (import.meta.vitest) {
 	it('object', () => {
 		const code = nodeToStr(objectFactory({ key: ts.factory.createStringLiteral('value') }))
 		expect(code.replaceAll(' ', '').replaceAll('\n', '')).toEqual('{"key":"value"}')
-	})
-
-	it('async arrow fn', () => {
-		const code = nodeToStr(asyncArrowFnFactory(ts.factory.createStringLiteral('value')))
-		expect(code).toEqual('async () => ("value")')
 	})
 
 	it('default export', () => {

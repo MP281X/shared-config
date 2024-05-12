@@ -3,7 +3,7 @@ import type { Expression } from 'typescript'
 import fs from 'fs'
 
 import { findGlob } from './findGlob'
-import { nodeToStr, constFactory, objectFactory, asyncArrowFnFactory, defaultExportFactory, dynamicImportFactory } from './tsFactory.ts'
+import { nodeToStr, constFactory, objectFactory, defaultExportFactory, dynamicImportFactory } from './tsFactory.ts'
 
 const fileImportsObj = (glob: string) => {
 	const fileImports = new Map<string, Expression>()
@@ -16,7 +16,7 @@ const fileImportsObj = (glob: string) => {
 const globImportsObj = (globImports: string[]) => {
 	const _globImports = new Map<string, Expression>()
 
-	for (const glob of globImports) _globImports.set(glob, asyncArrowFnFactory(fileImportsObj(glob)))
+	for (const glob of globImports) _globImports.set(glob, fileImportsObj(glob))
 
 	return objectFactory(Object.fromEntries(_globImports))
 }
@@ -29,11 +29,11 @@ export const genGlobImportsFile = ({ cwd, globImports }: GenGlobImportsFile) => 
 
 	out.push(`
 type Imports = {
-	[Glob in keyof typeof imports]: () => Promise<{
-		[File in keyof Awaited<ReturnType<(typeof imports)[Glob]>>]: {
-			[Export in keyof Awaited<ReturnType<(typeof imports)[Glob]>>[File]]: Awaited<ReturnType<(typeof imports)[Glob]>>[File][Export]
+	[Glob in keyof typeof imports]: {
+		[File in keyof (typeof imports)[Glob]]: {
+			[Export in keyof (typeof imports)[Glob][File]]: (typeof imports)[Glob][File][Export]
 		}
-	}>
+	}
 }
 	`)
 
@@ -53,7 +53,7 @@ if (import.meta.vitest) {
 
 	it('glob imports obj', () => {
 		const code = nodeToStr(globImportsObj(['**/noFiles']))
-		const expectedCode = '{ "**/noFiles": async () => ({}) }'
+		const expectedCode = '{ "**/noFiles": {} }'
 		expect(code.replaceAll('\n', ' ').replace(/\s+/g, ' ')).toEqual(expectedCode)
 	})
 }
