@@ -7,6 +7,7 @@ import { execCmd, readLogFile, asyncCommands } from './lib/execCmd.ts'
 handleKeypress()
 const { cmd, flags, task } = getArgs()
 const projects = findProjects()
+
 const monorepo = projects.length > 1
 
 // codegen

@@ -28,6 +28,11 @@ export const execCmd = async ({ cmd, customCmd, cwd, mode, title }: ExecCmd) => 
 
 		output.stderr.on('data', (msg: Buffer) => void log.error(title, msg))
 
+		output.on('error', error => {
+			void log.error(title, error.message)
+			process.exit(1)
+		})
+
 		output.on('exit', exitCode => {
 			if (exitCode === 0 || exitCode === null) return resolve()
 			if (process.argv[2] === 'dev') return resolve()

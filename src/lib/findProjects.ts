@@ -13,7 +13,7 @@ const getWorkspaceProjects = (dir: string) => {
 	type PNPMWorkspace = { packages?: string[] }
 	globs.push(...(parseConfig<PNPMWorkspace>(`${dir}/pnpm-workspace.yaml`)?.packages ?? []))
 
-	return globs.flatMap(glob => findGlob(glob, { cwd: dir })).filter(path => fs.existsSync(`${dir}/${path}/package.json`))
+	return globs.flatMap(glob => findGlob(glob, { cwd: dir, type: 'directory' })).filter(path => fs.existsSync(`${dir}/${path}/package.json`))
 }
 
 export type Project = {

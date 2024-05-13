@@ -8,7 +8,7 @@ import { nodeToStr, constFactory, objectFactory, defaultExportFactory, dynamicIm
 const fileImportsObj = (glob: string) => {
 	const fileImports = new Map<string, Expression>()
 
-	for (const file of findGlob(glob)) fileImports.set(file, dynamicImportFactory(`./${file}`))
+	for (const file of findGlob(glob, { type: 'file' })) fileImports.set(file, dynamicImportFactory(`./${file}`))
 
 	return objectFactory(Object.fromEntries(fileImports))
 }
