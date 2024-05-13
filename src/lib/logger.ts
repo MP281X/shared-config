@@ -56,6 +56,9 @@ invalidLogs.push(
 	'Re-optimizing dependencies because lockfile has changed'
 )
 
+// tsx
+invalidLogs.push('> ', "Completed running '")
+
 // vitest
 invalidLogs.push('include: **/', 'exclude:  **/', 'No test files found', 'projects: ', '] Config', '⏳ Waiting for TypeScript to check your project')
 
@@ -88,6 +91,8 @@ const defaultLogFormatter = (input: string, printLog: (txt: string) => void, pre
 
 		if (txt.startsWith('  ➜  Local:   ')) txt = txt.replace('  ➜  Local:   ', '')
 		if (txt.startsWith('  ➜  Network: ')) txt = txt.replace('  ➜  Network: ', '')
+
+		if (txt.startsWith("Restarting '")) txt = 'RESTART'
 
 		if (prefix) printLog(`[${prefix}] ${txt}`)
 		else printLog(txt)
