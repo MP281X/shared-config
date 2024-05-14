@@ -1,5 +1,4 @@
 /* eslint-disable perfectionist/sort-imports */
-/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
@@ -17,6 +16,8 @@ import perfectionist from 'eslint-plugin-perfectionist'
 
 import svelte from 'eslint-plugin-svelte'
 import svelteParser from 'svelte-eslint-parser'
+
+import solid from 'eslint-plugin-solid/dist/plugin.js'
 
 import { parseConfig } from './lib/parseConfig'
 
@@ -54,7 +55,33 @@ export default ts.config(
 			'@typescript-eslint/unbound-method': 'off', // cause errors with the typescript compiler api
 
 			// enforce variable naming style
-			'@typescript-eslint/naming-convention': ['error', { format: ['camelCase', 'snake_case', 'UPPER_CASE'], selector: 'objectLiteralProperty' }]
+			'@typescript-eslint/naming-convention': [
+				'error',
+				// allow
+				{ format: ['camelCase'], selector: 'default' },
+				{ format: ['camelCase'], leadingUnderscore: 'allow', selector: 'parameter' },
+				{ format: ['PascalCase'], selector: 'typeLike' },
+
+				// boolean variables should start with one of these prefix
+				{ format: ['PascalCase'], prefix: ['is', 'should', 'has', 'can', 'did', 'will'], selector: 'variable', types: ['boolean'] },
+				// allow only camelCase object keys
+				{ format: ['camelCase'], selector: 'objectLiteralProperty' },
+				// disallow the rules for evrithing that require the quotes
+				{
+					format: null, // eslint-disable-line unicorn/no-null
+					modifiers: ['requiresQuotes'],
+					selector: [
+						'classProperty',
+						'objectLiteralProperty',
+						'typeProperty',
+						'classMethod',
+						'objectLiteralMethod',
+						'typeMethod',
+						'accessor',
+						'enumMember'
+					]
+				}
+			]
 		}
 	},
 	// js/ts
@@ -160,11 +187,26 @@ export default ts.config(
 			]
 		}
 	},
+	// solid
+	{
+		files: ['**/*.tsx'],
+		plugins: { solid: solid.plugin },
+		rules: {
+			'solid/components-return-once': 'error', // disallow early returns in jsx components
+			'solid/event-handlers': 'error', // make event handlers names consistent "onclick" -> "onClick"
+			'solid/jsx-no-script-url': 'error', // allow only valid urls in the href prop
+			'solid/no-destructure': 'error', // don't deconstruct jsx props
+			'solid/no-innerhtml': 'error', // don't allow the innerHtml prop
+			'solid/prefer-for': 'error', // use the <For> components instead of the jsx map
+			'solid/prefer-show': 'error', // use the <Show> component instead of the jsx ternary
+			'solid/reactivity': 'error', // prevent reactivity error
+			'solid/self-closing-comp': ['error', { component: 'all', html: 'all' }] // force self closing tags if there are no chidlren
+		}
+	},
 	// svelte
 	{
+		extends: svelte.configs['flat/recommended'] as any, // eslint-disable-line @typescript-eslint/no-explicit-any
 		files: ['**/*.svelte'],
-		// @ts-expect-error
-		extends: svelte.configs['flat/recommended'],
 		languageOptions: { parser: svelteParser, parserOptions: { parser: ts.parser } },
 		rules: {
 			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'] }], // require lang="ts" in the script tag

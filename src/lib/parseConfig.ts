@@ -25,3 +25,12 @@ export const parseConfig = <Res>(path: string): Res | undefined => {
 
 	return undefined
 }
+
+if (import.meta.vitest) {
+	const { expect, it } = import.meta.vitest
+
+	it('parse .gitingore', () => {
+		const gitignore = parseConfig<string[]>('.gitignore') ?? []
+		expect(gitignore).include('**/node_modules')
+	})
+}

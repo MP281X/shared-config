@@ -9,7 +9,7 @@ handleKeypress()
 const { cmd, flags, task } = getArgs()
 const projects = findProjects()
 
-const monorepo = projects.length > 1
+const isMonorepo = projects.length > 1
 
 // codegen
 for (const { cwd, globImports } of projects) {
@@ -90,9 +90,9 @@ for (const { name } of projects) {
 // run the scripts
 for (const { cwd, name, scripts } of projects) {
 	if (!flags.includes('--run')) continue
-	if (monorepo && !scripts.includes(task)) continue
+	if (isMonorepo && !scripts.includes(task)) continue
 
-	if (monorepo) await execCmd({ cmd: ['run', '--silent', task], cwd, mode: 'async', title: `${name}:${task}` })
+	if (isMonorepo) await execCmd({ cmd: ['run', '--silent', task], cwd, mode: 'async', title: `${name}:${task}` })
 	else await execCmd({ cmd, cwd, mode: 'async', title: `${name}:${task}` })
 }
 

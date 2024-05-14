@@ -14,11 +14,11 @@ const fileImportsObj = (glob: string, cwd: string) => {
 }
 
 const globImportsObj = (globImports: string[], cwd: string) => {
-	const _globImports = new Map<string, Expression>()
+	const importObj = new Map<string, Expression>()
 
-	for (const glob of globImports) _globImports.set(glob, fileImportsObj(glob, cwd))
+	for (const glob of globImports) importObj.set(glob, fileImportsObj(glob, cwd))
 
-	return objectFactory(Object.fromEntries(_globImports))
+	return objectFactory(Object.fromEntries(importObj))
 }
 
 export const genGlobImportsFile = (globImports: string[], cwd: string) => {
