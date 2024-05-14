@@ -14,7 +14,7 @@ const monorepo = projects.length > 1
 for (const { cwd, globImports } of projects) {
 	if (globImports.length === 0) continue
 
-	genGlobImportsFile({ cwd, globImports })
+	genGlobImportsFile(globImports, cwd)
 }
 
 // apply formatting and linting rules
