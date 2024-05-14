@@ -6,7 +6,7 @@ export default defineWorkspace(
 		test: {
 			clearScreen: false,
 			environment: 'node',
-			includeSource: ['**/*.{ts,tsx,js,js}'],
+			includeSource: ['**/*.{ts,tsx,js,jsx}'],
 			name,
 			project: name,
 			root: cwd

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { fileWatcher } from './lib/fileWatcher.ts'
 import { findProjects } from './lib/findProjects.ts'
 import { genGlobImportsFile } from './lib/globImports.ts'
 import { getArgs, handleKeypress } from './lib/cliHandlers.ts'
@@ -15,6 +16,7 @@ for (const { cwd, globImports } of projects) {
 	if (globImports.length === 0) continue
 
 	genGlobImportsFile(globImports, cwd)
+	if (flags.includes('--run')) fileWatcher(cwd, () => genGlobImportsFile(globImports, cwd))
 }
 
 // apply formatting and linting rules
