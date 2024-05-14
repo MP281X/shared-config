@@ -40,6 +40,10 @@
 		"sourceMap": true, // enable sourcemap
 		"skipLibCheck": true, // don't check .d.ts files
 		"esModuleInterop": true, // fix problem when importing older packages
-		"isolatedModules": true // ensure that the types you write are checkable looking at a single file
+		"isolatedModules": true, // ensure that the types you write are checkable looking at a single file
+
+		// monorepo settings
+		"composite": true,
+		"declarationMap": true
 	}
 }

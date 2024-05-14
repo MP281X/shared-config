@@ -1,5 +1,8 @@
 {
 	"extends": ["./src/tsconfig.json"],
 	"include": ["index.ts", "src/**/*", "*.config.*", "vitest.*", "imports.g.ts"],
-	"exclude": ["**/node_modules", "**/.*/", "**/dist"]
+	"exclude": ["**/node_modules", "**/.*/", "**/dist"],
+
+	// tsup doesn't work with this this config in this repo
+	"compilerOptions": { "composite": false, "declarationMap": false }
 }
