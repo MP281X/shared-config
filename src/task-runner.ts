@@ -27,14 +27,11 @@ if (flags.includes('--fix')) {
 		title: 'prettier'
 	})
 
-	for (const { cwd, name } of projects) {
-		await execCmd({
-			cmd: ['eslint', '--no-color', '--fix', '.'],
-			cwd,
-			mode: 'sync',
-			title: `${name}:eslint`
-		})
-	}
+	await execCmd({
+		cmd: ['eslint', '--no-color', '--fix', '.'],
+		mode: 'sync',
+		title: 'eslint'
+	})
 }
 
 // check if all the formatting rules, linting rules and types are correct
@@ -45,14 +42,11 @@ if (flags.length === 0 || flags.includes('--check')) {
 		title: 'prettier'
 	})
 
-	for (const { cwd, name } of projects) {
-		await execCmd({
-			cmd: ['eslint', '--no-color', '--fix', '.'],
-			cwd,
-			mode: 'sync',
-			title: `${name}:eslint`
-		})
-	}
+	await execCmd({
+		cmd: ['eslint', '--no-color', '--fix', '.'],
+		mode: 'sync',
+		title: 'eslint'
+	})
 
 	// type check
 	for (const { cwd, name, type } of projects) {

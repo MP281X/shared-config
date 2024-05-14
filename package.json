@@ -1,6 +1,6 @@
 {
 	"type": "module",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"name": "@mp281x/shared-config",
 
 	"globImports": ["**/src/*.ts"],
@@ -47,7 +47,7 @@
 		"eslint-plugin-perfectionist": "2.10.0"
 	},
 
-	"peerDependencies": { "vitest": "^1.6.0", "typescript": "^5.4.5" },
+	"peerDependencies": { "vitest": "^1.6.0", "typescript": "beta" },
 	"peerDependenciesMeta": { "vitest": { "optional": true } },
 
 	"devDependencies": {

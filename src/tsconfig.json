@@ -1,4 +1,6 @@
 {
+	"exclude": ["${configDir}/**/node_modules", "${configDir}/**/.*/", "${configDir}/**/dist"],
+
 	"compilerOptions": {
 		// ts version and module resolution (use the lasted ts/js features and types)
 		"lib": ["ESNext", "dom", "dom.iterable"],
@@ -40,10 +42,6 @@
 		"sourceMap": true, // enable sourcemap
 		"skipLibCheck": true, // don't check .d.ts files
 		"esModuleInterop": true, // fix problem when importing older packages
-		"isolatedModules": true, // ensure that the types you write are checkable looking at a single file
-
-		// monorepo settings
-		"composite": true,
-		"declarationMap": true
+		"isolatedModules": true // ensure that the types you write are checkable looking at a single file
 	}
 }
