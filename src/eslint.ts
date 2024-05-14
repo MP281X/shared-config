@@ -59,8 +59,9 @@ export default ts.config(
 				'error',
 				// allow
 				{ format: ['camelCase'], selector: 'default' },
+				{ format: null, selector: 'import' }, // eslint-disable-line unicorn/no-null
 				{ format: ['camelCase'], leadingUnderscore: 'allow', selector: 'parameter' },
-				{ format: ['PascalCase'], selector: 'typeLike' },
+				{ format: ['camelCase', 'PascalCase'], selector: 'typeLike' },
 
 				// boolean variables should start with one of these prefix
 				{ format: ['PascalCase'], prefix: ['is', 'should', 'has', 'can', 'did', 'will'], selector: 'variable', types: ['boolean'] },
