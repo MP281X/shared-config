@@ -1,6 +1,6 @@
 {
 	"type": "module",
-	"version": "1.0.9",
+	"version": "1.0.10",
 	"name": "@mp281x/shared-config",
 
 	"globImports": ["**/src/*.ts"],

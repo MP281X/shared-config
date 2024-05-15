@@ -21,7 +21,8 @@ export const execCmd = async ({ cmd, customCmd, cwd, mode, title }: ExecCmd) => 
 	const execPromise = new Promise<void>((resolve, _) => {
 		const output = spawn(customCmd ?? getPackageManager(), cmd, {
 			cwd: cwd ?? process.cwd(),
-			env: { ...process.env }
+			env: { ...process.env },
+			shell: process.platform === 'win32'
 		})
 
 		output.stdout.on('data', (msg: Buffer) => void log.info(title, msg))
