@@ -1,7 +1,9 @@
 {
-	"exclude": ["${configDir}/**/node_modules", "${configDir}/**/.*/", "${configDir}/**/dist"],
+	"exclude": ["**/node_modules", "**/.*/", "**/dist"],
 
 	"compilerOptions": {
+		"types": ["vitest/importMeta"],
+
 		// ts version and module resolution (use the lasted ts/js features and types)
 		"lib": ["ESNext", "dom", "dom.iterable"],
 		"target": "ESNext",
