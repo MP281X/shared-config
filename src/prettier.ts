@@ -4,7 +4,7 @@ export default {
 	arrowParens: 'avoid',
 	experimentalTernaries: true,
 	overrides: [{ files: '*.json', options: { parser: 'jsonc' } }],
-	plugins: ['prettier-plugin-svelte', 'prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
+	plugins: ['prettier-plugin-svelte', 'prettier-plugin-tailwindcss'],
 	printWidth: 150,
 	quoteProps: 'consistent',
 	semi: false,

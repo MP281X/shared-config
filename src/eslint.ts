@@ -17,7 +17,12 @@ import perfectionist from 'eslint-plugin-perfectionist'
 import svelte from 'eslint-plugin-svelte'
 import svelteParser from 'svelte-eslint-parser'
 
-import solid from 'eslint-plugin-solid/dist/plugin.js'
+// @ts-expect-error: no type definitions
+import nextjs from '@next/eslint-plugin-next'
+// @ts-expect-error: no type definitions
+import react from 'eslint-plugin-react'
+// @ts-expect-error: no type definitions
+import hooks from 'eslint-plugin-react-hooks'
 
 import { parseConfig } from './lib/parseConfig'
 
@@ -188,20 +193,16 @@ export default ts.config(
 			]
 		}
 	},
-	// solid
+	// nextjs/react
 	{
-		files: ['**/*.tsx'],
-		plugins: { solid: solid.plugin },
+		files: ['app/**/*.ts', 'app/**/*.tsx'],
+		plugins: { '@next/next': nextjs, react, 'react-hooks': hooks },
 		rules: {
-			'solid/components-return-once': 'error', // disallow early returns in jsx components
-			'solid/event-handlers': 'error', // make event handlers names consistent "onclick" -> "onClick"
-			'solid/jsx-no-script-url': 'error', // allow only valid urls in the href prop
-			'solid/no-destructure': 'error', // don't deconstruct jsx props
-			'solid/no-innerhtml': 'error', // don't allow the innerHtml prop
-			'solid/prefer-for': 'error', // use the <For> components instead of the jsx map
-			'solid/prefer-show': 'error', // use the <Show> component instead of the jsx ternary
-			'solid/reactivity': 'error', // prevent reactivity error
-			'solid/self-closing-comp': ['error', { component: 'all', html: 'all' }] // force self closing tags if there are no chidlren
+			...nextjs.configs.recommended.rules,
+			...nextjs.configs['core-web-vitals'].rules,
+			'@next/next/no-duplicate-head': 'off',
+			...react.configs['jsx-runtime'].rules,
+			...hooks.configs.recommended.rules
 		}
 	},
 	// svelte
