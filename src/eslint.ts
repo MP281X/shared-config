@@ -63,9 +63,9 @@ export default ts.config(
 			'@typescript-eslint/naming-convention': [
 				'error',
 				// allow
-				{ format: ['camelCase'], selector: 'default' },
+				{ format: ['camelCase', 'PascalCase'], selector: 'default' },
 				{ format: null, selector: 'import' }, // eslint-disable-line unicorn/no-null
-				{ format: ['camelCase'], leadingUnderscore: 'allow', selector: 'parameter' },
+				{ format: ['camelCase', 'PascalCase'], leadingUnderscore: 'allow', selector: 'parameter' },
 				{ format: ['camelCase', 'PascalCase'], selector: 'typeLike' },
 
 				// boolean variables should start with one of these prefix
