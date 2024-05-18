@@ -1,6 +1,6 @@
 {
 	"type": "module",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"name": "@mp281x/shared-config",
 
 	"globImports": ["**/src/*.ts"],
@@ -34,28 +34,28 @@
 
 	"dependencies": {
 		"@fsouza/prettierd": "latest",
-		"prettier-plugin-svelte": "3.2.3",
-		"prettier-plugin-tailwindcss": "0.5.14",
+		"prettier-plugin-svelte": "^3",
+		"prettier-plugin-tailwindcss": "^0",
 
-		"eslint": "9.3.0",
-		"@eslint/js": "9.3.0",
-		"typescript-eslint": "7.9.0",
-		"eslint-plugin-react": "7.34.1",
-		"eslint-plugin-svelte": "2.39.0",
-		"eslint-plugin-unicorn": "53.0.0",
-		"eslint-config-prettier": "9.1.0",
+		"eslint": "^9",
+		"@eslint/js": "^9",
+		"typescript-eslint": "^7",
+		"eslint-plugin-react": "^7",
+		"eslint-plugin-svelte": "^2",
+		"eslint-plugin-unicorn": "^53",
+		"eslint-config-prettier": "^9",
+		"eslint-plugin-tailwindcss": "^3",
+		"eslint-plugin-perfectionist": "^2",
 		"eslint-plugin-react-hooks": "beta",
-		"@next/eslint-plugin-next": "canary",
-		"eslint-plugin-tailwindcss": "3.15.2",
-		"eslint-plugin-perfectionist": "2.10.0"
+		"@next/eslint-plugin-next": "canary"
 	},
 
 	"devDependencies": {
-		"typescript": "5.4.5",
+		"typescript": "^5",
 
-		"tsup": "8.0.2",
-		"prettier": "3.2.5",
-		"@types/node": "20.12.12"
+		"tsup": "^8",
+		"prettier": "^3",
+		"@types/node": "^20"
 	},
 
 	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } }

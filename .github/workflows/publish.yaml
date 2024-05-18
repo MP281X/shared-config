@@ -5,8 +5,6 @@ on: { push: { branches: [main] } }
 jobs:
   publish:
     runs-on: ubuntu-latest
-    env:
-      REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -17,7 +15,7 @@ jobs:
 
       - name: setup Node
         uses: actions/setup-node@v4
-        with: { node-version: 'latest' }
+        with: { node-version: 'latest', registry-url: 'https://registry.npmjs.org' }
 
       - name: setup / build
         run: pnpm run setup
@@ -25,5 +23,6 @@ jobs:
       - name: check
         run: pnpm run lint
 
-      - name: publish
-        run: pnpm publish --access=public
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
