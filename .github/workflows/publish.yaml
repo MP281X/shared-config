@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
-      NODE_NO_WARNINGS: 1
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -20,14 +19,11 @@ jobs:
         uses: actions/setup-node@v4
         with: { node-version: 'latest' }
 
-      - name: install
-        run: pnpm install
-
-      - name: build
-        run: pnpm tsup-node
+      - name: setup / build
+        run: pnpm run setup
 
       - name: check
-        run: pnpm run check
+        run: pnpm run lint
 
       - name: publish
         run: pnpm publish --access=public

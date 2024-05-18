@@ -1,11 +1,9 @@
 import { defineConfig } from 'tsup'
 
-import { findGlob } from './src/lib/findGlob'
-
 export default defineConfig({
 	clean: true,
 	dts: true,
-	entryPoints: findGlob('src/*.ts', { type: 'file' }),
+	entryPoints: ['./src/eslint.ts', './src/prettier.ts'],
 	format: ['esm'],
 	outDir: 'dist',
 	shims: true,

@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
+import fs from 'node:fs'
+
 // @ts-expect-error: no type definitions
 import eslint from '@eslint/js'
 import ts from 'typescript-eslint'
@@ -18,16 +20,29 @@ import svelte from 'eslint-plugin-svelte'
 import svelteParser from 'svelte-eslint-parser'
 
 // @ts-expect-error: no type definitions
+import tailwindcss from 'eslint-plugin-tailwindcss'
+
+// @ts-expect-error: no type definitions
 import nextjs from '@next/eslint-plugin-next'
 // @ts-expect-error: no type definitions
 import react from 'eslint-plugin-react'
 // @ts-expect-error: no type definitions
 import hooks from 'eslint-plugin-react-hooks'
 
-import { parseConfig } from './lib/parseConfig'
+const gitignore = () => {
+	try {
+		return fs
+			.readFileSync('.gitignore')
+			.toString()
+			.split('\n')
+			.map(line => line.split('#').shift()?.trim())
+			.filter(line => line !== '' && line !== undefined) as string[]
+	} catch {}
+	return []
+}
 
 export default ts.config(
-	{ ignores: parseConfig<string[]>('.gitignore') ?? [] },
+	{ ignores: gitignore() },
 	// typescript
 	{
 		extends: [...ts.configs.strictTypeChecked],
@@ -47,7 +62,6 @@ export default ts.config(
 			'@typescript-eslint/no-meaningless-void-operator': 'off', // allow returning void, return void console.log("ok")
 			'@typescript-eslint/no-non-null-assertion': 'off', // allow non null assestion
 			'@typescript-eslint/no-require-imports': 'error', // disable require
-			'@typescript-eslint/no-shadow': 'error', // disable variable in inner scope with the same name o another variable
 			'@typescript-eslint/no-unnecessary-boolean-literal-compare': 'off', // allow writing if (var1 === false) instead of only if (!var1)
 			'@typescript-eslint/no-unnecessary-condition': ['error', { allowConstantLoopConditions: true }], // diable const condition exept for loops
 			'@typescript-eslint/no-unsafe-argument': 'off', // the rules doesn't work as expected
@@ -193,14 +207,26 @@ export default ts.config(
 			]
 		}
 	},
+	// tailwindcss
+	{
+		files: ['**/*.tsx', '**/*.svelte'],
+		plugins: { tailwindcss },
+		rules: {
+			'tailwindcss/enforces-negative-arbitrary-values': 'error',
+			'tailwindcss/enforces-shorthand': 'error',
+			'tailwindcss/no-contradicting-classname': 'error',
+			'tailwindcss/no-custom-classname': 'error',
+			'tailwindcss/no-unnecessary-arbitrary-value': 'error'
+		}
+	},
 	// nextjs/react
 	{
 		files: ['app/**/*.ts', 'app/**/*.tsx'],
 		plugins: { '@next/next': nextjs, react, 'react-hooks': hooks },
 		rules: {
+			'@next/next/no-duplicate-head': 'off',
 			...nextjs.configs.recommended.rules,
 			...nextjs.configs['core-web-vitals'].rules,
-			'@next/next/no-duplicate-head': 'off',
 			...react.configs['jsx-runtime'].rules,
 			...hooks.configs.recommended.rules
 		}

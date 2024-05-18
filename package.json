@@ -1,19 +1,24 @@
 {
 	"type": "module",
-	"version": "1.0.14",
+	"version": "1.1.0",
 	"name": "@mp281x/shared-config",
 
 	"globImports": ["**/src/*.ts"],
 
 	"scripts": {
 		"dev": "tsup-node --watch",
-		"fix": "./dist/task-runner.js --fix",
-		"test": "./dist/task-runner.js --test",
-		"check": "./dist/task-runner.js --check --test"
+		"fix": "sh ./scripts/fix.sh",
+		"lint": "sh ./scripts/lint.sh",
+		"setup": "sh ./scripts/setup.sh && tsup-node"
 	},
 
-	"files": ["./dist/*", "./src/tsconfig.json"],
-	"bin": { "task-runner": "./dist/task-runner.js" },
+	"files": ["./scripts/*", "./dist/*", "./src/tsconfig.json"],
+
+	"bin": {
+		"fix": "sh ./scripts/fix.sh",
+		"lint": "sh ./scripts/setup.sh",
+		"setup": "sh ./scripts/setup.sh"
+	},
 
 	"exports": {
 		"./prettier": {
@@ -24,10 +29,6 @@
 			"types": "./dist/eslint.d.ts",
 			"import": "./dist/eslint.js"
 		},
-		"./vitest": {
-			"types": "./dist/vitest.d.ts",
-			"import": "./dist/vitest.js"
-		},
 		"./tsconfig": "./src/tsconfig.json"
 	},
 
@@ -36,28 +37,26 @@
 		"prettier-plugin-svelte": "3.2.3",
 		"prettier-plugin-tailwindcss": "0.5.14",
 
-		"eslint": "9.2.0",
-		"@eslint/js": "9.2.0",
-		"typescript-eslint": "7.8.0",
+		"eslint": "9.3.0",
+		"@eslint/js": "9.3.0",
+		"typescript-eslint": "7.9.0",
 		"eslint-plugin-react": "7.34.1",
 		"eslint-plugin-svelte": "2.39.0",
 		"eslint-plugin-unicorn": "53.0.0",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-react-hooks": "beta",
 		"@next/eslint-plugin-next": "14.2.3",
+		"eslint-plugin-tailwindcss": "3.15.2",
 		"eslint-plugin-perfectionist": "2.10.0"
 	},
 
 	"devDependencies": {
-		"vitest": "1.6.0",
 		"typescript": "5.4.5",
 
 		"tsup": "8.0.2",
-		"yaml": "2.4.2",
-		"chokidar": "3.6.0",
 		"prettier": "3.2.5",
-		"@types/node": "20.12.11"
+		"@types/node": "20.12.12"
 	},
 
-	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*", "svelte-eslint-parser": "*" } } }
+	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } }
 }
