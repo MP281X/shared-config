@@ -7,8 +7,10 @@
 		"moduleDetection": "force",
 		"moduleResolution": "bundler",
 
+		// some of the settings (like allowUnreachableCode) are there only to throw with the command "tsc --noEmit" and not only in the editor
+
 		// type checking
-		"allowUnreachableCode": false, // disable unreachable code
+		"allowUnreachableCode": false, // don't allow unreachable code
 		"allowUnusedLabels": false, // mostly typos if found
 		"alwaysStrict": true, // parse every file as strict
 		"exactOptionalPropertyTypes": true, // don't allow undefined values on optional keys
@@ -16,6 +18,7 @@
 		"noImplicitAny": true, // error if a value has no type set so it would have defaulted to any
 		"noImplicitReturns": true, // check that every code path has the correct return type
 		"noImplicitThis": true, // don't allow this where it would be any
+		"noImplicitOverride": true, // don't override class methods without the override keyword
 		"noPropertyAccessFromIndexSignature": true, // allow not defined key to be accessed only by obj["key_name"]
 		"noUncheckedIndexedAccess": true, // when you access an element of an array at a specific index the type is (arrayType | undefined)
 		"noUnusedLocals": true, // disable unused variables
@@ -39,6 +42,9 @@
 		"sourceMap": true, // enable sourcemap
 		"skipLibCheck": true, // don't check .d.ts files
 		"esModuleInterop": true, // fix problem when importing older packages
-		"isolatedModules": true // ensure that the types you write are checkable looking at a single file
+		"isolatedModules": true, // ensure that the types you write are checkable looking at a single file
+
+		"incremental": true, // cache some informations about the types to speed up the next typechecks
+		"tsBuildInfoFile": ".tsbuildinfo" // set the name of the cache file
 	}
 }

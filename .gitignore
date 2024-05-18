@@ -2,6 +2,7 @@
 **/dist
 **/*.g.ts
 **/.eslintcache
+**/*.tsbuildinfo
 
 # other files/folders
 **/.DS_Store

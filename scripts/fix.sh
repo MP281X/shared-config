@@ -6,4 +6,4 @@ log "PRETTIER"
 $PACKAGE_MANAGER prettier --ignore-path=.gitignore --log-level=warn --cache --write .;
 
 log "ESLINT"
-$PACKAGE_MANAGER eslint --fix .;
+$PACKAGE_MANAGER eslint --cache --fix .;
