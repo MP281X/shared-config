@@ -1,3 +1,5 @@
+#!/bin/sh
+
 . "$( cd "$( dirname "$0" )" && pwd )/+helpers.sh"
 
 log "CLEAN PROJECT"

@@ -221,14 +221,13 @@ export default ts.config(
 	},
 	// nextjs/react
 	{
-		files: ['app/**/*.ts', 'app/**/*.tsx'],
+		files: ['**/*.tsx'],
 		plugins: { '@next/next': nextjs, react, 'react-hooks': hooks },
 		rules: {
-			'@next/next/no-duplicate-head': 'off',
+			...hooks.configs.recommended.rules,
 			...nextjs.configs.recommended.rules,
-			...nextjs.configs['core-web-vitals'].rules,
 			...react.configs['jsx-runtime'].rules,
-			...hooks.configs.recommended.rules
+			...nextjs.configs['core-web-vitals'].rules
 		}
 	},
 	// svelte
