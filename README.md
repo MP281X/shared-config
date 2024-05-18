@@ -3,6 +3,11 @@
 ```jsonc
 {
 	"type": "module",
+	"scripts": {
+		"fix": "shared-config-fix",
+		"lint": "shared-config-lint",
+		"setup": "shared-config-setup"
+	},
 	"devDependencies": { "@mp281x/shared-config": "latest" },
 	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } }
 }

@@ -1,6 +1,6 @@
 {
 	"type": "module",
-	"version": "1.1.2",
+	"version": "1.1.4",
 	"name": "@mp281x/shared-config",
 
 	"globImports": ["**/src/*.ts"],
@@ -15,9 +15,9 @@
 	"files": ["./scripts/*", "./dist/*", "./src/tsconfig.json"],
 
 	"bin": {
-		"fix": "./scripts/fix.sh",
-		"lint": "./scripts/setup.sh",
-		"setup": "./scripts/setup.sh"
+		"shared-config-fix": "./scripts/fix.sh",
+		"shared-config-lint": "./scripts/lint.sh",
+		"shared-config-setup": "./scripts/setup.sh"
 	},
 
 	"exports": {
