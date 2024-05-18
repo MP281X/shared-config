@@ -8,5 +8,5 @@ delete ".next"
 delete "*.g.ts"
 delete "node_modules"
 
-log "PACKAGES INSTALL"
+log "INSTALL PACKAGES"
 $PACKAGE_MANAGER update --recursive --quiet --no-save

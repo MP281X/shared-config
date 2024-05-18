@@ -81,11 +81,11 @@ export default ts.config(
 				{ format: null, selector: 'import' }, // eslint-disable-line unicorn/no-null
 				{ format: ['camelCase', 'PascalCase'], leadingUnderscore: 'allow', selector: 'parameter' },
 				{ format: ['camelCase', 'PascalCase'], selector: 'typeLike' },
+				{ format: ['camelCase', 'PascalCase'], selector: 'objectLiteralProperty' },
 
 				// boolean variables should start with one of these prefix
 				{ format: ['PascalCase'], prefix: ['is', 'should', 'has', 'can', 'did', 'will'], selector: 'variable', types: ['boolean'] },
-				// allow only camelCase object keys
-				{ format: ['camelCase'], selector: 'objectLiteralProperty' },
+
 				// disallow the rules for evrithing that require the quotes
 				{
 					format: null, // eslint-disable-line unicorn/no-null
