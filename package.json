@@ -1,9 +1,7 @@
 {
 	"type": "module",
-	"version": "1.1.6",
+	"version": "1.1.7",
 	"name": "@mp281x/shared-config",
-
-	"globImports": ["**/src/*.ts"],
 
 	"scripts": {
 		"dev": "tsup-node --watch",
@@ -12,9 +10,10 @@
 		"setup": "./scripts/setup.sh && tsup-node"
 	},
 
-	"files": ["./scripts/*", "./dist/*", "./src/tsconfig.json"],
+	"files": ["./scripts/*", "./dist/*", "./configs/tsconfig.json"],
 
 	"bin": {
+		"x": "./dist/src/index.js",
 		"shared-config-fix": "./scripts/fix.sh",
 		"shared-config-lint": "./scripts/lint.sh",
 		"shared-config-setup": "./scripts/setup.sh"
@@ -22,14 +21,14 @@
 
 	"exports": {
 		"./prettier": {
-			"types": "./dist/prettier.d.ts",
-			"import": "./dist/prettier.js"
+			"types": "./dist/configs/prettier.d.ts",
+			"import": "./dist/configs/prettier.js"
 		},
 		"./eslint": {
-			"types": "./dist/eslint.d.ts",
-			"import": "./dist/eslint.js"
+			"types": "./dist/configs/eslint.d.ts",
+			"import": "./dist/configs/eslint.js"
 		},
-		"./tsconfig": "./src/tsconfig.json"
+		"./tsconfig": "./configs/tsconfig.json"
 	},
 
 	"dependencies": {
