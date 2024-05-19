@@ -12,3 +12,5 @@ switch(cmd) {
 	case "tail": await readLogFile(args); break
 	default: await execCmd(cmd, args); break
 }
+
+process.exit(0)
