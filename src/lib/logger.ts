@@ -37,10 +37,10 @@ invalidLogs.push('▲ Next.js', '- Experiments', '· reactCompiler', '[BABEL] No
 invalidLogs.push('> ', "Completed running '")
 
 const formatLog = (input: string, type: LogType) => {
-	for (const txt of input.split('\n')) {
+	logLines: for (let txt of input.split('\n')) {
 		if (txt.trim() === '') continue
 
-		for (const invalidLog of invalidLogs) if (txt.trim().includes(invalidLog)) continue
+		for (const invalidLog of invalidLogs) if (txt.trim().includes(invalidLog)) continue logLines
 
 		if (txt.includes('file truncated')) {
 			printLog('FILE CLEARED', 'warn')
@@ -48,9 +48,9 @@ const formatLog = (input: string, type: LogType) => {
 		}
 
 		if (txt.startsWith('  ➜  Local:   ') || txt.startsWith('  ➜  Network: ') || txt.startsWith('  - Local:        ')) {
-			txt.replace('  ➜  Local:   ', '')
-			txt.replace('  ➜  Network: ', '')
-			txt.replace('  - Local:        ', '')
+			txt = txt.replace('  ➜  Local:   ', '')
+			txt = txt.replace('  ➜  Network: ', '')
+			txt = txt.replace('  - Local:        ', '')
 
 			printLog(txt, 'warn')
 			continue
@@ -68,7 +68,7 @@ const formatLog = (input: string, type: LogType) => {
 const printLog = (txt: string, type: LogType) => {
 	// prettier-ignore
 	switch (type) {
-		case 'info': return console.log(`\x1b[${0}m${txt}\x1b[${0}m`)
+		case 'info': return console.log(txt)
 		case 'warn': return console.log(`\x1b[${93}m${txt}\x1b[${0}m`)
 		case 'error': return console.log(`\x1b[${91}m${txt}\x1b[${0}m`)
 	}

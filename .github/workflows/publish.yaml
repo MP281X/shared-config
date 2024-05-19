@@ -23,6 +23,12 @@ jobs:
       - name: check
         run: pnpm run lint
 
+      - name: set version
+        run: |
+          HASH=$(git rev-parse --short HEAD)
+          jq --arg hash "1.0.0-$HASH" '.version = $hash' package.json > temp
+          mv temp package.json
+
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
