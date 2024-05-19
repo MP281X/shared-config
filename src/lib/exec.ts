@@ -5,7 +5,13 @@ import { log } from './logger.ts'
 
 export const execCmd = async (cmd: string, args: string[]) => {
 	const execPromise = new Promise<void>((resolve, _) => {
-		const output = spawn(cmd, args, { env: { ...process.env } })
+		const output = spawn(cmd, args, {
+			env: {
+				// eslint-disable-next-line @typescript-eslint/naming-convention
+				FORCE_COLOR: '1',
+				...process.env
+			}
+		})
 
 		output.stdout.on('data', (msg: Buffer) => void log.info(msg))
 

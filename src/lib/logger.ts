@@ -31,13 +31,24 @@ invalidLogs.push(
 )
 
 // nextjs
-invalidLogs.push('▲ Next.js', '- Experiments', '· reactCompiler', '[BABEL] Note:')
+invalidLogs.push(
+	' 200 in ',
+	'▲ Next.js',
+	'✓ Ready in',
+	'- Experiments',
+	'✓ Starting...',
+	'· reactCompiler',
+	'○ Compiling / ...',
+	'[BABEL] Note: The code generator'
+)
 
 // tsx
 invalidLogs.push('> ', "Completed running '")
 
 const formatLog = (input: string, type: LogType) => {
-	logLines: for (let txt of input.split('\n')) {
+	logLines: for (const rawTxt of input.split('\n')) {
+		// eslint-disable-next-line no-control-regex
+		let txt = rawTxt.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, '')
 		if (txt.trim() === '') continue
 
 		for (const invalidLog of invalidLogs) if (txt.trim().includes(invalidLog)) continue logLines
@@ -56,12 +67,19 @@ const formatLog = (input: string, type: LogType) => {
 			continue
 		}
 
+		if (txt.includes('✓ Compiled')) {
+			txt = txt.split(' ').filter(x => x.trim().startsWith('/'))[0] ?? ''
+
+			printLog(`COMPILED ${txt}`, 'warn')
+			continue
+		}
+
 		if (txt.startsWith("Restarting '")) {
 			printLog('RESTART', 'warn')
 			continue
 		}
 
-		printLog(txt, type)
+		printLog(rawTxt, type)
 	}
 }
 
