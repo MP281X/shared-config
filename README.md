@@ -34,3 +34,9 @@ export { default } from '@mp281x/shared-config/eslint'
 ```js
 export { default } from '@mp281x/shared-config/prettier'
 ```
+
+### index.ts, layout.tsx, ...
+
+```js
+import type {} from '@mp281x/shared-config/types'
+```
