@@ -94,11 +94,10 @@ const printLog = (txt: string, type: LogType) => {
 
 // transform the input type to a string and pass it for the "formatLog" function
 type Input = string | Uint8Array | ReadableStream<Uint8Array>
-const logFn = (type: LogType) => async (input: DeepReadonly<Input>) => {
+const logFn = (type: LogType) => async (input: Input) => {
 	if (typeof input === 'string') return formatLog(input, type)
 	if (input instanceof Uint8Array) return formatLog(new TextDecoder().decode(input), type)
 
-	// @ts-expect-error
 	for await (const chunk of input) formatLog(new TextDecoder().decode(chunk), type)
 }
 

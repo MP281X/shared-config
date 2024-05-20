@@ -13,9 +13,9 @@ export const execCmd = async (cmd: string, args: readonly string[]) => {
 			}
 		})
 
-		output.stdout.on('data', (msg: DeepReadonly<Buffer>) => void log.info(msg))
+		output.stdout.on('data', (msg: Buffer) => void log.info(msg))
 
-		output.stderr.on('data', (msg: DeepReadonly<Buffer>) => void log.error(msg))
+		output.stderr.on('data', (msg: Buffer) => void log.error(msg))
 
 		output.on('error', error => {
 			void log.error(error.message)

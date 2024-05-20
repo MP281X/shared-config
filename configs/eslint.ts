@@ -69,7 +69,6 @@ export default ts.config(
 			'@typescript-eslint/no-unused-vars': 'off', // disable error for unused variables or params (already checked by typescript)
 			'@typescript-eslint/prefer-for-of': 'error', // use for (const x of []) instead of normal for loop
 			'@typescript-eslint/prefer-function-type': 'error', // disable defining function with this { (): string } instead of ()=>string
-			'@typescript-eslint/prefer-readonly-parameter-types': ['error', { ignoreInferredTypes: true }], // allow only readonly parameters
 			'@typescript-eslint/require-array-sort-compare': 'error', // require compare function as sort argument
 			'@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }], // enable using number and other
 			'@typescript-eslint/switch-exhaustiveness-check': 'error', // make switch check all cases
