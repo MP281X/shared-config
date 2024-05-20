@@ -58,10 +58,11 @@ const formatLog = (input: string, type: LogType) => {
 			continue
 		}
 
-		if (txt.startsWith('  ➜  Local:   ') || txt.startsWith('  ➜  Network: ') || txt.startsWith('  - Local:        ')) {
-			txt = txt.replace('  ➜  Local:   ', '')
-			txt = txt.replace('  ➜  Network: ', '')
-			txt = txt.replace('  - Local:        ', '')
+		if (txt.includes('➜  Local:') || txt.includes('➜  Network:') || txt.includes('- Local:')) {
+			txt = txt.replace('➜  Local:', '')
+			txt = txt.replace('➜  Network:', '')
+			txt = txt.replace('- Local:', '')
+			txt = txt.trim()
 
 			printLog(txt, 'warn')
 			continue
