@@ -84,6 +84,7 @@ export default ts.config(
 				{ format: ['camelCase'], selector: 'objectLiteralProperty' },
 				{ format: ['camelCase', 'PascalCase'], selector: 'typeLike' },
 				{ format: ['camelCase'], leadingUnderscore: 'allow', selector: 'parameter' },
+				{ format: ['camelCase', 'UPPER_CASE'], modifiers: ['const', 'exported'], selector: ['variable'] },
 
 				// boolean variables should start with one of these prefix
 				{ format: ['PascalCase'], prefix: ['is', 'should', 'has', 'can', 'did', 'will'], selector: 'variable', types: ['boolean'] },
