@@ -3,7 +3,7 @@ import { spawn } from 'child_process'
 
 import { log } from './logger.ts'
 
-export const execCmd = async (cmd: string, args: string[]) => {
+export const execCmd = async (cmd: string, args: readonly string[]) => {
 	const execPromise = new Promise<void>((resolve, _) => {
 		const output = spawn(cmd, args, {
 			env: {
@@ -13,9 +13,9 @@ export const execCmd = async (cmd: string, args: string[]) => {
 			}
 		})
 
-		output.stdout.on('data', (msg: Buffer) => void log.info(msg))
+		output.stdout.on('data', (msg: DeepReadonly<Buffer>) => void log.info(msg))
 
-		output.stderr.on('data', (msg: Buffer) => void log.error(msg))
+		output.stderr.on('data', (msg: DeepReadonly<Buffer>) => void log.error(msg))
 
 		output.on('error', error => {
 			void log.error(error.message)
@@ -34,7 +34,7 @@ export const execCmd = async (cmd: string, args: string[]) => {
 	return await execPromise
 }
 
-export const readLogFile = async (paths: string[]) => {
+export const readLogFile = async (paths: readonly string[]) => {
 	// clear the log file
 	for (const path of paths) {
 		if (fs.existsSync(path)) fs.rmSync(path)

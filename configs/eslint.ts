@@ -68,6 +68,7 @@ export default ts.config(
 			'@typescript-eslint/no-unused-vars': 'off', // disable error for unused variables or params (already checked by typescript)
 			'@typescript-eslint/prefer-for-of': 'error', // use for (const x of []) instead of normal for loop
 			'@typescript-eslint/prefer-function-type': 'error', // disable defining function with this { (): string } instead of ()=>string
+			'@typescript-eslint/prefer-readonly-parameter-types': ['error', { ignoreInferredTypes: true }], // allow only readonly parameters
 			'@typescript-eslint/require-array-sort-compare': 'error', // require compare function as sort argument
 			'@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }], // enable using number and other
 			'@typescript-eslint/switch-exhaustiveness-check': 'error', // make switch check all cases
@@ -77,11 +78,11 @@ export default ts.config(
 			'@typescript-eslint/naming-convention': [
 				'error',
 				// allow
-				{ format: ['camelCase', 'PascalCase'], selector: 'default' },
 				{ format: null, selector: 'import' }, // eslint-disable-line unicorn/no-null
-				{ format: ['camelCase', 'PascalCase'], leadingUnderscore: 'allow', selector: 'parameter' },
+				{ format: ['camelCase'], selector: 'default' },
+				{ format: ['camelCase'], selector: 'objectLiteralProperty' },
 				{ format: ['camelCase', 'PascalCase'], selector: 'typeLike' },
-				{ format: ['camelCase', 'PascalCase'], selector: 'objectLiteralProperty' },
+				{ format: ['camelCase'], leadingUnderscore: 'allow', selector: 'parameter' },
 
 				// boolean variables should start with one of these prefix
 				{ format: ['PascalCase'], prefix: ['is', 'should', 'has', 'can', 'did', 'will'], selector: 'variable', types: ['boolean'] },
@@ -91,14 +92,14 @@ export default ts.config(
 					format: null, // eslint-disable-line unicorn/no-null
 					modifiers: ['requiresQuotes'],
 					selector: [
-						'classProperty',
-						'objectLiteralProperty',
-						'typeProperty',
-						'classMethod',
-						'objectLiteralMethod',
-						'typeMethod',
 						'accessor',
-						'enumMember'
+						'enumMember',
+						'typeMethod',
+						'classMethod',
+						'typeProperty',
+						'classProperty',
+						'objectLiteralMethod',
+						'objectLiteralProperty'
 					]
 				}
 			]
@@ -221,13 +222,28 @@ export default ts.config(
 	},
 	// nextjs/react
 	{
+		extends: [hooks.configs.recommended, nextjs.configs.recommended, react.configs['jsx-runtime'], nextjs.configs['core-web-vitals']],
 		files: ['**/*.tsx'],
 		plugins: { '@next/next': nextjs, react, 'react-hooks': hooks },
 		rules: {
-			...hooks.configs.recommended.rules,
-			...nextjs.configs.recommended.rules,
-			...react.configs['jsx-runtime'].rules,
-			...nextjs.configs['core-web-vitals'].rules
+			'react/hook-use-state': ['error', { allowDestructuredState: false }], // consistent names for useState hook getter and setter
+			'react/jsx-boolean-value': 'error', // write boolean props like this <Comp boolProp /> instead of <Comp boolProp={true} />
+			'react/jsx-fragments': ['error', 'syntax'], // enforce <></> fragment and allow React.Fragment only when the key needs to be specified
+			'react/jsx-handler-names': 'error', // enforce naming conventions for event handlers
+			'react/jsx-no-leaked-render': 'error', // don't allow invalid values in inline conditionals like {NaN && "ok"}, {0 && "ok"}
+			'react/self-closing-comp': 'error', // self closing tags if there are no children
+
+			// force components to be defined as arrow functions (allow only the default named function export)
+			'react/function-component-definition': [
+				'error',
+				{ namedComponents: ['arrow-function', 'function-declaration'], unnamedComponents: 'arrow-function' }
+			],
+
+			// use curly braces for props/children only when necessary
+			'react/jsx-curly-brace-presence': ['error', { children: 'never', propElementValues: 'always', props: 'never' }],
+
+			// fix naming rules for jsx components
+			'@typescript-eslint/naming-convention': ['error', { format: ['camelCase', 'PascalCase'], selector: ['variable', 'function'] }]
 		}
 	},
 	// svelte

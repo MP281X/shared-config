@@ -13,7 +13,7 @@ export const handleKeypress = () => {
 		// handle console clear and exit
 		readline.emitKeypressEvents(process.stdin)
 		process.stdin.setRawMode(true)
-		process.stdin.on('keypress', (_, key: { name: string; ctrl: boolean }) => {
+		process.stdin.on('keypress', (_, key: DeepReadonly<{ name: string; ctrl: boolean }>) => {
 			if (key.ctrl && key.name === 'c') return process.exit()
 			if (key.name === 'return') {
 				console.log('\n'.repeat(10000))

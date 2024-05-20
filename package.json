@@ -4,12 +4,12 @@
 
 	"scripts": {
 		"dev": "tsup-node --watch",
-		"fix": "./scripts/fix.sh",
-		"lint": "./scripts/lint.sh",
+		"fix": "tsup-node && ./scripts/fix.sh",
+		"lint": "tsup-node && ./scripts/lint.sh",
 		"setup": "./scripts/setup.sh && tsup-node"
 	},
 
-	"files": ["./scripts/*", "./dist/*", "./configs/tsconfig.json"],
+	"files": ["./scripts/*", "./dist/*", "./configs/tsconfig.json", "./configs/types.d.ts"],
 
 	"bin": {
 		"x": "./dist/src/index.js",
@@ -27,6 +27,7 @@
 			"types": "./dist/configs/eslint.d.ts",
 			"import": "./dist/configs/eslint.js"
 		},
+		"./types": "./configs/types.d.ts",
 		"./tsconfig": "./configs/tsconfig.json"
 	},
 
