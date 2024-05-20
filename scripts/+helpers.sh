@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # fix github actions
 export TERM=xterm
 
@@ -24,4 +26,9 @@ delete() {
 	find . -type d -name "$1" -exec rm -rf \;
 }
 
-clear;
+if [ "$EXPORT_PATH" = "true" ]; then
+	CURRENT_FILE_PATH="$( cd "$( dirname "$0" )" && pwd )/+helpers.sh"
+	echo "$CURRENT_FILE_PATH"
+else
+	clear
+fi
