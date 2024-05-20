@@ -26,6 +26,7 @@ import tailwindcss from 'eslint-plugin-tailwindcss'
 import nextjs from '@next/eslint-plugin-next'
 // @ts-expect-error: no type definitions
 import react from 'eslint-plugin-react'
+import reactFC from 'eslint-plugin-react-prefer-function-component/config'
 // @ts-expect-error: no type definitions
 import hooks from 'eslint-plugin-react-hooks'
 
@@ -222,29 +223,39 @@ export default ts.config(
 	},
 	// nextjs/react
 	{
-		extends: [hooks.configs.recommended, nextjs.configs.recommended, react.configs['jsx-runtime'], nextjs.configs['core-web-vitals']],
+		extends: [reactFC.configs.recommended],
 		files: ['**/*.tsx'],
 		plugins: { '@next/next': nextjs, react, 'react-hooks': hooks },
 		rules: {
-			'react/hook-use-state': ['error', { allowDestructuredState: false }], // consistent names for useState hook getter and setter
-			'react/jsx-boolean-value': 'error', // write boolean props like this <Comp boolProp /> instead of <Comp boolProp={true} />
-			'react/jsx-fragments': ['error', 'syntax'], // enforce <></> fragment and allow React.Fragment only when the key needs to be specified
-			'react/jsx-handler-names': 'error', // enforce naming conventions for event handlers
-			'react/jsx-no-leaked-render': 'error', // don't allow invalid values in inline conditionals like {NaN && "ok"}, {0 && "ok"}
-			'react/self-closing-comp': 'error', // self closing tags if there are no children
+			...hooks.configs.recommended.rules,
+			...nextjs.configs.recommended.rules,
+			...react.configs['jsx-runtime'].rules,
+			...nextjs.configs['core-web-vitals'].rules,
 
-			// force components to be defined as arrow functions (allow only the default named function export)
-			'react/function-component-definition': [
-				'error',
-				{ namedComponents: ['arrow-function', 'function-declaration'], unnamedComponents: 'arrow-function' }
-			],
+			'react/jsx-boolean-value': 'error', // write boolean props like this <Comp boolProp /> instead of <Comp boolProp={true} />
+			'react/jsx-handler-names': 'error', // enforce naming conventions for event handlers
+			'react/jsx-key': ['error', { checkFragmentShorthand: true, warnOnDuplicates: true }], // require key prop in loops
+			'react/jsx-no-leaked-render': 'error', // don't allow invalid values in inline conditionals like {NaN && "ok"}, {0 && "ok"}
+			'react/jsx-no-target-blank': 'error', // disallow target="_blank" without rel="noreferrer"
+			'react/no-deprecated': 'error', // don't allow deprecated methods
+			'react/no-find-dom-node': 'error', // don't allow findDOMNode since it will be deprecated
+			'react/self-closing-comp': 'error', // self closing tags if there are no children
 
 			// use curly braces for props/children only when necessary
 			'react/jsx-curly-brace-presence': ['error', { children: 'never', propElementValues: 'always', props: 'never' }],
 
+			// 'react/hook-use-state': ['error', { allowDestructuredState: false }], // consistent names for useState hook getter and setter
+			// 'react/jsx-fragments': ['error', 'syntax'], // enforce <></> fragment and allow React.Fragment only when the key needs to be specified
+			// // force components to be defined as arrow functions (allow only the default named function export)
+			// 'react/function-component-definition': [
+			// 	'error',
+			// 	{ namedComponents: ['arrow-function', 'function-declaration'], unnamedComponents: 'arrow-function' }
+			// ],
+
 			// fix naming rules for jsx components
 			'@typescript-eslint/naming-convention': ['error', { format: ['camelCase', 'PascalCase'], selector: ['variable', 'function'] }]
-		}
+		},
+		settings: { react: { version: 'detect' } }
 	},
 	// svelte
 	{

@@ -46,7 +46,8 @@
 		"eslint-plugin-tailwindcss": "^3",
 		"eslint-plugin-perfectionist": "^2",
 		"eslint-plugin-react-hooks": "beta",
-		"@next/eslint-plugin-next": "canary"
+		"@next/eslint-plugin-next": "canary",
+		"eslint-plugin-react-prefer-function-component": "^3"
 	},
 
 	"devDependencies": {

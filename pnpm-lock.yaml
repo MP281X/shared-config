@@ -32,6 +32,9 @@ importers:
       eslint-plugin-react-hooks:
         specifier: beta
         version: 5.1.0-beta-26f2496093-20240514(eslint@9.3.0)
+      eslint-plugin-react-prefer-function-component:
+        specifier: ^3
+        version: 3.3.0
       eslint-plugin-svelte:
         specifier: ^2
         version: 2.39.0(eslint@9.3.0)(svelte@4.2.17)
@@ -813,6 +816,9 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
+
+  eslint-plugin-react-prefer-function-component@3.3.0:
+    resolution: {integrity: sha512-BJXHT8gn3tLd9pTrX7v9hozZA79p1s29mEPomg/laOK/1yt6KPFgIYWuxpq4I4C+x88APRVVBVtvW1rdCjeFxQ==}
 
   eslint-plugin-react@7.34.1:
     resolution: {integrity: sha512-N97CxlouPT1AHt8Jn0mhhN2RrADlUAsk1/atcT2KyA/l9Q/E6ll7OIGwNumFmWfZ9skV3XXccYS19h80rHtgkw==}
@@ -2777,6 +2783,8 @@ snapshots:
   eslint-plugin-react-hooks@5.1.0-beta-26f2496093-20240514(eslint@9.3.0):
     dependencies:
       eslint: 9.3.0
+
+  eslint-plugin-react-prefer-function-component@3.3.0: {}
 
   eslint-plugin-react@7.34.1(eslint@9.3.0):
     dependencies:
