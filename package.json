@@ -15,7 +15,8 @@
 		"x": "./dist/src/index.js",
 		"shared-config-fix": "./scripts/fix.sh",
 		"shared-config-lint": "./scripts/lint.sh",
-		"shared-config-setup": "./scripts/setup.sh"
+		"shared-config-setup": "./scripts/setup.sh",
+		"shared-config-helpers": "./scripts/+helpers.sh"
 	},
 
 	"exports": {
