@@ -9,4 +9,4 @@ delete "*.g.ts"
 delete "node_modules"
 
 log "INSTALL PACKAGES"
-$PACKAGE_MANAGER update --recursive --quiet --no-save
+$PACKAGE_MANAGER update --recursive --silent --no-save
