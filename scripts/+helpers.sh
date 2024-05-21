@@ -25,10 +25,3 @@ delete() {
 	find . -type f -name "$1" -delete
 	find . -type d -name "$1" -exec rm -rf \;
 }
-
-if [ "$EXPORT_PATH" = "true" ]; then
-	CURRENT_FILE_PATH="$( cd "$( dirname "$0" )" && pwd )/+helpers.sh"
-	echo "$CURRENT_FILE_PATH"
-else
-	clear
-fi

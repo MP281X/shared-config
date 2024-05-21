@@ -2,6 +2,8 @@
 
 . "$( cd "$( dirname "$0" )" && pwd )/+helpers.sh"
 
+clear;
+
 log "CLEAN PROJECT"
 delete "dist"
 delete ".next"
