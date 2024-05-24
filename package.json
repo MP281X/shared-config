@@ -47,6 +47,7 @@
 		"eslint-plugin-perfectionist": "^2",
 		"eslint-plugin-react-hooks": "beta",
 		"@next/eslint-plugin-next": "canary",
+		"eslint-plugin-react-compiler": "latest",
 		"eslint-plugin-react-prefer-function-component": "^3"
 	},
 

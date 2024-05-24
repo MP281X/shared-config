@@ -28,6 +28,8 @@ import nextjs from '@next/eslint-plugin-next'
 import react from 'eslint-plugin-react'
 import reactFC from 'eslint-plugin-react-prefer-function-component/config'
 // @ts-expect-error: no type definitions
+import reactCompiler from 'eslint-plugin-react-compiler'
+// @ts-expect-error: no type definitions
 import hooks from 'eslint-plugin-react-hooks'
 
 const gitignore = () => {
@@ -77,12 +79,10 @@ export default ts.config(
 			// enforce variable naming style
 			'@typescript-eslint/naming-convention': [
 				'error',
-				// allow
 				{ format: null, selector: 'import' }, // eslint-disable-line unicorn/no-null
-				{ format: ['camelCase'], selector: 'default' },
-				{ format: ['camelCase'], selector: 'objectLiteralProperty' },
+				{ format: ['camelCase'], leadingUnderscore: 'allow', selector: 'default' },
+
 				{ format: ['camelCase', 'PascalCase'], selector: 'typeLike' },
-				{ format: ['camelCase'], leadingUnderscore: 'allow', selector: 'parameter' },
 				{ format: ['camelCase', 'UPPER_CASE'], modifiers: ['const', 'exported'], selector: ['variable'] },
 
 				// boolean variables should start with one of these prefix
@@ -129,7 +129,7 @@ export default ts.config(
 			'no-multi-assign': 'error', // disable multi assing const a = b = 1
 			'no-negated-condition': 'error', // no else after negation in if. if (!var1)
 			'no-plusplus': 'error', // disable ++ and --
-			'no-promise-executor-return': 'error', // no return in custom promise
+			'no-promise-executor-return': ['error', { allowVoid: true }], // no return in custom promise
 			'no-redeclare': 'off', // already checked by typescript
 			'no-restricted-syntax': ['error', 'TryStatement > FinallyClause'], // disable try-finally
 			'no-return-assign': 'error', // no variable assignment in return
@@ -225,12 +225,14 @@ export default ts.config(
 	{
 		extends: [reactFC.configs.recommended],
 		files: ['**/*.tsx'],
-		plugins: { '@next/next': nextjs, react, 'react-hooks': hooks },
+		plugins: { '@next/next': nextjs, react, 'react-compiler': reactCompiler, 'react-hooks': hooks },
 		rules: {
 			...hooks.configs.recommended.rules,
 			...nextjs.configs.recommended.rules,
 			...react.configs['jsx-runtime'].rules,
 			...nextjs.configs['core-web-vitals'].rules,
+
+			'react-compiler/react-compiler': 'error',
 
 			'react/jsx-boolean-value': 'error', // write boolean props like this <Comp boolProp /> instead of <Comp boolProp={true} />
 			'react/jsx-handler-names': 'error', // enforce naming conventions for event handlers
