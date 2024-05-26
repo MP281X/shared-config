@@ -35,10 +35,10 @@ invalidLogs.push(
 	' 200 in ',
 	'▲ Next.js',
 	'✓ Ready in',
+	'Compiling /',
 	'- Experiments',
 	'✓ Starting...',
 	'· reactCompiler',
-	'○ Compiling / ...',
 	'[BABEL] Note: The code generator'
 )
 
