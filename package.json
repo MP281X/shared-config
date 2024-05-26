@@ -27,7 +27,6 @@
 			"types": "./dist/configs/eslint.d.ts",
 			"import": "./dist/configs/eslint.js"
 		},
-		"./types": "./configs/types.d.ts",
 		"./tsconfig": "./configs/tsconfig.json"
 	},
 

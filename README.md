@@ -52,14 +52,6 @@ export { default } from '@mp281x/shared-config/eslint'
 export { default } from '@mp281x/shared-config/prettier'
 ```
 
-### typescript types
-
-import the shared typescript type helpers in one of your files
-
-```js
-import type {} from '@mp281x/shared-config/types'
-```
-
 ## CLI
 
 This package includes a CLI for filtering and highlighting useful information from the logs of other tools.
