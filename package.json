@@ -37,7 +37,7 @@
 
 		"eslint": "^9",
 		"@eslint/js": "^9",
-		"typescript-eslint": "^7",
+		"typescript-eslint": "rc-v8",
 		"eslint-plugin-react": "^7",
 		"eslint-plugin-solid": "^0",
 		"eslint-plugin-svelte": "^2",
