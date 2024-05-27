@@ -52,6 +52,31 @@ export { default } from '@mp281x/shared-config/eslint'
 export { default } from '@mp281x/shared-config/prettier'
 ```
 
+### .gitignore
+
+```ini
+# svlete/next files
+**/build
+**/.svelte-kit
+**/.next
+**/next-env.d.ts
+
+# generated files
+**/*.g.ts
+**/.eslintcache
+**/*.tsbuildinfo
+
+# vite
+**/vite.config.js.timestamp-*
+**/vite.config.ts.timestamp-*
+
+# other files/folders
+**/.env
+**/.DS_Store
+**/node_modules
+**/pnpm-lock.yaml
+```
+
 ## CLI
 
 This package includes a CLI for filtering and highlighting useful information from the logs of other tools.
