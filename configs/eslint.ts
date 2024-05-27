@@ -100,6 +100,9 @@ export default ts.config(
 				// boolean variables should start with one of these prefix
 				{ format: ['PascalCase'], prefix: ['is', 'should', 'has', 'can', 'did', 'will'], selector: 'variable', types: ['boolean'] },
 
+				// fix naming rules for jsx components
+				{ format: ['camelCase', 'PascalCase'], selector: ['variable', 'function'] },
+
 				// disallow the rules for evrithing that require the quotes
 				{
 					format: null, // eslint-disable-line unicorn/no-null
@@ -259,10 +262,7 @@ export default ts.config(
 			'react/self-closing-comp': 'error', // self closing tags if there are no children
 
 			// use curly braces for props/children only when necessary
-			'react/jsx-curly-brace-presence': ['error', { children: 'never', propElementValues: 'always', props: 'never' }],
-
-			// fix naming rules for jsx components
-			'@typescript-eslint/naming-convention': ['error', { format: ['camelCase', 'PascalCase'], selector: ['variable', 'function'] }]
+			'react/jsx-curly-brace-presence': ['error', { children: 'never', propElementValues: 'always', props: 'never' }]
 
 			// 'react/hook-use-state': ['error', { allowDestructuredState: false }], // consistent names for useState hook getter and setter
 			// 'react/jsx-fragments': ['error', 'syntax'], // enforce <></> fragment and allow React.Fragment only when the key needs to be specified
