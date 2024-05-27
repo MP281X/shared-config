@@ -48,11 +48,11 @@ const gitignore = () => {
 
 const conditionalConfig = (dependency: string, config: ConfigWithExtends) => {
 	type PackageJSON = { dependencies?: Record<string, string>; devDependencies?: Record<string, string> }
-	const packageJSON: PackageJSON = JSON.parse(fs.readFileSync('./package.json').toString())
+	const packageJSON: PackageJSON = JSON.parse(fs.readFileSync('package.json').toString())
 
 	const dependencies = [...Object.keys(packageJSON.dependencies ?? {}), ...Object.keys(packageJSON.dependencies ?? {})]
 
-	return dependencies.includes(dependency) === false ? config : {}
+	return dependencies.includes(dependency) ? config : {}
 }
 
 export default ts.config(
