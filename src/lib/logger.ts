@@ -21,6 +21,7 @@ invalidLogs.push(
 	'✔',
 	'✨',
 	'VITE',
+	'vinxi ',
 	'hmr for .svelte',
 	'[vite] page reload',
 	'vite-plugin-svelte',

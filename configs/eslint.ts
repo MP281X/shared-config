@@ -22,6 +22,8 @@ import svelteParser from 'svelte-eslint-parser'
 // @ts-expect-error: no type definitions
 import tailwindcss from 'eslint-plugin-tailwindcss'
 
+import solid from 'eslint-plugin-solid/dist/plugin.js'
+
 // @ts-expect-error: no type definitions
 import nextjs from '@next/eslint-plugin-next'
 // @ts-expect-error: no type definitions
@@ -44,8 +46,18 @@ const gitignore = () => {
 	return []
 }
 
+const conditionalConfig = (dependency: string, config: ConfigWithExtends) => {
+	type PackageJSON = { dependencies?: Record<string, string>; devDependencies?: Record<string, string> }
+	const packageJSON: PackageJSON = JSON.parse(fs.readFileSync('./package.json').toString())
+
+	const dependencies = [...Object.keys(packageJSON.dependencies ?? {}), ...Object.keys(packageJSON.dependencies ?? {})]
+
+	return dependencies.includes(dependency) === false ? config : {}
+}
+
 export default ts.config(
 	{ ignores: gitignore() },
+
 	// typescript
 	{
 		extends: [...ts.configs.strictTypeChecked],
@@ -106,6 +118,7 @@ export default ts.config(
 			]
 		}
 	},
+
 	// js/ts
 	{
 		extends: [prettier, eslint.configs.recommended],
@@ -209,8 +222,9 @@ export default ts.config(
 			]
 		}
 	},
+
 	// tailwindcss
-	{
+	conditionalConfig('tailwindcss', {
 		files: ['**/*.tsx', '**/*.svelte'],
 		plugins: { tailwindcss },
 		rules: {
@@ -220,9 +234,10 @@ export default ts.config(
 			'tailwindcss/no-custom-classname': 'error',
 			'tailwindcss/no-unnecessary-arbitrary-value': 'error'
 		}
-	},
+	}),
+
 	// nextjs/react
-	{
+	conditionalConfig('next', {
 		extends: [reactFC.configs.recommended],
 		files: ['**/*.tsx'],
 		plugins: { '@next/next': nextjs, react, 'react-compiler': reactCompiler, 'react-hooks': hooks },
@@ -246,21 +261,37 @@ export default ts.config(
 			// use curly braces for props/children only when necessary
 			'react/jsx-curly-brace-presence': ['error', { children: 'never', propElementValues: 'always', props: 'never' }],
 
-			// 'react/hook-use-state': ['error', { allowDestructuredState: false }], // consistent names for useState hook getter and setter
-			// 'react/jsx-fragments': ['error', 'syntax'], // enforce <></> fragment and allow React.Fragment only when the key needs to be specified
-			// // force components to be defined as arrow functions (allow only the default named function export)
-			// 'react/function-component-definition': [
-			// 	'error',
-			// 	{ namedComponents: ['arrow-function', 'function-declaration'], unnamedComponents: 'arrow-function' }
-			// ],
-
 			// fix naming rules for jsx components
 			'@typescript-eslint/naming-convention': ['error', { format: ['camelCase', 'PascalCase'], selector: ['variable', 'function'] }]
+
+			// 'react/hook-use-state': ['error', { allowDestructuredState: false }], // consistent names for useState hook getter and setter
+			// 'react/jsx-fragments': ['error', 'syntax'], // enforce <></> fragment and allow React.Fragment only when the key needs to be specified
+			//
+			// // force components to be defined as arrow functions (allow only the default named function export)
+			// 'react/function-component-definition': ['error', { namedComponents: ['arrow-function', 'function-declaration'], unnamedComponents: 'arrow-function' }],
 		},
 		settings: { react: { version: 'detect' } }
-	},
+	}),
+
+	// solid
+	conditionalConfig('solid-js', {
+		files: ['**/*.tsx'],
+		plugins: { solid: solid.plugin },
+		rules: {
+			'solid/components-return-once': 'error', // disallow early returns in jsx components
+			'solid/event-handlers': 'error', // make event handlers names consistent "onclick" -> "onClick"
+			'solid/jsx-no-script-url': 'error', // allow only valid urls in the href prop
+			'solid/no-destructure': 'error', // don't deconstruct jsx props
+			'solid/no-innerhtml': 'error', // don't allow the innerHtml prop
+			'solid/prefer-for': 'error', // use the <For> components instead of the jsx map
+			'solid/prefer-show': 'error', // use the <Show> component instead of the jsx ternary
+			'solid/reactivity': 'error', // prevent reactivity error
+			'solid/self-closing-comp': ['error', { component: 'all', html: 'all' }] // force self closing tags if there are no chidlren
+		}
+	}),
+
 	// svelte
-	{
+	conditionalConfig('svelte', {
 		extends: svelte.configs['flat/recommended'] as any, // eslint-disable-line @typescript-eslint/no-explicit-any
 		files: ['**/*.svelte'],
 		languageOptions: { parser: svelteParser, parserOptions: { parser: ts.parser } },
@@ -280,7 +311,8 @@ export default ts.config(
 			'@typescript-eslint/no-unsafe-call': 'off',
 			'@typescript-eslint/no-unsafe-member-access': 'off'
 		}
-	},
+	}),
+
 	{
 		languageOptions: { parserOptions: { extraFileExtensions: ['.svelte'], project: true } },
 		linterOptions: { reportUnusedDisableDirectives: true }
