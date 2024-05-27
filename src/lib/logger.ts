@@ -69,10 +69,10 @@ const formatLog = (input: string, type: LogType) => {
 			continue
 		}
 
-		if (txt.includes('✓ Compiled')) {
+		if (txt.includes('✓ Compiled') || txt.includes('hmr update')) {
 			txt = txt.split(' ').filter(x => x.trim().startsWith('/'))[0] ?? ''
 
-			printLog(`COMPILED ${txt}`, 'warn')
+			printLog(`UPDATED ${txt}`, 'warn')
 			continue
 		}
 
@@ -89,8 +89,8 @@ const printLog = (txt: string, type: LogType) => {
 	// prettier-ignore
 	switch (type) {
 		case 'info': return console.log(txt)
-		case 'warn': return console.log(`\x1b[${93}m${txt}\x1b[${0}m`)
-		case 'error': return console.log(`\x1b[${91}m${txt}\x1b[${0}m`)
+		case 'warn': return console.log("\n"+`\x1b[${93}m${txt}\x1b[${0}m`)
+		case 'error': return console.log("\n"+`\x1b[${91}m${txt}\x1b[${0}m`)
 	}
 }
 
