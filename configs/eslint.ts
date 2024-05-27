@@ -7,6 +7,7 @@ import fs from 'node:fs'
 // @ts-expect-error: no type definitions
 import eslint from '@eslint/js'
 import ts from 'typescript-eslint'
+import typescriptParser from '@typescript-eslint/parser'
 import type { ConfigWithExtends } from 'typescript-eslint'
 
 // @ts-expect-error: no type definitions
@@ -50,7 +51,7 @@ const conditionalConfig = (dependency: string, config: ConfigWithExtends) => {
 	type PackageJSON = { dependencies?: Record<string, string>; devDependencies?: Record<string, string> }
 	const packageJSON: PackageJSON = JSON.parse(fs.readFileSync('package.json').toString())
 
-	const dependencies = [...Object.keys(packageJSON.dependencies ?? {}), ...Object.keys(packageJSON.dependencies ?? {})]
+	const dependencies = [...Object.keys(packageJSON.dependencies ?? {}), ...Object.keys(packageJSON.devDependencies ?? {})]
 
 	return dependencies.includes(dependency) ? config : {}
 }
@@ -290,11 +291,16 @@ export default ts.config(
 		}
 	}),
 
+	{
+		languageOptions: { parser: typescriptParser, parserOptions: { extraFileExtensions: ['.svelte'], project: true } },
+		linterOptions: { reportUnusedDisableDirectives: true }
+	},
+
 	// svelte
 	conditionalConfig('svelte', {
 		extends: svelte.configs['flat/recommended'] as any, // eslint-disable-line @typescript-eslint/no-explicit-any
 		files: ['**/*.svelte'],
-		languageOptions: { parser: svelteParser, parserOptions: { parser: ts.parser } },
+		languageOptions: { parser: svelteParser, parserOptions: { parser: typescriptParser } },
 		rules: {
 			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'] }], // require lang="ts" in the script tag
 			'svelte/infinite-reactive-loop': 'error', // prevent reactivity bug
@@ -311,10 +317,5 @@ export default ts.config(
 			'@typescript-eslint/no-unsafe-call': 'off',
 			'@typescript-eslint/no-unsafe-member-access': 'off'
 		}
-	}),
-
-	{
-		languageOptions: { parserOptions: { extraFileExtensions: ['.svelte'], project: true } },
-		linterOptions: { reportUnusedDisableDirectives: true }
-	}
+	})
 ) as ConfigWithExtends[]
