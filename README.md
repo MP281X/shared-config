@@ -55,7 +55,7 @@ export { default } from '@mp281x/shared-config/prettier'
 ### .gitignore
 
 ```ini
-# svlete/next files
+# svelte/next files
 **/build
 **/.svelte-kit
 **/.next

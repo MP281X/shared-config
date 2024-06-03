@@ -74,6 +74,7 @@ export default ts.config(
 			'@typescript-eslint/consistent-type-exports': 'error', // separate type export
 			'@typescript-eslint/method-signature-style': 'error', // allow only arrow functions in types
 			'@typescript-eslint/no-confusing-void-expression': 'off', // enable returning void -> ()=>console.log("ok")
+			'@typescript-eslint/no-explicit-any': 'off', // sometimes any is required
 			'@typescript-eslint/no-inferrable-types': 'error', // don't specify type for inferrable types
 			'@typescript-eslint/no-meaningless-void-operator': 'off', // allow returning void, return void console.log("ok")
 			'@typescript-eslint/no-non-null-assertion': 'off', // allow non null assestion
@@ -298,7 +299,7 @@ export default ts.config(
 
 	// svelte
 	conditionalConfig('svelte', {
-		extends: svelte.configs['flat/recommended'] as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+		extends: svelte.configs['flat/recommended'] as any,
 		files: ['**/*.svelte'],
 		languageOptions: { parser: svelteParser, parserOptions: { parser: typescriptParser } },
 		rules: {
