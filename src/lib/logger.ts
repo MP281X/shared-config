@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-useless-template-literals */
+/* eslint-disable @typescript-eslint/no-unnecessary-template-expression */
 
 import type { ReadableStream } from 'stream/web'
 
