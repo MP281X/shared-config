@@ -301,7 +301,7 @@ export default ts.config(
 	conditionalConfig('svelte', {
 		extends: svelte.configs['flat/recommended'] as any,
 		files: ['**/*.svelte'],
-		languageOptions: { parser: svelteParser, parserOptions: { parser: typescriptParser } },
+		languageOptions: { parser: svelteParser, parserOptions: { parser: typescriptParser, project: true } },
 		rules: {
 			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'] }], // require lang="ts" in the script tag
 			'svelte/infinite-reactive-loop': 'error', // prevent reactivity bug
