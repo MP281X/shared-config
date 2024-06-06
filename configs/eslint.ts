@@ -100,7 +100,7 @@ export default ts.config(
 				{ format: ['camelCase', 'UPPER_CASE'], modifiers: ['const', 'exported'], selector: ['variable'] },
 
 				// boolean variables should start with one of these prefix
-				{ format: ['PascalCase'], prefix: ['is', 'should', 'has', 'can', 'did', 'will'], selector: 'variable', types: ['boolean'] },
+				{ format: ['PascalCase'], prefix: ['show', 'is', 'should', 'has', 'can', 'did', 'will'], selector: 'variable', types: ['boolean'] },
 
 				// fix naming rules for jsx components
 				{ format: ['camelCase', 'PascalCase'], selector: ['variable', 'function'] },
@@ -303,7 +303,8 @@ export default ts.config(
 		files: ['**/*.svelte'],
 		languageOptions: { parser: svelteParser, parserOptions: { parser: typescriptParser, project: true } },
 		rules: {
-			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'] }], // require lang="ts" in the script tag
+			// eslint-disable-next-line unicorn/no-null
+			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'], style: ['postcss', null] }], // require lang="ts" in the script tag
 			'svelte/infinite-reactive-loop': 'error', // prevent reactivity bug
 			'svelte/no-export-load-in-svelte-module-in-kit-pages': 'error', // no function called load in script
 			'svelte/no-immutable-reactive-statements': 'error', // disable reactive statement for const values
