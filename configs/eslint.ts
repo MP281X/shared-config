@@ -7,7 +7,6 @@ import fs from 'node:fs'
 // @ts-expect-error: no type definitions
 import eslint from '@eslint/js'
 import ts from 'typescript-eslint'
-import typescriptParser from '@typescript-eslint/parser'
 import type { ConfigWithExtends } from 'typescript-eslint'
 
 // @ts-expect-error: no type definitions
@@ -292,13 +291,16 @@ export default ts.config(
 		}
 	}),
 
-	{ languageOptions: { parser: typescriptParser } },
+	{
+		languageOptions: { parser: ts.parser as any, parserOptions: { project: true } },
+		linterOptions: { reportUnusedDisableDirectives: true }
+	},
 
 	// svelte
 	conditionalConfig('svelte', {
 		extends: svelte.configs['flat/recommended'] as any,
 		files: ['**/*.svelte'],
-		languageOptions: { parser: svelteParser, parserOptions: { parser: typescriptParser } },
+		languageOptions: { parser: svelteParser, parserOptions: { extraFileExtensions: ['.svelte'], parser: ts.parser, project: true } },
 		rules: {
 			// eslint-disable-next-line unicorn/no-null
 			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'], style: ['postcss', null] }], // require lang="ts" in the script tag
@@ -316,10 +318,5 @@ export default ts.config(
 			'@typescript-eslint/no-unsafe-call': 'off',
 			'@typescript-eslint/no-unsafe-member-access': 'off'
 		}
-	}),
-
-	{
-		languageOptions: { parserOptions: { extraFileExtensions: ['.svelte'], project: true } },
-		linterOptions: { reportUnusedDisableDirectives: true }
-	}
+	})
 ) as ConfigWithExtends[]
