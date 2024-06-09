@@ -292,16 +292,13 @@ export default ts.config(
 		}
 	}),
 
-	{
-		languageOptions: { parser: typescriptParser, parserOptions: { extraFileExtensions: ['.svelte'], project: true } },
-		linterOptions: { reportUnusedDisableDirectives: true }
-	},
+	{ languageOptions: { parser: typescriptParser } },
 
 	// svelte
 	conditionalConfig('svelte', {
 		extends: svelte.configs['flat/recommended'] as any,
 		files: ['**/*.svelte'],
-		languageOptions: { parser: svelteParser, parserOptions: { parser: typescriptParser, project: true } },
+		languageOptions: { parser: svelteParser, parserOptions: { parser: typescriptParser } },
 		rules: {
 			// eslint-disable-next-line unicorn/no-null
 			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'], style: ['postcss', null] }], // require lang="ts" in the script tag
@@ -319,5 +316,10 @@ export default ts.config(
 			'@typescript-eslint/no-unsafe-call': 'off',
 			'@typescript-eslint/no-unsafe-member-access': 'off'
 		}
-	})
+	}),
+
+	{
+		languageOptions: { parserOptions: { extraFileExtensions: ['.svelte'], project: true } },
+		linterOptions: { reportUnusedDisableDirectives: true }
+	}
 ) as ConfigWithExtends[]
