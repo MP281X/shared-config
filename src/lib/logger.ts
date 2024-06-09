@@ -4,18 +4,6 @@ import type { ReadableStream } from 'stream/web'
 
 const invalidLogs: string[] = []
 
-// svelte
-invalidLogs.push(
-	'svelte-check',
-	'enableSourcemap',
-	'svelte-inspector',
-	'work in progress:',
-	'Code style issues',
-	'Run npm run preview',
-	'> Using svelte-adapter-bun',
-	'===================================='
-)
-
 // vite
 invalidLogs.push(
 	'✔',
@@ -31,6 +19,18 @@ invalidLogs.push(
 	'Re-optimizing dependencies because lockfile has changed'
 )
 
+// svelte
+invalidLogs.push(
+	'svelte-check',
+	'enableSourcemap',
+	'svelte-inspector',
+	'work in progress:',
+	'Code style issues',
+	'Run npm run preview',
+	'> Using svelte-adapter-bun',
+	'===================================='
+)
+
 // nextjs
 invalidLogs.push(
 	' 200 in ',
@@ -42,6 +42,9 @@ invalidLogs.push(
 	'· reactCompiler',
 	'[BABEL] Note: The code generator'
 )
+
+// astro
+invalidLogs.push('astro  v', '[types] Added', 'watching for file changes...', '┃ Network')
 
 // tsx
 invalidLogs.push('> ', "Completed running '")
@@ -59,10 +62,11 @@ const formatLog = (input: string, type: LogType) => {
 			continue
 		}
 
-		if (txt.includes('➜  Local:') || txt.includes('➜  Network:') || txt.includes('- Local:')) {
+		if (txt.includes('➜  Local:') || txt.includes('➜  Network:') || txt.includes('- Local:') || txt.includes('┃ Local')) {
 			txt = txt.replace('➜  Local:', '')
 			txt = txt.replace('➜  Network:', '')
 			txt = txt.replace('- Local:', '')
+			txt = txt.replace('┃ Local', '')
 			txt = txt.trim()
 
 			printLog(txt, 'warn')
