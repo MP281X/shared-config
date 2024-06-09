@@ -29,6 +29,15 @@ export const execCmd = async (cmd: string, args: readonly string[]) => {
 			void log.error(`EXIT CODE: ${exitCode}`)
 			process.exit(1)
 		})
+
+		const kill = () => {
+			if (output.killed) return
+			output.kill()
+		}
+
+		process.on('exit', kill)
+		process.on('SIGINT', kill)
+		process.on('SIGTERM', kill)
 	})
 
 	return await execPromise
