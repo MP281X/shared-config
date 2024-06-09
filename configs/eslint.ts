@@ -19,6 +19,8 @@ import perfectionist from 'eslint-plugin-perfectionist'
 import svelte from 'eslint-plugin-svelte'
 import svelteParser from 'svelte-eslint-parser'
 
+import astro from 'eslint-plugin-astro'
+
 // @ts-expect-error: no type definitions
 import tailwindcss from 'eslint-plugin-tailwindcss'
 
@@ -58,10 +60,15 @@ const conditionalConfig = (dependency: string, config: ConfigWithExtends) => {
 export default ts.config(
 	{ ignores: gitignore() },
 
+	{
+		languageOptions: { parser: ts.parser as any, parserOptions: { project: true } },
+		linterOptions: { reportUnusedDisableDirectives: true }
+	},
+
 	// typescript
 	{
 		extends: [...ts.configs.strictTypeChecked],
-		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
+		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte', '**/*.astro'],
 		rules: {
 			'@typescript-eslint/array-type': 'error', // use X[] instead of Array<X>
 			'@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': false }], // allow only the @ts-expect-error
@@ -126,7 +133,7 @@ export default ts.config(
 	// js/ts
 	{
 		extends: [prettier, eslint.configs.recommended],
-		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte'],
+		files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx', '**/*.svelte', '**/*.astro'],
 		plugins: { perfectionist, unicorn },
 		rules: {
 			'array-callback-return': ['error', { allowImplicit: false, allowVoid: true, checkForEach: true }], // check for return type in map, foreach, ...
@@ -229,7 +236,7 @@ export default ts.config(
 
 	// tailwindcss
 	conditionalConfig('tailwindcss', {
-		files: ['**/*.tsx', '**/*.svelte'],
+		files: ['**/*.tsx', '**/*.svelte', '**/*.astro'],
 		plugins: { tailwindcss },
 		rules: {
 			'tailwindcss/enforces-negative-arbitrary-values': 'error',
@@ -291,16 +298,11 @@ export default ts.config(
 		}
 	}),
 
-	{
-		languageOptions: { parser: ts.parser as any, parserOptions: { project: true } },
-		linterOptions: { reportUnusedDisableDirectives: true }
-	},
-
 	// svelte
 	conditionalConfig('svelte', {
 		extends: svelte.configs['flat/recommended'] as any,
 		files: ['**/*.svelte'],
-		languageOptions: { parser: svelteParser, parserOptions: { extraFileExtensions: ['.svelte'], parser: ts.parser, project: true } },
+		languageOptions: { parser: svelteParser, parserOptions: { extraFileExtensions: ['.svelte'], parser: ts.parser } },
 		rules: {
 			// eslint-disable-next-line unicorn/no-null
 			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'], style: ['postcss', null] }], // require lang="ts" in the script tag
@@ -318,5 +320,11 @@ export default ts.config(
 			'@typescript-eslint/no-unsafe-call': 'off',
 			'@typescript-eslint/no-unsafe-member-access': 'off'
 		}
+	}),
+
+	// astro
+	conditionalConfig('astro', {
+		extends: astro.configs.recommended,
+		rules: {}
 	})
 ) as ConfigWithExtends[]

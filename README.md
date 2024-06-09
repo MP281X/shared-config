@@ -22,7 +22,7 @@ To configure the package, use the following `package.json` or merge it with your
 		"setup": "shared-config-setup"
 	},
 	"devDependencies": { "@mp281x/shared-config": "latest" },
-	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } }
+	"pnpm": { "peerDependencyrules": { "allowedVersions": { "eslint": "*" } } }
 }
 ```
 
@@ -55,11 +55,15 @@ export { default } from '@mp281x/shared-config/prettier'
 ### .gitignore
 
 ```ini
-# svelte/next files
-**/build
+# svelte/next/astro files
 **/.svelte-kit
 **/.next
+**/.astro
 **/next-env.d.ts
+
+# output
+**/dist
+**/build
 
 # generated files
 **/*.g.ts
