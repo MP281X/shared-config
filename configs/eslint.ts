@@ -247,16 +247,14 @@ export default ts.config(
 		}
 	}),
 
-	// nextjs/react
-	conditionalConfig('next', {
+	// react
+	conditionalConfig('react', {
 		extends: [reactFC.configs.recommended],
 		files: ['**/*.tsx'],
-		plugins: { '@next/next': nextjs, react, 'react-compiler': reactCompiler, 'react-hooks': hooks },
+		plugins: { react, 'react-compiler': reactCompiler, 'react-hooks': hooks },
 		rules: {
 			...hooks.configs.recommended.rules,
-			...nextjs.configs.recommended.rules,
 			...react.configs['jsx-runtime'].rules,
-			...nextjs.configs['core-web-vitals'].rules,
 
 			'react-compiler/react-compiler': 'error',
 
@@ -271,14 +269,18 @@ export default ts.config(
 
 			// use curly braces for props/children only when necessary
 			'react/jsx-curly-brace-presence': ['error', { children: 'never', propElementValues: 'always', props: 'never' }]
-
-			// 'react/hook-use-state': ['error', { allowDestructuredState: false }], // consistent names for useState hook getter and setter
-			// 'react/jsx-fragments': ['error', 'syntax'], // enforce <></> fragment and allow React.Fragment only when the key needs to be specified
-			//
-			// // force components to be defined as arrow functions (allow only the default named function export)
-			// 'react/function-component-definition': ['error', { namedComponents: ['arrow-function', 'function-declaration'], unnamedComponents: 'arrow-function' }],
 		},
 		settings: { react: { version: 'detect' } }
+	}),
+
+	// nextjs
+	conditionalConfig('next', {
+		files: ['**/*.tsx'],
+		plugins: { '@next/next': nextjs },
+		rules: {
+			...nextjs.configs.recommended.rules,
+			...nextjs.configs['core-web-vitals'].rules
+		}
 	}),
 
 	// solid
