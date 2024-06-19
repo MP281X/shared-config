@@ -49,34 +49,40 @@ invalidLogs.push('astro  v', '[types] Added', 'watching for file changes...', '�
 // tsx
 invalidLogs.push('> ', "Completed running '")
 
+const strIncludes = (str: string, includes: string[]) => {
+	for (const include of includes) if (str.includes(include)) return true
+
+	return false
+}
+
 const formatLog = (input: string, type: LogType) => {
-	logLines: for (const rawTxt of input.split('\n')) {
+	for (const rawTxt of input.split('\n')) {
 		// eslint-disable-next-line no-control-regex
 		let txt = rawTxt.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, '')
-		if (txt.trim() === '') continue
 
-		for (const invalidLog of invalidLogs) if (txt.trim().includes(invalidLog)) continue logLines
+		if (txt.trim() === '') continue
+		if (strIncludes(txt, invalidLogs)) continue
 
 		if (txt.includes('file truncated')) {
 			printLog('FILE CLEARED', 'warn')
 			continue
 		}
 
-		if (txt.includes('➜  Local:') || txt.includes('➜  Network:') || txt.includes('- Local:') || txt.includes('┃ Local')) {
+		if (strIncludes(txt, ['➜  Local:', '➜  Network:', '- Local:', '┃ Local'])) {
 			txt = txt.replace('➜  Local:', '')
 			txt = txt.replace('➜  Network:', '')
 			txt = txt.replace('- Local:', '')
 			txt = txt.replace('┃ Local', '')
-			txt = txt.trim()
 
-			printLog(txt, 'warn')
+			printLog(txt.trim(), 'warn')
 			continue
 		}
 
-		if (txt.includes('✓ Compiled') || txt.includes('hmr update')) {
+		if (strIncludes(txt, ['✓ Compiled', 'hmr update'])) {
 			txt = txt.split(' ').filter(x => x.trim().startsWith('/'))[0] ?? ''
+			txt = txt.replaceAll(',', '')
 
-			printLog(`UPDATED ${txt}`, 'warn')
+			printLog(`UPDATED ${txt.trim()}`, 'warn')
 			continue
 		}
 
