@@ -30,20 +30,22 @@
 		"./tsconfig": "./configs/tsconfig.json"
 	},
 
+	"peerDependencies": { "svelte": "*" },
+
 	"dependencies": {
 		"@fsouza/prettierd": "latest",
 		"prettier-plugin-astro": "^0",
+		"prettier-plugin-svelte": "^3",
 		"prettier-plugin-tailwindcss": "^0",
 
 		"eslint": "^9",
 		"@eslint/js": "^9",
-		"typescript-eslint": "^7",
+		"typescript-eslint": "rc-v8",
 		"eslint-plugin-astro": "^1",
 		"eslint-plugin-react": "^7",
-		"eslint-plugin-solid": "^0",
+		"eslint-plugin-svelte": "^2",
 		"eslint-plugin-unicorn": "^53",
 		"eslint-config-prettier": "^9",
-		"@next/eslint-plugin-next": "rc",
 		"eslint-plugin-tailwindcss": "^3",
 		"eslint-plugin-react-hooks": "beta",
 		"eslint-plugin-perfectionist": "^2",
@@ -57,7 +59,5 @@
 		"tsup": "^8",
 		"prettier": "^3",
 		"@types/node": "^20"
-	},
-
-	"pnpm": { "peerDependencyRules": { "allowedVersions": { "eslint": "*" } } }
+	}
 }
