@@ -16,8 +16,8 @@ import unicorn from 'eslint-plugin-unicorn'
 // @ts-expect-error: no type definitions
 import perfectionist from 'eslint-plugin-perfectionist'
 
-import svelte from 'eslint-plugin-svelte'
-import svelteParser from 'svelte-eslint-parser'
+// import svelte from 'eslint-plugin-svelte'
+// import svelteParser from 'svelte-eslint-parser'
 
 import astro from 'eslint-plugin-astro'
 
@@ -301,28 +301,28 @@ export default ts.config(
 	}),
 
 	// svelte
-	conditionalConfig('svelte', {
-		extends: svelte.configs['flat/recommended'] as any,
-		files: ['**/*.svelte'],
-		languageOptions: { parser: svelteParser, parserOptions: { extraFileExtensions: ['.svelte'], parser: ts.parser } },
-		rules: {
-			// eslint-disable-next-line unicorn/no-null
-			'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'], style: ['postcss', null] }], // require lang="ts" in the script tag
-			'svelte/infinite-reactive-loop': 'error', // prevent reactivity bug
-			'svelte/no-export-load-in-svelte-module-in-kit-pages': 'error', // no function called load in script
-			'svelte/no-immutable-reactive-statements': 'error', // disable reactive statement for const values
-			'svelte/no-reactive-reassign': 'error', // don't readding derived reactive values
-			'svelte/no-store-async': 'error', // disable async await in stores
-			'svelte/no-useless-mustaches': 'error', // don't allow useless {}
-			'svelte/sort-attributes': 'off', // already checked by the "perfectionist" plugin
-			'svelte/valid-prop-names-in-kit-pages': 'error', // disable invalid exports in +page.svelte file
-
-			// rules that doesn't work in svelte 5
-			'@typescript-eslint/no-unsafe-assignment': 'off',
-			'@typescript-eslint/no-unsafe-call': 'off',
-			'@typescript-eslint/no-unsafe-member-access': 'off'
-		}
-	}),
+	// conditionalConfig('svelte', {
+	// 	extends: svelte.configs['flat/recommended'] as any,
+	// 	files: ['**/*.svelte'],
+	// 	languageOptions: { parser: svelteParser, parserOptions: { extraFileExtensions: ['.svelte'], parser: ts.parser } },
+	// 	rules: {
+	// 		// eslint-disable-next-line unicorn/no-null
+	// 		'svelte/block-lang': ['error', { enforceScriptPresent: true, script: ['ts'], style: ['postcss', null] }], // require lang="ts" in the script tag
+	// 		'svelte/infinite-reactive-loop': 'error', // prevent reactivity bug
+	// 		'svelte/no-export-load-in-svelte-module-in-kit-pages': 'error', // no function called load in script
+	// 		'svelte/no-immutable-reactive-statements': 'error', // disable reactive statement for const values
+	// 		'svelte/no-reactive-reassign': 'error', // don't readding derived reactive values
+	// 		'svelte/no-store-async': 'error', // disable async await in stores
+	// 		'svelte/no-useless-mustaches': 'error', // don't allow useless {}
+	// 		'svelte/sort-attributes': 'off', // already checked by the "perfectionist" plugin
+	// 		'svelte/valid-prop-names-in-kit-pages': 'error', // disable invalid exports in +page.svelte file
+	//
+	// 		// rules that doesn't work in svelte 5
+	// 		'@typescript-eslint/no-unsafe-assignment': 'off',
+	// 		'@typescript-eslint/no-unsafe-call': 'off',
+	// 		'@typescript-eslint/no-unsafe-member-access': 'off'
+	// 	}
+	// }),
 
 	// astro
 	conditionalConfig('astro', {
