@@ -18,10 +18,10 @@ jobs:
         with: { node-version: 'latest', registry-url: 'https://registry.npmjs.org' }
 
       - name: setup / build
-        run: pnpm run setup
+        run: pnpm i && pnpm run setup
 
       - name: check
-        run: pnpm run lint
+        run: pnpm run check
 
       - name: set version
         run: |

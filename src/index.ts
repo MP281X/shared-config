@@ -1,13 +1,50 @@
 #!/usr/bin/env node
 
+import fs from 'node:fs'
+import { cleanProject } from './lib/cleanProject'
 import { getArgs, handleKeypress } from './lib/cliHandler'
-import { execCmd, readLogFile } from './lib/exec'
+import { execCmd, nodeExec } from './lib/exec'
+import { hasPackage } from './lib/projectData'
 
 handleKeypress()
 
 const { args, cmd } = getArgs()
 
-if (cmd === 'tail') await readLogFile(args)
-else execCmd(cmd, args)
+switch (cmd) {
+	case 'tail': {
+		const path = args[0] ?? ''
+
+		if (fs.existsSync(path)) fs.rmSync(path)
+		fs.writeFileSync(path, '')
+
+		await execCmd('tail', ['-f', path])
+		break
+	}
+	case 'fix': {
+		await nodeExec(['biome', 'check', '--write', '.'])
+		break
+	}
+	case 'check': {
+		await nodeExec(['biome', 'check', '.'])
+
+		if (hasPackage('svelte')) await nodeExec(['svelte-check', '--tsconfig', './tsconfig.json'])
+		else await nodeExec(['tsc', '--noEmit'])
+		break
+	}
+
+	case 'setup': {
+		cleanProject()
+
+		await nodeExec(['update', '--recursive', '--silent', '--no-save'])
+
+		if (hasPackage('svelte')) await nodeExec(['svelte-kit', 'sync'])
+		if (hasPackage('@mp281x/realtime')) await nodeExec(['realtime'])
+		break
+	}
+	default: {
+		await execCmd(cmd, args)
+		break
+	}
+}
 
 process.exit(0)

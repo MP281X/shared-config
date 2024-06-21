@@ -1,11 +1,16 @@
 import { spawn } from 'node:child_process'
 import fs from 'node:fs'
 
-import { log } from './logger.ts'
+import { log, printLog } from './logger.ts'
+import { packageManager } from './projectData.ts'
 
-export const execCmd = async (cmd: string, args: readonly string[]) => {
+export const execCmd = async (cmd: string, args: readonly string[], stdio: 'pipe' | 'inherit' = 'pipe') => {
+	const cmdName = cmd.split('/').pop()?.split('.').shift()
+	printLog(`${cmdName} ${args.join(' ')}\n`, 'warn')
+
 	const execPromise = new Promise<void>((resolve, _) => {
 		const output = spawn(cmd, args, {
+			stdio,
 			env: {
 				// biome-ignore lint/style/useNamingConvention: <explanation>
 				FORCE_COLOR: '1',
@@ -13,9 +18,9 @@ export const execCmd = async (cmd: string, args: readonly string[]) => {
 			}
 		})
 
-		output.stdout.on('data', (msg: Buffer) => void log.info(msg))
+		output.stdout?.on('data', (msg: Buffer) => void log.info(msg))
 
-		output.stderr.on('data', (msg: Buffer) => void log.error(msg))
+		output.stderr?.on('data', (msg: Buffer) => void log.error(msg))
 
 		output.on('error', error => {
 			void log.error(error.message)
@@ -51,4 +56,8 @@ export const readLogFile = async (paths: readonly string[]) => {
 
 		await execCmd('tail', ['-f', path])
 	}
+}
+
+export const nodeExec = async (args: readonly string[]) => {
+	await execCmd(packageManager(), args, 'inherit')
 }

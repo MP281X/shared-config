@@ -3,19 +3,14 @@
 	"name": "@mp281x/shared-config",
 	"scripts": {
 		"dev": "tsup-node --watch",
-		"fix": "tsup-node && ./scripts/fix.sh",
-		"lint": "tsup-node && ./scripts/lint.sh",
-		"setup": "./scripts/setup.sh && tsup-node"
+		"fix": "tsup-node && ./dist/index.js fix",
+		"check": "tsup-node && ./dist/index.js check",
+		"setup": "tsup-node && ./dist/index.js setup"
 	},
 
 	"files": ["./scripts/*", "./dist/*", "./configs/*"],
 
-	"bin": {
-		"x": "./dist/src/index.js",
-		"shared-config-fix": "./scripts/fix.sh",
-		"shared-config-lint": "./scripts/lint.sh",
-		"shared-config-setup": "./scripts/setup.sh"
-	},
+	"bin": { "x": "./dist/index.js" },
 
 	"exports": {
 		"./biome": "./configs/biome.jsonc",

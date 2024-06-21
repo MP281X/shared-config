@@ -93,7 +93,7 @@ const formatLog = (input: string, type: LogType) => {
 	}
 }
 
-const printLog = (txt: string, type: LogType) => {
+export const printLog = (txt: string, type: LogType) => {
 	switch (type) {
 		case 'info':
 			return console.log(txt)

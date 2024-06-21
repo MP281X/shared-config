@@ -20,7 +20,8 @@
 			"suspicious": {
 				"useAwait": "error",
 				"noConsoleLog": "off",
-				"noArrayIndexKey": "off"
+				"noArrayIndexKey": "off",
+				"noEmptyBlockStatements": "off"
 			},
 			"nursery": {
 				"noEmptyBlock": "off",

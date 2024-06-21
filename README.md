@@ -14,12 +14,11 @@ To configure the package, use the following `package.json` or merge it with your
 
 ```jsonc
 {
-	"type": "module",
 	"scripts": {
 		"dev": "x ...",
-		"fix": "shared-config-fix",
-		"lint": "shared-config-lint",
-		"setup": "shared-config-setup"
+		"fix": "x fix",
+		"check": "x check",
+		"setup": "x setup"
 	},
 	"devDependencies": { "@mp281x/shared-config": "latest" }
 }
