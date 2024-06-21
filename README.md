@@ -1,11 +1,11 @@
 # @mp281x/shared-config
 
-A shared configuration package for ESLint, Prettier, and TypeScript.
+A shared configuration package for Biome and TypeScript.
 This package enforces strict coding standards to ensure uniform code style and prevent subtle bugs.
 
 ## Features
 
-- Strict ESLint, Prettier, and TypeScript settings.
+- Strict Biome and TypeScript settings.
 - Scripts for linting and cleaning the project
 
 ## Installation
@@ -21,8 +21,7 @@ To configure the package, use the following `package.json` or merge it with your
 		"lint": "shared-config-lint",
 		"setup": "shared-config-setup"
 	},
-	"devDependencies": { "@mp281x/shared-config": "latest" },
-	"pnpm": { "peerDependencyrules": { "allowedVersions": { "eslint": "*" } } }
+	"devDependencies": { "@mp281x/shared-config": "latest" }
 }
 ```
 
@@ -33,23 +32,13 @@ Put these configs in the respective files
 ### tsconfig.json
 
 ```jsonc
-{
-	"extends": ["@mp281x/shared-config/tsconfig"],
-	"include": ["index.ts", "src/**/*", "*.config.*"],
-	"exclude": ["**/node_modules", "**/.*/", "**/dist"]
-}
+{ "extends": ["@mp281x/shared-config/tsconfig"] }
 ```
 
-### eslint.config.js
+### biome.json
 
 ```js
-export { default } from '@mp281x/shared-config/eslint'
-```
-
-### prettier.config.js
-
-```js
-export { default } from '@mp281x/shared-config/prettier'
+{ "extends": ["@mp281x/shared-config/biome"] }
 ```
 
 ### .gitignore
@@ -67,7 +56,6 @@ export { default } from '@mp281x/shared-config/prettier'
 
 # generated files
 **/*.g.ts
-**/.eslintcache
 **/*.tsbuildinfo
 
 # vite
@@ -91,10 +79,10 @@ Prepend your command with x
 
 ```json
 {
-	"scripts": "x next dev --turbo"
+	"scripts": "x vite dev"
 }
 ```
 
 ```sh
-pnpm run x next dev --turbo
+pnpm run x vite dev
 ```

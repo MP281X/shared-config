@@ -1,0 +1,63 @@
+{
+	"$schema": "../node_modules/@biomejs/biome/configuration_schema.json",
+	"organizeImports": { "enabled": true },
+	"vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+	"formatter": {
+		"ignore": ["**/*.g.ts", "**/vite-env.d.ts", "ok/**"],
+		"enabled": true,
+		"formatWithErrors": true,
+		"lineWidth": 120,
+		"lineEnding": "lf",
+		"indentWidth": 2,
+		"indentStyle": "tab",
+		"attributePosition": "auto"
+	},
+	"linter": {
+		"ignore": ["**/*.g.ts", "**/vite-env.d.ts", "ok/**"],
+		"enabled": true,
+		"rules": {
+			"all": true,
+			"suspicious": {
+				"useAwait": "error",
+				"noConsoleLog": "off",
+				"noArrayIndexKey": "off"
+			},
+			"nursery": {
+				"noEmptyBlock": "off",
+				"useSortedClasses": "error"
+			},
+			"complexity": {
+				"noVoid": "off",
+				"useArrowFunction": "error",
+				"useLiteralKeys": "off",
+				"noUselessTypeConstraint": "off",
+				"noForEach": "off"
+			},
+			"style": {
+				"noDefaultExport": "off",
+				"useShorthandArrayType": "error",
+				"useBlockStatements": "off",
+				"useTemplate": "off",
+				"noNonNullAssertion": "off"
+			},
+			"correctness": {
+				"noNodejsModules": "off",
+				"noUnusedVariables": "off",
+				"noUndeclaredVariables": "off",
+				"noChildrenProp": "off"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"trailingCommas": "none",
+			"jsxQuoteStyle": "double",
+			"quoteStyle": "single",
+			"arrowParentheses": "asNeeded",
+			"quoteProperties": "asNeeded",
+			"bracketSpacing": true,
+			"bracketSameLine": false,
+			"semicolons": "asNeeded"
+		}
+	}
+}

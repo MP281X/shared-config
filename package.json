@@ -1,7 +1,6 @@
 {
 	"type": "module",
 	"name": "@mp281x/shared-config",
-
 	"scripts": {
 		"dev": "tsup-node --watch",
 		"fix": "tsup-node && ./scripts/fix.sh",
@@ -9,7 +8,7 @@
 		"setup": "./scripts/setup.sh && tsup-node"
 	},
 
-	"files": ["./scripts/*", "./dist/*", "./configs/tsconfig.json", "./configs/types.d.ts"],
+	"files": ["./scripts/*", "./dist/*", "./configs/*"],
 
 	"bin": {
 		"x": "./dist/src/index.js",
@@ -19,45 +18,15 @@
 	},
 
 	"exports": {
-		"./prettier": {
-			"types": "./dist/configs/prettier.d.ts",
-			"import": "./dist/configs/prettier.js"
-		},
-		"./eslint": {
-			"types": "./dist/configs/eslint.d.ts",
-			"import": "./dist/configs/eslint.js"
-		},
+		"./biome": "./configs/biome.jsonc",
 		"./tsconfig": "./configs/tsconfig.json"
 	},
 
-	"peerDependencies": { "svelte": "*" },
-
-	"dependencies": {
-		"@fsouza/prettierd": "latest",
-		"prettier-plugin-astro": "^0",
-		"prettier-plugin-svelte": "^3",
-		"prettier-plugin-tailwindcss": "^0",
-
-		"eslint": "^9",
-		"@eslint/js": "^9",
-		"typescript-eslint": "rc-v8",
-		"eslint-plugin-astro": "^1",
-		"eslint-plugin-react": "^7",
-		"eslint-plugin-svelte": "^2",
-		"eslint-plugin-unicorn": "^53",
-		"eslint-config-prettier": "^9",
-		"eslint-plugin-tailwindcss": "^3",
-		"eslint-plugin-react-hooks": "beta",
-		"eslint-plugin-perfectionist": "^2",
-		"eslint-plugin-react-compiler": "latest",
-		"eslint-plugin-react-prefer-function-component": "^3"
-	},
+	"dependencies": { "@biomejs/biome": "latest" },
 
 	"devDependencies": {
 		"typescript": "^5",
-
 		"tsup": "^8",
-		"prettier": "^3",
 		"@types/node": "^20"
 	}
 }

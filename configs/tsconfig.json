@@ -46,5 +46,10 @@
 
 		"incremental": true, // cache some informations about the types to speed up the next typechecks
 		"tsBuildInfoFile": ".tsbuildinfo" // set the name of the cache file
-	}
+	},
+
+	"exclude": ["${configDir}/**/node_modules", "${configDir}/**/dist", "${configDir}/**/.*"],
+	"include": ["${configDir}/src/**/*", "${configDir}/*.config.*", "${configDir}/index.ts"]
+
+	// ${configDir}
 }

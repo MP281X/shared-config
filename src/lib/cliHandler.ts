@@ -1,4 +1,4 @@
-import readline from 'readline'
+import readline from 'node:readline'
 
 export const getArgs = (): { cmd: string; args: string[] } => {
 	const args = process.argv.slice(2)

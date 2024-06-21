@@ -1,5 +1,5 @@
-import fs from 'fs'
-import { spawn } from 'child_process'
+import { spawn } from 'node:child_process'
+import fs from 'node:fs'
 
 import { log } from './logger.ts'
 
@@ -7,7 +7,7 @@ export const execCmd = async (cmd: string, args: readonly string[]) => {
 	const execPromise = new Promise<void>((resolve, _) => {
 		const output = spawn(cmd, args, {
 			env: {
-				// eslint-disable-next-line @typescript-eslint/naming-convention
+				// biome-ignore lint/style/useNamingConvention: <explanation>
 				FORCE_COLOR: '1',
 				...process.env
 			}

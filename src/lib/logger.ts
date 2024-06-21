@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-template-expression */
-
-import type { ReadableStream } from 'stream/web'
+import type { ReadableStream } from 'node:stream/web'
 
 const invalidLogs: string[] = []
 
@@ -57,7 +55,7 @@ const strIncludes = (str: string, includes: string[]) => {
 
 const formatLog = (input: string, type: LogType) => {
 	for (const rawTxt of input.split('\n')) {
-		// eslint-disable-next-line no-control-regex
+		// biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
 		let txt = rawTxt.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, '')
 
 		if (txt.trim() === '') continue
@@ -96,11 +94,13 @@ const formatLog = (input: string, type: LogType) => {
 }
 
 const printLog = (txt: string, type: LogType) => {
-	// prettier-ignore
 	switch (type) {
-		case 'info': return console.log(txt)
-		case 'warn': return console.log("\n"+`\x1b[${93}m${txt}\x1b[${0}m`)
-		case 'error': return console.log("\n"+`\x1b[${91}m${txt}\x1b[${0}m`)
+		case 'info':
+			return console.log(txt)
+		case 'warn':
+			return console.log('\n' + `\x1b[${93}m${txt}\x1b[${0}m`)
+		case 'error':
+			return console.log('\n' + `\x1b[${91}m${txt}\x1b[${0}m`)
 	}
 }
 

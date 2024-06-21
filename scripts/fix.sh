@@ -2,8 +2,6 @@
 
 . "$( cd "$( dirname "$0" )" && pwd )/+helpers.sh"
 
-log "PRETTIER"
-$PACKAGE_MANAGER prettier --ignore-path=.gitignore --log-level=warn --cache --write .
+log "BIOME"
+$PACKAGE_MANAGER biome check --write .
 
-log "ESLINT"
-$PACKAGE_MANAGER eslint --cache --fix .
