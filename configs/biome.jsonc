@@ -1,64 +1,74 @@
 {
 	"$schema": "../node_modules/@biomejs/biome/configuration_schema.json",
+
 	"organizeImports": { "enabled": true },
 	"vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+
 	"formatter": {
-		"ignore": ["**/*.g.ts", "**/vite-env.d.ts", "ok/**"],
 		"enabled": true,
-		"formatWithErrors": true,
 		"lineWidth": 120,
-		"lineEnding": "lf",
 		"indentWidth": 2,
+		"lineEnding": "lf",
 		"indentStyle": "tab",
+		"formatWithErrors": true,
 		"attributePosition": "auto"
 	},
+
 	"linter": {
-		"ignore": ["**/*.g.ts", "**/vite-env.d.ts", "ok/**"],
 		"enabled": true,
 		"rules": {
 			"all": true,
-			"suspicious": {
-				"useAwait": "error",
-				"noConsoleLog": "off",
-				"noArrayIndexKey": "off",
-				"noEmptyBlockStatements": "off"
-			},
 			"nursery": {
 				"noEmptyBlock": "off",
 				"useSortedClasses": "error"
 			},
+			"performance": {
+				"noBarrelFile": "off",
+				"noAccumulatingSpread": "off"
+			},
 			"complexity": {
 				"noVoid": "off",
-				"useArrowFunction": "error",
+				"noForEach": "off",
 				"useLiteralKeys": "off",
-				"noUselessTypeConstraint": "off",
-				"noForEach": "off"
+				"useArrowFunction": "error",
+				"noUselessTypeConstraint": "off"
+			},
+			"suspicious": {
+				"useAwait": "error",
+				"noConsoleLog": "off",
+				"noExplicitAny": "off",
+				"noArrayIndexKey": "off",
+				"noConfusingVoidType": "off",
+				"noEmptyBlockStatements": "off"
 			},
 			"style": {
-				"noDefaultExport": "off",
-				"useShorthandArrayType": "error",
-				"useBlockStatements": "off",
 				"useTemplate": "off",
-				"noNonNullAssertion": "off"
+				"noDefaultExport": "off",
+				"noNamespaceImport": "off",
+				"noNonNullAssertion": "off",
+				"useBlockStatements": "off",
+				"useShorthandArrayType": "error",
+				"useNamingConvention": { "level": "error", "options": { "strictCase": false } }
 			},
 			"correctness": {
+				"noChildrenProp": "off",
+				"noUnusedImports": "off",
 				"noNodejsModules": "off",
 				"noUnusedVariables": "off",
-				"noUndeclaredVariables": "off",
-				"noChildrenProp": "off"
+				"noUndeclaredVariables": "off"
 			}
 		}
 	},
 	"javascript": {
 		"formatter": {
+			"bracketSpacing": true,
+			"quoteStyle": "single",
+			"bracketSameLine": false,
+			"semicolons": "asNeeded",
 			"trailingCommas": "none",
 			"jsxQuoteStyle": "double",
-			"quoteStyle": "single",
-			"arrowParentheses": "asNeeded",
 			"quoteProperties": "asNeeded",
-			"bracketSpacing": true,
-			"bracketSameLine": false,
-			"semicolons": "asNeeded"
+			"arrowParentheses": "asNeeded"
 		}
 	}
 }
