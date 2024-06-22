@@ -31,7 +31,8 @@
 				"noForEach": "off",
 				"useLiteralKeys": "off",
 				"useArrowFunction": "error",
-				"noUselessTypeConstraint": "off"
+				"noUselessTypeConstraint": "off",
+				"noExcessiveCognitiveComplexity": "off"
 			},
 			"suspicious": {
 				"useAwait": "error",
