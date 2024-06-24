@@ -11,6 +11,12 @@ handleKeypress()
 const { args, cmd } = getArgs()
 
 switch (cmd) {
+	case '--recursive': {
+		await nodeExec(['--reporter=ndjson', `--recursive=${args.join(' ')}`])
+
+		break
+	}
+
 	case 'tail': {
 		const path = args[0] ?? ''
 
