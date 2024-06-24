@@ -12,9 +12,9 @@ export const cleanProject = (dir: string = process.cwd()) => {
 		try {
 			if (path.includes('.git')) continue
 
-			if (filesToDelete.includes(path)) fs.rmSync(path, { force: true, recursive: true })
-
-			if (fs.statSync(`${dir}/${path}`).isDirectory()) cleanProject(`${dir}/${path}`)
+			const filePath = `${dir}/${path}`
+			if (filesToDelete.includes(path)) fs.rmSync(filePath, { force: true, recursive: true })
+			if (fs.statSync(filePath).isDirectory()) cleanProject(filePath)
 		} catch {}
 	}
 }
