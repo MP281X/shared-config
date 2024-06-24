@@ -6,7 +6,7 @@ import { packageManager } from './projectData.ts'
 
 export const execCmd = async (cmd: string, args: readonly string[], stdio: 'pipe' | 'inherit' = 'pipe') => {
 	const cmdName = cmd.split('/').pop()?.split('.').shift()
-	printLog(`${cmdName} ${args.join(' ')}\n`, 'warn')
+	if (cmd !== 'x') printLog(`${cmdName} ${args.join(' ')}\n`, 'warn')
 
 	const execPromise = new Promise<void>((resolve, _) => {
 		const output = spawn(cmd, args, {
