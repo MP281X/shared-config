@@ -28,7 +28,6 @@ export const execCmd = async (cmd: string, args: readonly string[], stdio: 'pipe
 		})
 
 		output.on('exit', exitCode => {
-			if (exitCode === 100) process.exit(0)
 			if (exitCode === 0 || exitCode === null) return resolve()
 
 			void log.error(`EXIT CODE: ${exitCode}`)

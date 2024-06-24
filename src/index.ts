@@ -2,15 +2,19 @@
 
 import fs from 'node:fs'
 import { cleanProject } from './lib/cleanProject'
-import { getArgs, handleKeypress } from './lib/cliHandler'
+import { getArgs } from './lib/cliHandler'
 import { execCmd, nodeExec } from './lib/exec'
 import { hasDockerCompose, hasPackage } from './lib/projectData'
-
-handleKeypress()
 
 const { args, cmd } = getArgs()
 
 switch (cmd) {
+	case '--recursive': {
+		await execCmd('x', ['pnpm', '--reporter=ndjson', '--recursive', 'run', ...args], 'inherit')
+
+		break
+	}
+
 	case 'tail': {
 		const path = args[0] ?? ''
 
