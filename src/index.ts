@@ -11,12 +11,6 @@ handleKeypress()
 const { args, cmd } = getArgs()
 
 switch (cmd) {
-	case '--recursive': {
-		await execCmd('x', ['pnpm', '--reporter=ndjson', '--recursive', 'run', ...args], 'inherit')
-
-		break
-	}
-
 	case 'tail': {
 		const path = args[0] ?? ''
 

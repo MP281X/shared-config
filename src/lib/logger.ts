@@ -118,7 +118,7 @@ const formatLog = (input: string, type: LogType, prefix?: string) => {
 	}
 }
 
-export const printLog = (txt: string, type: LogType, prefix = '') => {
+export const printLog = (txt: string, type: LogType, prefix = '\n') => {
 	// biome-ignore format:
 	switch (type) {
 		case 'info':  return console.log(prefix + txt)
