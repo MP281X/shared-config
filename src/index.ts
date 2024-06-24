@@ -41,8 +41,6 @@ switch (cmd) {
 	case 'setup': {
 		cleanProject()
 
-		await nodeExec(['update', '--recursive', '--silent', '--no-save'])
-
 		if (hasPackage('svelte')) await nodeExec(['svelte-kit', 'sync'])
 		if (hasPackage('@mp281x/realtime')) await nodeExec(['realtime'])
 		break
