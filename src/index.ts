@@ -4,7 +4,7 @@ import fs from 'node:fs'
 import { cleanProject } from './lib/cleanProject'
 import { getArgs, handleKeypress } from './lib/cliHandler'
 import { execCmd, nodeExec } from './lib/exec'
-import { hasPackage } from './lib/projectData'
+import { hasDockerCompose, hasPackage } from './lib/projectData'
 
 handleKeypress()
 
@@ -20,10 +20,12 @@ switch (cmd) {
 		await execCmd('tail', ['-f', path])
 		break
 	}
+
 	case 'fix': {
 		await nodeExec(['biome', 'check', '--write', '.'])
 		break
 	}
+
 	case 'check': {
 		await nodeExec(['biome', 'check', '.'])
 
@@ -39,6 +41,14 @@ switch (cmd) {
 
 		if (hasPackage('svelte')) await nodeExec(['svelte-kit', 'sync'])
 		if (hasPackage('@mp281x/realtime')) await nodeExec(['realtime'])
+		break
+	}
+
+	case 'docker': {
+		if (hasDockerCompose() === false) break
+
+		await execCmd('docker', ['compose', 'down', '--remove-orphans'], 'inherit')
+		await execCmd('docker', ['compose', 'up', '--build', '--detach', '--wait'], 'inherit')
 		break
 	}
 	default: {

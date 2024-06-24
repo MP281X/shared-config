@@ -9,3 +9,7 @@ export const hasPackage = (packageName: string) => {
 	const packages = [...Object.keys(packageJson.dependencies ?? {}), ...Object.keys(packageJson.devDependencies ?? {})]
 	return packages.includes(packageName)
 }
+
+export const hasDockerCompose = () => {
+	return fs.existsSync(`${process.cwd()}/docker-compose.yaml`)
+}
