@@ -10,7 +10,7 @@ const { args, cmd } = getArgs()
 
 switch (cmd) {
 	case '--recursive': {
-		await execCmd('x', ['pnpm', '--reporter=ndjson', '--recursive', 'run', ...args], 'inherit')
+		await execCmd('x', ['pnpm', '--reporter=ndjson', '--recursive', '--parallel', 'run', ...args], 'inherit')
 
 		break
 	}
