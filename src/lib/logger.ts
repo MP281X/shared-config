@@ -40,6 +40,16 @@ invalidLogs.push(
 	'[BABEL] Note: The code generator'
 )
 
+// drizzle
+invalidLogs.push(
+	'Drizzle Studio is currently in Beta',
+	'drizzle-kit:',
+	'drizzle-orm:',
+	'No config path provided',
+	'Reading config file',
+	'Pulling schema from database'
+)
+
 // astro
 invalidLogs.push('astro  v', '[types] Added', 'watching for file changes...', '┃ Network')
 
