@@ -43,6 +43,7 @@
 				"noEmptyBlockStatements": "off"
 			},
 			"style": {
+				"noNamespace": "off",
 				"useTemplate": "off",
 				"noDefaultExport": "off",
 				"noNamespaceImport": "off",
