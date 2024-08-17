@@ -54,7 +54,7 @@ Put these configs in the respective files
 **/build
 
 # generated files
-**/*.g.ts
+**/.codegen/**/*
 **/*.tsbuildinfo
 
 # vite
