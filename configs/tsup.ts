@@ -1,5 +1,3 @@
-import fs from 'node:fs'
-
 import { defineConfig } from 'tsup'
 import type { Options } from 'tsup'
 
@@ -28,7 +26,7 @@ const changeShebang: EsbuildPluginHandler = build =>
 			const shebang = '#!/usr/bin/env node'
 			const fileWithShebang = shebang + '\n' + fileWithoutShebang
 
-			fs.writeFileSync(file.path, fileWithShebang)
+			file.contents = new TextEncoder().encode(fileWithShebang)
 		}
 	})
 
