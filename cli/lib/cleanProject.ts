@@ -1,7 +1,7 @@
 import fs from 'node:fs'
-import { printLog } from './logger'
+import { printLog } from './logger.ts'
 
-const filesToDelete = ['dist', '.next', '*.g.ts', '.svelte-kit']
+const filesToDelete = ['dist', '.next', '*.g.ts', '.svelte-kit', '.codegen', 'build']
 
 export const cleanProject = (dir: string = process.cwd()) => {
 	if (dir === process.cwd()) printLog('CLEAN PROJECT', 'warn')

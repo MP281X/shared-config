@@ -14,58 +14,24 @@ To configure the package, use the following `package.json` or merge it with your
 
 ```jsonc
 {
+    "name": "projectName",
+	"type": "module",
+
 	"scripts": {
-		"dev": "x ...",
+        "dev": "x index.ts",
+
 		"fix": "x fix",
 		"check": "x check",
 		"setup": "x setup"
 	},
+
 	"devDependencies": { "@mp281x/shared-config": "latest" }
 }
 ```
+Install the packages and run the setup script
 
-## Confiuration files
-
-Put these configs in the respective files
-
-### tsconfig.json
-
-```jsonc
-{ "extends": ["@mp281x/shared-config/tsconfig"] }
-```
-
-### biome.json
-
-```js
-{ "extends": ["@mp281x/shared-config/biome"] }
-```
-
-### .gitignore
-
-```ini
-# svelte/next/astro files
-**/.svelte-kit
-**/.next
-**/.astro
-**/next-env.d.ts
-
-# output
-**/dist
-**/build
-
-# generated files
-**/.codegen/**/*
-**/*.tsbuildinfo
-
-# vite
-**/vite.config.js.timestamp-*
-**/vite.config.ts.timestamp-*
-
-# other files/folders
-**/.env
-**/.DS_Store
-**/node_modules
-**/pnpm-lock.yaml
+```sh
+pnpm i && pnpm run setup
 ```
 
 ## CLI

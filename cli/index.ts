@@ -1,20 +1,17 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --experimental-strip-types
 
 import fs from 'node:fs'
-import { cleanProject } from './lib/cleanProject'
-import { getArgs } from './lib/cliHandler'
-import { execCmd, nodeExec } from './lib/exec'
-import { hasDockerCompose, hasPackage } from './lib/projectData'
+import { cleanProject } from './lib/cleanProject.ts'
+import { getArgs } from './lib/cliHandler.ts'
+import { configProject } from './lib/configProject.ts'
+import { execCmd, nodeExec } from './lib/exec.ts'
+import { hasDockerCompose, hasPackage, packageManager } from './lib/projectData.ts'
 
 const { args, cmd } = getArgs()
 
+console.clear()
+
 switch (cmd) {
-	case '--recursive': {
-		await execCmd('x', ['pnpm', '--reporter=ndjson', '--recursive', '--parallel', 'run', ...args], 'inherit')
-
-		break
-	}
-
 	case 'tail': {
 		const path = args[0] ?? ''
 
@@ -22,6 +19,13 @@ switch (cmd) {
 		fs.writeFileSync(path, '')
 
 		await execCmd('tail', ['-f', path])
+		break
+	}
+
+	case 'node': {
+		const path = args[0] ?? ''
+
+		await execCmd('node', ['--experimental-strip-types', '--watch', path])
 		break
 	}
 
@@ -40,6 +44,9 @@ switch (cmd) {
 
 	case 'setup': {
 		cleanProject()
+		configProject()
+
+		if (packageManager() === 'pnpm') nodeExec(['update', '--recursive', '--no-save'])
 
 		if (hasPackage('svelte')) await nodeExec(['svelte-kit', 'sync'])
 		if (hasPackage('@mp281x/realtime')) await nodeExec(['realtime'])

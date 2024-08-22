@@ -17,8 +17,8 @@ jobs:
         uses: actions/setup-node@v4
         with: { node-version: 'latest', registry-url: 'https://registry.npmjs.org' }
 
-      - name: setup / build
-        run: pnpm i && pnpm run setup
+      - name: install packages
+        run: pnpm install
 
       - name: check
         run: pnpm run check
