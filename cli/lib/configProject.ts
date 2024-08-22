@@ -3,11 +3,11 @@ import { projectName } from './projectData.ts'
 
 const tsconfig = `
 { "extends": ["@mp281x/shared-config/tsconfig"] }
-`
+`.trimStart()
 
 const biome = `
 { "extends": ["@mp281x/shared-config/biome"] }
-`
+`.trimStart()
 
 const gitignore = `
 # svelte/next
@@ -33,7 +33,7 @@ const gitignore = `
 **/.DS_Store
 **/node_modules
 **/pnpm-lock.yaml
-`
+`.trimStart()
 
 const packageJSON = `
 {
@@ -50,11 +50,11 @@ const packageJSON = `
 
 	"devDependencies": { "@mp281x/shared-config": "latest" }
 }
-`
+`.trimStart()
 
 const indexTS = `
-console.log(${projectName()})
-`
+console.log('${projectName()}')
+`.trimStart()
 
 export const configProject = () => {
 	fs.writeFileSync('tsconfig.json', tsconfig)
