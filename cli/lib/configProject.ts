@@ -52,6 +52,10 @@ const packageJSON = `
 }
 `
 
+const indexTS = `
+console.log(${projectName()})
+`
+
 export const configProject = () => {
 	fs.writeFileSync('tsconfig.json', tsconfig)
 	fs.writeFileSync('biome.jsonc', biome)
@@ -59,5 +63,6 @@ export const configProject = () => {
 
 	if (fs.existsSync('package.json') === false) {
 		fs.writeFileSync('package.json', packageJSON)
+		fs.writeFileSync('index.ts', indexTS)
 	}
 }

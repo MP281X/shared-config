@@ -9,9 +9,7 @@ import { hasDockerCompose, hasPackage, packageManager } from './lib/projectData.
 
 const { args, cmd } = getArgs()
 
-// console.clear()
-
-console.log(args, '---', cmd)
+console.clear()
 
 switch (cmd) {
 	case 'tail': {
