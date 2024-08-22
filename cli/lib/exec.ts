@@ -12,8 +12,10 @@ export const execCmd = async (cmd: string, args: readonly string[], stdio: 'pipe
 		const output = spawn(cmd, args, {
 			stdio,
 			env: {
-				// biome-ignore lint/style/useNamingConvention:
+				// biome-ignore lint/style/useNamingConvention: enable colors for some cli (turbopack)
 				FORCE_COLOR: '1',
+				// biome-ignore lint/style/useNamingConvention: disable node experimental warning (--experimental-strip-types)
+				NODE_NO_WARNINGS: '1',
 				...process.env
 			}
 		})

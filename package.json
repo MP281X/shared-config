@@ -21,10 +21,7 @@
 
 	"files": ["./dist/**/*", "./configs/*"],
 
-	"dependencies": {
-		"turbo": "latest",
-		"@biomejs/biome": "latest"
-	},
+	"dependencies": { "@biomejs/biome": "latest" },
 
 	"devDependencies": {
 		"tsup": "^8",
