@@ -4,7 +4,7 @@ import { defineConfig } from 'tsup'
 import type { Options } from 'tsup'
 
 type EsbuildPluginHandler = NonNullable<Options['esbuildPlugins']>[number]['setup']
-export const changeShebang: EsbuildPluginHandler = build =>
+const changeShebang: EsbuildPluginHandler = build =>
 	build.onEnd(result => {
 		const textDecoder = new TextDecoder()
 		const outputFiles = result.outputFiles ?? []

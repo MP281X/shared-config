@@ -25,7 +25,7 @@ switch (cmd) {
 	case 'node': {
 		const path = args[0] ?? ''
 
-		await execCmd('node', ['--experimental-strip-types', '--watch', path])
+		await nodeExec(['node', '--experimental-strip-types', '--watch', path])
 		break
 	}
 
