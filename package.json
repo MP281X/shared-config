@@ -2,25 +2,37 @@
 	"type": "module",
 	"name": "@mp281x/shared-config",
 	"scripts": {
+		"dev": "tsup-node",
 		"fix": "./cli/index.ts fix",
-		"check": "./cli/index.ts check"
+		"check": "./cli/index.ts check",
+		"build": "tsup-node"
 	},
 
 	"bin": {
-		"x": "./cli/index.ts",
-		"@mp281x/shared-config": "./cli/index.ts"
+		"x": "./dist/cli/index.js",
+		"@mp281x/shared-config": "./dist/cli/index.js"
 	},
 
 	"exports": {
 		"./biome": "./configs/biome.jsonc",
-		"./tsconfig": "./configs/tsconfig.json"
+		"./tsconfig": "./configs/tsconfig.json",
+
+		"./tsup": {
+			"types": "./dist/configs/tsup.d.ts",
+			"import": "./dist/configs/tsup.ts"
+		}
 	},
 
-	"files": ["./cli/**/*", "./configs/*"],
+	"files": ["./dist/**/*", "./configs/*"],
 
 	"dependencies": {
 		"turbo": "latest",
-		"@biomejs/biome": "latest",
+		"@biomejs/biome": "latest"
+	},
+
+	"devDependencies": {
+		"tsup": "^8",
+
 		"typescript": "^5",
 		"@types/node": "^20"
 	}

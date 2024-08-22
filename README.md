@@ -14,7 +14,7 @@ To configure the package, use the following `package.json` or merge it with your
 
 ```jsonc
 {
-    "name": "projectName",
+  "name": "projectName",
 	"type": "module",
 
 	"scripts": {
