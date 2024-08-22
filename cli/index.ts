@@ -9,7 +9,9 @@ import { hasDockerCompose, hasPackage, packageManager } from './lib/projectData.
 
 const { args, cmd } = getArgs()
 
-console.clear()
+// console.clear()
+
+console.log(args, '---', cmd)
 
 switch (cmd) {
 	case 'tail': {
@@ -46,7 +48,7 @@ switch (cmd) {
 		cleanProject()
 		configProject()
 
-		if (packageManager() === 'pnpm') nodeExec(['update', '--recursive', '--no-save'])
+		if (packageManager() === 'pnpm') await nodeExec(['update', '--recursive', '--no-save'])
 
 		if (hasPackage('svelte')) await nodeExec(['svelte-kit', 'sync'])
 		if (hasPackage('@mp281x/realtime')) await nodeExec(['realtime'])
