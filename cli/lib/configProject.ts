@@ -37,7 +37,7 @@ const gitignore = `
 
 const packageJSON = `
 {
-  "name": "${projectName()}",
+	"name": "${projectName()}",
 	"type": "module",
 
 	"scripts": {
