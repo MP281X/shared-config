@@ -20,7 +20,8 @@
 			"all": true,
 			"nursery": {
 				"noEmptyBlock": "off",
-				"useSortedClasses": "error"
+				"useSortedClasses": "error",
+				"useImportExtensions": "error"
 			},
 			"performance": {
 				"noBarrelFile": "off",

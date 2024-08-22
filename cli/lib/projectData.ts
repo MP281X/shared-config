@@ -2,8 +2,6 @@ import fs from 'node:fs'
 
 export const packageManager = () => process.env['npm_execpath'] ?? 'pnpm'
 
-export const projectName = () => process.cwd().split('/').pop()
-
 export const hasPackage = (packageName: string) => {
 	type PackageJson = { dependencies?: Record<string, string>; devDependencies?: Record<string, string> }
 	const packageJson: PackageJson = JSON.parse(fs.readFileSync('package.json').toString())
