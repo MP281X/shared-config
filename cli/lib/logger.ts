@@ -51,12 +51,12 @@ const strIncludes = (str: string, includes: string[]) => {
 
 const formatLog = (input: string, type: LogType) => {
 	for (const rawTxt of input.split('\n')) {
-		// biome-ignore lint/suspicious/noControlCharactersInRegex:
+		// remove ANSI escape sequences
 		let txt = rawTxt.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, '')
 
+		// remove empty logs or logs with banned keywords
 		if (txt.trim() === '') continue
 		if (strIncludes(txt, invalidLogs)) continue
-		if (/^\w+ \w+\$ .+$/.test(txt)) continue
 
 		if (strIncludes(txt, ['file truncated'])) {
 			printLog('FILE CLEARED', 'warn')
@@ -81,8 +81,8 @@ const formatLog = (input: string, type: LogType) => {
 			continue
 		}
 
-		if (txt.includes("Restarting '")) {
-			printLog('RESTART', 'warn')
+		if (strIncludes(txt, ["Restarting '"])) {
+			console.clear()
 			continue
 		}
 

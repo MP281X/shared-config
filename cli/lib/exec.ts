@@ -58,6 +58,6 @@ export const readLogFile = async (paths: readonly string[]) => {
 	}
 }
 
-export const nodeExec = async (args: readonly string[]) => {
-	await execCmd(packageManager(), args, 'inherit')
+export const nodeExec = async (args: readonly string[], stdio: 'pipe' | 'inherit' = 'inherit') => {
+	await execCmd(packageManager(), args, stdio)
 }

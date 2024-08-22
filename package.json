@@ -7,10 +7,7 @@
 		"build": "tsup-node"
 	},
 
-	"bin": {
-		"x": "./dist/cli/index.js",
-		"@mp281x/shared-config": "./dist/cli/index.js"
-	},
+	"bin": { "x": "./dist/cli/index.js" },
 
 	"exports": {
 		"./biome": "./configs/biome.jsonc",

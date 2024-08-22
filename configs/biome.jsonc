@@ -40,7 +40,8 @@
 				"noExplicitAny": "off",
 				"noArrayIndexKey": "off",
 				"noConfusingVoidType": "off",
-				"noEmptyBlockStatements": "off"
+				"noEmptyBlockStatements": "off",
+				"noControlCharactersInRegex": "off"
 			},
 			"style": {
 				"noNamespace": "off",
