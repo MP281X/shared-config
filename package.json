@@ -16,6 +16,11 @@
 		"./tsup": {
 			"types": "./dist/configs/tsup.d.ts",
 			"import": "./dist/configs/tsup.ts"
+		},
+
+		"./test-reporter": {
+			"types": "./dist/test-reporter/tsup.d.ts",
+			"import": "./dist/test-reporter/tsup.ts"
 		}
 	},
 

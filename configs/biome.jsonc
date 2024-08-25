@@ -39,6 +39,7 @@
 				"useAwait": "error",
 				"noConsoleLog": "off",
 				"noExplicitAny": "off",
+				"noFocusedTests": "warn",
 				"noArrayIndexKey": "off",
 				"noConfusingVoidType": "off",
 				"noEmptyBlockStatements": "off",

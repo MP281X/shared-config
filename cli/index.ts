@@ -30,7 +30,19 @@ switch (cmd) {
 	}
 
 	case 'fix': {
-		await nodeExec(['biome', 'check', '--write', '.'])
+		await nodeExec(['biome', 'check', '--write', '--unsafe', '.'])
+		break
+	}
+
+	case 'test': {
+		await nodeExec([
+			'node',
+			'--experimental-strip-types',
+			'--test-reporter',
+			'@mp281x/shared-config/test-reporter',
+			'--test',
+			'**/*.test.ts'
+		])
 		break
 	}
 
