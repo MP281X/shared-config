@@ -9,6 +9,3 @@ export default async function* (source: AsyncIterable<TestEvent>) {
 
 	yield* formattedReport
 }
-
-// export the test wrapper
-export * from './lib/node-test.ts'

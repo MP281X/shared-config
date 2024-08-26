@@ -1,6 +1,7 @@
 import type { TestEvent } from 'node:test/reporters'
 
 export type Test = {
+	id?: string
 	name: string
 	file: string
 	result: 'pass' | 'fail' | 'skip' | 'todo'
@@ -13,7 +14,6 @@ export type Report = ReturnType<typeof parseReport>
 export async function parseReport(source: AsyncIterable<TestEvent>) {
 	const tests: Test[] = []
 	const testStack: Test[] = []
-	const logs: { path: string; file: string; log: string }[] = []
 
 	function getParentTest() {
 		return testStack.length ? testStack[testStack.length - 1] : null
@@ -23,20 +23,27 @@ export async function parseReport(source: AsyncIterable<TestEvent>) {
 		return file?.replace(process.cwd() + '/', '') ?? 'node'
 	}
 
+	function getEventId(data: TestStart | DiagnosticData) {
+		return `${data.nesting || 0}-${data.line || 0}-${data.column || 0}-${data.file || 'node'}`
+	}
+
 	for await (const event of source) {
 		switch (event.type) {
 			case 'test:start': {
+				const id = getEventId(event.data)
 				const parentName = getParentTest()?.name
 				const name = parentName ? `${parentName}.${event.data.name}` : event.data.name
 
+				if (name.includes('/')) break
 				if (name.endsWith('.js') || name.endsWith('.jsx')) break
 				if (name.endsWith('.ts') || name.endsWith('.tsx')) break
 
 				testStack.push({
+					id,
 					name,
+					logs: [],
 					result: 'todo',
-					file: formatFilePath(event.data.file),
-					logs: []
+					file: formatFilePath(event.data.file)
 				})
 
 				break
@@ -44,7 +51,9 @@ export async function parseReport(source: AsyncIterable<TestEvent>) {
 
 			case 'test:pass':
 			case 'test:fail': {
-				const currentTest = testStack.pop()!
+				const currentTest = testStack.pop()
+
+				if (currentTest === undefined) break
 				if (event.data.details.type === 'suite') break
 
 				if (event.type === 'test:pass') currentTest.result = 'pass'
@@ -59,28 +68,16 @@ export async function parseReport(source: AsyncIterable<TestEvent>) {
 				break
 			}
 
-			case 'test:stdout':
-			case 'test:stderr': {
-				if (event.data.message.includes(':::') === false) break
-				const [rawPath, rawLog] = event.data.message.split(':::') as [string, string]
+			case 'test:diagnostic': {
+				if (event.data.file === undefined) break
 
-				const log = rawLog.trim()
-				const path = rawPath.replaceAll(' ', '').split('>').join('.')
-
-				logs.push({
-					log: log,
-					path: path,
-					file: formatFilePath(event.data.file)
-				})
+				const id = getEventId(event.data)
+				const test = tests.find(test => test.id === id)
+				test?.logs.push(event.data.message)
 
 				break
 			}
 		}
-	}
-
-	for (const log of logs) {
-		const test = tests.find(test => test.name === log.path && test.file === log.file)
-		test?.logs.push(log.log)
 	}
 
 	return tests

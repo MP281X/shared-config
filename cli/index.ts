@@ -38,10 +38,8 @@ switch (cmd) {
 		await nodeExec([
 			'node',
 			'--experimental-strip-types',
-			'--test-reporter',
-			'@mp281x/shared-config/tests',
-			'--test',
-			'**/*.test.ts'
+			...['--test-reporter', '@mp281x/shared-config/tests'],
+			...['--test', 'src/**/*.*', 'src/**/**/*.*', 'src/**/**/**/*.*', 'src/**/**/**/**/*.*']
 		])
 		break
 	}
