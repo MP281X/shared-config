@@ -40,7 +40,7 @@ export const tsupConfig = (entryPoints: string[]) =>
 		shims: true,
 		treeshake: true,
 		splitting: false,
-		minify: true,
+		minify: false,
 
 		clean: true,
 		silent: true,
