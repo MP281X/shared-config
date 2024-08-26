@@ -18,9 +18,9 @@
 			"import": "./dist/configs/tsup.ts"
 		},
 
-		"./utils": {
-			"types": "./dist/utils/index.d.ts",
-			"import": "./dist/utils/index.js"
+		"./stdlib": {
+			"types": "./dist/stdlib/index.d.ts",
+			"import": "./dist/stdlib/index.js"
 		},
 
 		"./tests": {
