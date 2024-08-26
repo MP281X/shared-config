@@ -29,6 +29,9 @@ export async function parseReport(source: AsyncIterable<TestEvent>) {
 				const parentName = getParentTest()?.name
 				const name = parentName ? `${parentName}.${event.data.name}` : event.data.name
 
+				if (name.endsWith('.js') || name.endsWith('.jsx')) break
+				if (name.endsWith('.ts') || name.endsWith('.tsx')) break
+
 				testStack.push({
 					name,
 					result: 'todo',

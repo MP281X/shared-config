@@ -41,7 +41,7 @@ invalidLogs.push(
 )
 
 // tsx/pnpm
-invalidLogs.push('> ', "Completed running '", ' workspace projects')
+invalidLogs.push('> ', "Completed running '", ' workspace projects', 'EXIT CODE:')
 
 const strIncludes = (str: string, includes: string[]) => {
 	for (const include of includes) if (str.includes(include)) return true

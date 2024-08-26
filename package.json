@@ -18,9 +18,9 @@
 			"import": "./dist/configs/tsup.ts"
 		},
 
-		"./test-reporter": {
-			"types": "./dist/test-reporter/tsup.d.ts",
-			"import": "./dist/test-reporter/tsup.ts"
+		"./tests": {
+			"types": "./dist/tests/index.d.ts",
+			"import": "./dist/tests/index.js"
 		}
 	},
 

@@ -41,7 +41,7 @@ export function formatReport(tests: Test[]) {
 			.replace('', `     ${logColor('|>', 'error')} `)
 
 		const testReport = [testIdentifier, formattedLogs, formattedError].filter(x => x && x.trim() !== '').join('\n\n')
-		fullReport.push(testReport)
+		fullReport.push(testReport + '\n\n')
 	}
 
 	return fullReport

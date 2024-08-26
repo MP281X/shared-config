@@ -25,6 +25,7 @@
 			},
 			"performance": {
 				"noBarrelFile": "off",
+				"noReExportAll": "off",
 				"noAccumulatingSpread": "off"
 			},
 			"complexity": {

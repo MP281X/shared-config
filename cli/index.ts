@@ -39,7 +39,7 @@ switch (cmd) {
 			'node',
 			'--experimental-strip-types',
 			'--test-reporter',
-			'@mp281x/shared-config/test-reporter',
+			'@mp281x/shared-config/tests',
 			'--test',
 			'**/*.test.ts'
 		])

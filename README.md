@@ -21,6 +21,7 @@ To configure the package, use the following `package.json` or merge it with your
         "dev": "x index.ts",
 
 		"fix": "x fix",
+        "test": "x test",
 		"check": "x check",
 		"setup": "x setup"
 	},
