@@ -40,7 +40,7 @@ export async function workerThreads<Schema extends workerThreads.Schema>(props: 
 
 			const send = (data: Schema['worker']['Encoded']) => worker.postMessage(data)
 
-			return { queue, send, terminate: worker.terminate }
+			return { queue, send, terminate: async () => await worker.terminate() }
 		}
 
 		return { spawnWorker }

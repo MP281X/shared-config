@@ -5,11 +5,11 @@ export async function sleep(ms: number) {
 	else await new Promise(resolve => setImmediate(resolve))
 }
 
-export function timer() {
+export function initTimer() {
 	const startTime = Date.now()
 
 	return {
-		get elapsedTime() {
+		getElapsedTime: () => {
 			const endTime = Date.now()
 			return (endTime - startTime) / 1000
 		}
