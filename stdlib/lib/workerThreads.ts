@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'node:url'
 import { Worker, isMainThread, parentPort, workerData as rawWorkerData } from 'node:worker_threads'
 import { Schema } from '@effect/schema'
+import { getExecutionId } from './executionOrder.ts'
 import { Queue } from './queue.ts'
 
 export declare namespace workerThreads {
@@ -25,49 +26,57 @@ export declare namespace workerThreads {
 }
 
 export async function workerThreads<Schema extends workerThreads.Schema>(props: workerThreads.Props<Schema>) {
-	if (isMainThread) {
-		const spawnWorker = (workerData: Schema['init']['Encoded']) => {
-			const worker = new Worker(fileURLToPath(props.filePath), { workerData })
+	const { executionId } = getExecutionId(props.filePath)
 
-			const queue = new Queue<Schema['main']['Type']>()
-			worker.on('message', rawData => {
-				const data = Schema.decodeSync(props.schema.main)(rawData)
-				void queue.publish(data)
-			})
+	if (isMainThread && process.env['workerThreadsId'] === executionId) {
+		const worker = parentPort!
+		const workerData = Schema.decodeSync(props.schema.init)(rawWorkerData)
 
-			worker.on('exit', () => queue.close())
-			worker.on('error', () => queue.close())
-			worker.on('messageerror', () => queue.close())
+		const queue = new Queue<Schema['worker']['Type']>()
+		worker.on('message', rawData => {
+			const data = Schema.decodeSync(props.schema.worker)(rawData)
+			void queue.publish(data)
+		})
 
-			const send = async (rawData: Schema['worker']['Encoded']) => {
-				const data = await Schema.encodePromise(props.schema.worker)(rawData)
-				worker.postMessage(data)
-			}
+		worker.on('exit', () => queue.close())
+		worker.on('error', () => queue.close())
+		worker.on('messageerror', () => queue.close())
 
-			return { queue, send, terminate: worker.terminate }
+		const send = async (rawData: Schema['main']['Encoded']) => {
+			const data = await Schema.encodePromise(props.schema.main)(rawData)
+			worker.postMessage(data)
 		}
 
-		return { spawnWorker }
+		await props.worker({ queue, send, workerData, terminate: process.exit })
+		process.exit(0)
 	}
 
-	const worker = parentPort!
-	const workerData = Schema.decodeSync(props.schema.init)(rawWorkerData)
+	function spawnWorker(workerData: Schema['init']['Encoded']) {
+		const worker = new Worker(fileURLToPath(props.filePath), {
+			workerData,
+			env: {
+				...process.env,
+				workerThreadsId: executionId
+			}
+		})
 
-	const queue = new Queue<Schema['worker']['Type']>()
-	worker.on('message', rawData => {
-		const data = Schema.decodeSync(props.schema.worker)(rawData)
-		void queue.publish(data)
-	})
+		const queue = new Queue<Schema['main']['Type']>()
+		worker.on('message', rawData => {
+			const data = Schema.decodeSync(props.schema.main)(rawData)
+			void queue.publish(data)
+		})
 
-	worker.on('exit', () => queue.close())
-	worker.on('error', () => queue.close())
-	worker.on('messageerror', () => queue.close())
+		worker.on('exit', () => queue.close())
+		worker.on('error', () => queue.close())
+		worker.on('messageerror', () => queue.close())
 
-	const send = async (rawData: Schema['main']['Encoded']) => {
-		const data = await Schema.encodePromise(props.schema.main)(rawData)
-		worker.postMessage(data)
+		const send = async (rawData: Schema['worker']['Encoded']) => {
+			const data = await Schema.encodePromise(props.schema.worker)(rawData)
+			worker.postMessage(data)
+		}
+
+		return { queue, send, terminate: worker.terminate }
 	}
 
-	await props.worker({ queue, send, workerData, terminate: process.exit })
-	process.exit(0)
+	return { spawnWorker }
 }

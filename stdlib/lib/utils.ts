@@ -30,6 +30,14 @@ export function resolvablePromise<T>() {
 	return { resolvePromise, promise }
 }
 
+export async function fork<ReturnType extends Promise<any> | any>(fn: (index: number) => ReturnType, instances = 1) {
+	const promises: ReturnType[] = []
+
+	for (let i = 0; i < instances; i++) promises.push(fn(i))
+
+	return await Promise.all(promises)
+}
+
 export declare namespace random {
 	type Props = { min: number; max: number; step: number }
 }
