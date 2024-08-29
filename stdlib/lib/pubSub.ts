@@ -6,13 +6,15 @@ export declare namespace PubSub {
 
 export class PubSub<T> {
 	private nextPromise: (value: PubSub.Node<T>) => void
-	public tail: Promise<PubSub.Node<T>>
+	private tail: Promise<PubSub.Node<T>>
+	private isClosed: boolean
 
 	constructor() {
 		const { promise, resolvePromise } = resolvablePromise<PubSub.Node<T>>()
 
 		this.tail = promise
 		this.nextPromise = resolvePromise
+		this.isClosed = false
 	}
 
 	createNode<T>(value: T) {
@@ -30,10 +32,14 @@ export class PubSub<T> {
 		this.nextPromise = resolvePromise
 	}
 
+	close() {
+		this.isClosed = true
+	}
+
 	async *[Symbol.asyncIterator]() {
 		let current = await this.tail
 
-		while (true) {
+		while (this.isClosed === false) {
 			yield current.value
 			current = await current.next
 		}

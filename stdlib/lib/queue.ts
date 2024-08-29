@@ -3,10 +3,12 @@ import { resolvablePromise } from './resolvablePromise.ts'
 export class Queue<T> {
 	private queue: T[]
 	private nextPromises: (() => void)[]
+	private isClosed: boolean
 
 	constructor() {
 		this.queue = []
 		this.nextPromises = []
+		this.isClosed = false
 	}
 
 	publish(value: T) {
@@ -17,8 +19,14 @@ export class Queue<T> {
 		resolvePromise()
 	}
 
+	close() {
+		this.isClosed = true
+	}
+
 	async *[Symbol.asyncIterator]() {
 		while (true) {
+			if (this.queue.length <= 0 && this.isClosed) return
+
 			if (this.queue.length <= 0) {
 				const { promise, resolvePromise } = resolvablePromise<void>()
 
@@ -26,8 +34,8 @@ export class Queue<T> {
 				await promise
 			}
 
-			if (this.queue.length > 5) await new Promise(resolve => setImmediate(resolve))
-			if (this.queue.length > 0) yield this.queue.shift()
+			yield this.queue.shift()
+			await new Promise(resolve => setImmediate(resolve))
 		}
 	}
 }

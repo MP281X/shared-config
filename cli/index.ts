@@ -30,7 +30,7 @@ switch (cmd) {
 	}
 
 	case 'fix': {
-		await nodeExec(['biome', 'check', '--write', '--unsafe', '.'])
+		await nodeExec(['biome', 'check', '--write', '.'])
 		break
 	}
 
