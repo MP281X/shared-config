@@ -1,13 +1,13 @@
 import { fileURLToPath } from 'node:url'
 import { Worker, isMainThread, parentPort, workerData } from 'node:worker_threads'
-import type { Schema } from '@effect/schema'
+import { Schema } from '@effect/schema'
 import { Queue } from './queue.ts'
 
 export declare namespace workerThreads {
 	type Schema = {
-		init: Schema.Schema.All
-		main: Schema.Schema.All
-		worker: Schema.Schema.All
+		init: Schema.Schema<any, any, never>
+		main: Schema.Schema<any, any, never>
+		worker: Schema.Schema<any, any, never>
 	}
 
 	type WorkerHandler<Schema extends workerThreads.Schema> = (props: {
@@ -26,10 +26,13 @@ export declare namespace workerThreads {
 export async function workerThreads<Schema extends workerThreads.Schema>(props: workerThreads.Props<Schema>) {
 	if (isMainThread) {
 		const spawnWorker = (workerData: Schema['init']['Encoded']) => {
-			const queue = new Queue<Schema['main']['Encoded']>()
-
 			const worker = new Worker(fileURLToPath(props.filePath), { workerData })
-			worker.on('message', data => void queue.publish(data))
+
+			const queue = new Queue<Schema['main']['Encoded']>()
+			workerThread.on('message', rawData => {
+				const data = Schema.decodeSync(props.schema.main)(rawData)
+				void queue.publish(data)
+			})
 
 			worker.on('exit', () => queue.close())
 			worker.on('error', () => queue.close())
@@ -44,11 +47,13 @@ export async function workerThreads<Schema extends workerThreads.Schema>(props: 
 	}
 
 	const workerThread = parentPort!
-
 	const initData = workerData as Schema['init']['Type']
 
 	const queue = new Queue<Schema['worker']['Type']>()
-	workerThread.on('message', data => void queue.publish(data))
+	workerThread.on('message', rawData => {
+		const data = Schema.decodeSync(props.schema.worker)(rawData)
+		void queue.publish(data)
+	})
 
 	await props.worker({ iterator: queue, send: data => workerThread.postMessage(data), initData })
 	process.exit(0)
