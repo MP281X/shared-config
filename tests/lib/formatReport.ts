@@ -17,7 +17,7 @@ export function formatReport(tests: Test[]) {
 			case 'pass': return logColor('✓', "success")
 			case 'fail': return logColor('✗', "error")
 			case 'skip': return logColor('-', "warning")
-			case 'todo': return logColor('☐', "warning")
+			case 'todo': return logColor('-', "warning")
 		}
 	}
 
