@@ -1,4 +1,4 @@
-import { resolvablePromise } from './utils.ts'
+import { resolvablePromise, sleep } from './utils.ts'
 
 export class Queue<T> {
 	private queue: T[]
@@ -35,7 +35,7 @@ export class Queue<T> {
 			}
 
 			yield this.queue.shift()
-			await new Promise(resolve => setImmediate(resolve))
+			await sleep(0)
 		}
 	}
 }

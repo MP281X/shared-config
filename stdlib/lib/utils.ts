@@ -1,8 +1,7 @@
 import utils from 'node:util'
 
 export async function sleep(ms: number) {
-	if (ms !== 0) await new Promise(resolve => setTimeout(resolve, ms))
-	else await new Promise(resolve => setImmediate(resolve))
+	await new Promise(resolve => setTimeout(resolve, ms))
 }
 
 export function initTimer() {
