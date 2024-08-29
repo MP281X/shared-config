@@ -1,4 +1,4 @@
-import { resolvablePromise } from './resolvablePromise.ts'
+import { resolvablePromise } from './utils.ts'
 
 export class Queue<T> {
 	private queue: T[]

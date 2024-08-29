@@ -1,4 +1,4 @@
-import { resolvablePromise } from './resolvablePromise.ts'
+import { resolvablePromise } from './utils.ts'
 
 export declare namespace PubSub {
 	type Node<T> = { value: T; next: Promise<Node<T>> }

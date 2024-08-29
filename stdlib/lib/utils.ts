@@ -20,6 +20,17 @@ export function stringify(data: any) {
 	return utils.formatWithOptions({ colors: true }, data)
 }
 
+export function resolvablePromise<T>() {
+	let resolvePromise: (value: T) => void
+
+	const promise = new Promise<T>(resolve => {
+		resolvePromise = resolve
+	})
+
+	// @ts-expect-error
+	return { resolvePromise, promise }
+}
+
 export declare namespace random {
 	type Props = { min: number; max: number; step: number }
 }
