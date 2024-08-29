@@ -13,8 +13,8 @@ export declare namespace workerThreads {
 	type WorkerHandler<Schema extends workerThreads.Schema> = (props: {
 		initData: Schema['init']['Type']
 		queue: Queue<Schema['worker']['Type']>
-		send: (data: Schema['main']['Encoded']) => void
-	}) => Promise<void>
+		send: (data: Schema['main']['Encoded']) => Promise<void>
+	}) => Promise<void> | void
 
 	type Props<Schema extends workerThreads.Schema> = {
 		filePath: string
@@ -38,9 +38,12 @@ export async function workerThreads<Schema extends workerThreads.Schema>(props: 
 			worker.on('error', () => queue.close())
 			worker.on('messageerror', () => queue.close())
 
-			const send = (data: Schema['worker']['Encoded']) => worker.postMessage(data)
+			const send = async (rawData: Schema['worker']['Encoded']) => {
+				const data = await Schema.encodePromise(props.schema.worker)(rawData)
+				worker.postMessage(data)
+			}
 
-			return { queue, send, terminate: async () => await worker.terminate() }
+			return { queue, send, terminate: worker.terminate }
 		}
 
 		return { spawnWorker }
@@ -59,6 +62,11 @@ export async function workerThreads<Schema extends workerThreads.Schema>(props: 
 	worker.on('error', () => queue.close())
 	worker.on('messageerror', () => queue.close())
 
-	await props.worker({ queue, send: data => worker.postMessage(data), initData })
+	const send = async (rawData: Schema['main']['Encoded']) => {
+		const data = await Schema.encodePromise(props.schema.main)(rawData)
+		worker.postMessage(data)
+	}
+
+	await props.worker({ queue, send, initData })
 	process.exit(0)
 }
