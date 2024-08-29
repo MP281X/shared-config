@@ -12,7 +12,7 @@ export declare namespace workerThreads {
 
 	type WorkerHandler<Schema extends workerThreads.Schema> = (props: {
 		initData: Schema['init']['Type']
-		iterator: AsyncIterable<Schema['worker']['Type']>
+		queue: Queue<Schema['worker']['Type']>
 		send: (data: Schema['main']['Encoded']) => void
 	}) => Promise<void>
 
@@ -55,6 +55,10 @@ export async function workerThreads<Schema extends workerThreads.Schema>(props: 
 		void queue.publish(data)
 	})
 
-	await props.worker({ iterator: queue, send: data => worker.postMessage(data), initData })
+	worker.on('exit', () => queue.close())
+	worker.on('error', () => queue.close())
+	worker.on('messageerror', () => queue.close())
+
+	await props.worker({ queue, send: data => worker.postMessage(data), initData })
 	process.exit(0)
 }
