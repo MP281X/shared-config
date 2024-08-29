@@ -31,15 +31,14 @@
 
 	"files": ["./dist/**/*", "./configs/*"],
 
-	"dependencies": {
-		"@biomejs/biome": "latest",
-		"@effect/schema": "latest"
-	},
+	"dependencies": { "@biomejs/biome": "latest" },
 
 	"devDependencies": {
 		"tsup": "^8",
 
 		"typescript": "^5",
-		"@types/node": "^20"
+		"@types/node": "^20",
+
+		"@effect/schema": "latest"
 	}
 }

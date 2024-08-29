@@ -28,8 +28,8 @@ export async function workerThreads<Schema extends workerThreads.Schema>(props: 
 		const spawnWorker = (workerData: Schema['init']['Encoded']) => {
 			const worker = new Worker(fileURLToPath(props.filePath), { workerData })
 
-			const queue = new Queue<Schema['main']['Encoded']>()
-			workerThread.on('message', rawData => {
+			const queue = new Queue<Schema['main']['Type']>()
+			worker.on('message', rawData => {
 				const data = Schema.decodeSync(props.schema.main)(rawData)
 				void queue.publish(data)
 			})
@@ -46,15 +46,15 @@ export async function workerThreads<Schema extends workerThreads.Schema>(props: 
 		return { spawnWorker }
 	}
 
-	const workerThread = parentPort!
-	const initData = workerData as Schema['init']['Type']
+	const worker = parentPort!
+	const initData = Schema.decodeSync(props.schema.init)(workerData)
 
 	const queue = new Queue<Schema['worker']['Type']>()
-	workerThread.on('message', rawData => {
+	worker.on('message', rawData => {
 		const data = Schema.decodeSync(props.schema.worker)(rawData)
 		void queue.publish(data)
 	})
 
-	await props.worker({ iterator: queue, send: data => workerThread.postMessage(data), initData })
+	await props.worker({ iterator: queue, send: data => worker.postMessage(data), initData })
 	process.exit(0)
 }
