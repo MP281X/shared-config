@@ -31,7 +31,10 @@
 
 	"files": ["./dist/**/*", "./configs/*"],
 
-	"dependencies": { "@biomejs/biome": "latest" },
+	"dependencies": {
+		"@biomejs/biome": "latest",
+		"@effect/schema": "latest"
+	},
 
 	"devDependencies": {
 		"tsup": "^8",
