@@ -3,6 +3,17 @@ export async function sleep(ms: number) {
 	else await new Promise(resolve => setImmediate(resolve))
 }
 
+export function timer() {
+	const startTime = Date.now()
+
+	return {
+		get elapsedTime() {
+			const endTime = Date.now()
+			return (endTime - startTime) / 1000
+		}
+	}
+}
+
 export declare namespace random {
 	type Props = { min: number; max: number; step: number }
 }
