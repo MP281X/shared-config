@@ -34,7 +34,7 @@ export class Queue<T> {
 				await promise
 			}
 
-			yield this.queue.shift()
+			yield this.queue.shift()!
 			await sleep(0)
 		}
 	}
