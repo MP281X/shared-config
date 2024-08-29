@@ -1,3 +1,5 @@
+import utils from 'node:util'
+
 export async function sleep(ms: number) {
 	if (ms !== 0) await new Promise(resolve => setTimeout(resolve, ms))
 	else await new Promise(resolve => setImmediate(resolve))
@@ -12,6 +14,10 @@ export function timer() {
 			return (endTime - startTime) / 1000
 		}
 	}
+}
+
+export function stringify(data: any) {
+	return utils.formatWithOptions({ colors: true }, data)
 }
 
 export declare namespace random {
