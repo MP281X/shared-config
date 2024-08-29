@@ -6,7 +6,7 @@ import { fork, resolvablePromise } from './utils.ts'
 export function execParallel<Props, ReturnType>(filePath: string, fn: (props: Props) => ReturnType) {
 	const { executionId } = getExecutionId(filePath)
 
-	if (isMainThread && process.env['execParallelId'] === executionId) {
+	if (isMainThread === false && process.env['execParallelId'] === executionId) {
 		fork(async () => {
 			const res = await fn(workerData)
 			parentPort?.postMessage(res)

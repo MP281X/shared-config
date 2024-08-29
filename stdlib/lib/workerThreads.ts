@@ -28,7 +28,7 @@ export declare namespace workerThreads {
 export async function workerThreads<Schema extends workerThreads.Schema>(props: workerThreads.Props<Schema>) {
 	const { executionId } = getExecutionId(props.filePath)
 
-	if (isMainThread && process.env['workerThreadsId'] === executionId) {
+	if (isMainThread === false && process.env['workerThreadsId'] === executionId) {
 		const worker = parentPort!
 		const workerData = Schema.decodeSync(props.schema.init)(rawWorkerData)
 
@@ -51,32 +51,32 @@ export async function workerThreads<Schema extends workerThreads.Schema>(props: 
 		process.exit(0)
 	}
 
-	function spawnWorker(workerData: Schema['init']['Encoded']) {
-		const worker = new Worker(fileURLToPath(props.filePath), {
-			workerData,
-			env: {
-				...process.env,
-				workerThreadsId: executionId
+	return {
+		spawnWorker: (workerData: Schema['init']['Encoded']) => {
+			const worker = new Worker(fileURLToPath(props.filePath), {
+				workerData,
+				env: {
+					...process.env,
+					workerThreadsId: executionId
+				}
+			})
+
+			const queue = new Queue<Schema['main']['Type']>()
+			worker.on('message', rawData => {
+				const data = Schema.decodeSync(props.schema.main)(rawData)
+				void queue.publish(data)
+			})
+
+			worker.on('exit', () => queue.close())
+			worker.on('error', () => queue.close())
+			worker.on('messageerror', () => queue.close())
+
+			const send = async (rawData: Schema['worker']['Encoded']) => {
+				const data = await Schema.encodePromise(props.schema.worker)(rawData)
+				worker.postMessage(data)
 			}
-		})
 
-		const queue = new Queue<Schema['main']['Type']>()
-		worker.on('message', rawData => {
-			const data = Schema.decodeSync(props.schema.main)(rawData)
-			void queue.publish(data)
-		})
-
-		worker.on('exit', () => queue.close())
-		worker.on('error', () => queue.close())
-		worker.on('messageerror', () => queue.close())
-
-		const send = async (rawData: Schema['worker']['Encoded']) => {
-			const data = await Schema.encodePromise(props.schema.worker)(rawData)
-			worker.postMessage(data)
+			return { queue, send, terminate: worker.terminate }
 		}
-
-		return { queue, send, terminate: worker.terminate }
 	}
-
-	return { spawnWorker }
 }
