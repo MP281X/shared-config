@@ -2,9 +2,12 @@ import { spawn } from 'node:child_process'
 import fs from 'node:fs'
 
 import { log, printLog } from './logger.ts'
+import { currentPackageRoot } from './projectData.ts'
 
-export const execCmd = async (cmd: string, args: readonly string[], stdio: 'pipe' | 'inherit' = 'pipe') => {
+export const execCmd = async (rawArgs: readonly string[], stdio: 'pipe' | 'inherit' = 'inherit') => {
+	const [cmd, ...args] = rawArgs as [string, ...string[]]
 	const cmdName = cmd.split('/').pop()?.split('.').shift()
+
 	printLog(`${cmdName} ${args.join(' ')}\n`, 'warn')
 
 	const execPromise = new Promise<void>((resolve, _) => {
@@ -55,11 +58,16 @@ export const readLogFile = async (paths: readonly string[]) => {
 		if (fs.existsSync(path)) fs.rmSync(path)
 		fs.writeFileSync(path, '')
 
-		await execCmd('tail', ['-f', path])
+		await execCmd(['tail', '-f', path])
 	}
 }
 
-export const nodeExec = async (rawArgs: readonly string[], stdio: 'pipe' | 'inherit' = 'inherit') => {
-	const [cmd, ...args] = rawArgs
-	await execCmd(cmd!, args, stdio)
+export const cliExec = async (rawArgs: string[], stdio: 'pipe' | 'inherit' = 'inherit') => {
+	const packageRoot = currentPackageRoot()
+
+	const [rawCmd, ...args] = rawArgs as [string, ...string[]]
+	let cmd = `${packageRoot}/node_modules/.bin/${rawCmd}`
+	if (fs.existsSync(cmd) === false) cmd = `${process.cwd()}/node_modules/.bin/${rawCmd}`
+
+	await execCmd([cmd, ...args], stdio)
 }

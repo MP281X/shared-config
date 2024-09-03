@@ -1,10 +1,9 @@
 #!/usr/bin/env -S node --experimental-strip-types
 
-import fs from 'node:fs'
 import { cleanProject } from './lib/cleanProject.ts'
 import { getArgs } from './lib/cliHandler.ts'
 import { configProject } from './lib/configProject.ts'
-import { execCmd, nodeExec } from './lib/exec.ts'
+import { cliExec, execCmd, readLogFile } from './lib/exec.ts'
 import { hasDockerCompose, hasPackage, packageManager } from './lib/projectData.ts'
 
 const { args, cmd } = getArgs()
@@ -13,42 +12,35 @@ console.clear()
 
 switch (cmd) {
 	case 'tail': {
-		const path = args[0] ?? ''
-
-		if (fs.existsSync(path)) fs.rmSync(path)
-		fs.writeFileSync(path, '')
-
-		await execCmd('tail', ['-f', path])
+		await readLogFile(args)
 		break
 	}
 
 	case 'node': {
-		const path = args[0] ?? ''
-
-		await nodeExec(['node', '--experimental-strip-types', '--watch', path], 'pipe')
+		await execCmd(['node', '--experimental-strip-types', '--watch', ...args], 'pipe')
 		break
 	}
 
 	case 'fix': {
-		await nodeExec(['biome', 'check', '--write', '.'])
+		await cliExec(['biome', 'check', '--write', '.'])
 		break
 	}
 
 	case 'test': {
-		await nodeExec([
+		await execCmd([
 			'node',
 			'--experimental-strip-types',
 			...['--test-reporter', '@mp281x/shared-config/tests'],
-			...['--test', 'src/**/*.*', 'src/**/**/*.*', 'src/**/**/**/*.*', 'src/**/**/**/**/*.*']
+			...['--test', '*.test.*', 'src/**/*.*', 'src/**/**/*.*', 'src/**/**/**/*.*', 'src/**/**/**/**/*.*']
 		])
 		break
 	}
 
 	case 'check': {
-		await nodeExec(['biome', 'check', '.'])
+		await cliExec(['biome', 'check', '.'])
 
-		if (hasPackage('svelte')) await nodeExec(['svelte-check', '--tsconfig', './tsconfig.json'])
-		else await nodeExec(['tsc', '--noEmit'])
+		if (hasPackage('svelte')) await cliExec(['svelte-check', '--tsconfig', './tsconfig.json'])
+		else await cliExec(['tsc', '--noEmit'])
 		break
 	}
 
@@ -56,22 +48,30 @@ switch (cmd) {
 		cleanProject()
 		configProject()
 
-		if (packageManager() === 'pnpm') await nodeExec(['update', '--recursive', '--no-save'])
+		if (packageManager() === 'pnpm') await execCmd(['pnpm', 'update', '--recursive', '--no-save'])
 
-		if (hasPackage('svelte')) await nodeExec(['svelte-kit', 'sync'])
-		if (hasPackage('@mp281x/realtime')) await nodeExec(['realtime'])
+		if (hasPackage('svelte')) await cliExec(['svelte-kit', 'sync'])
+		if (hasPackage('@mp281x/realtime')) await cliExec(['realtime'], 'inherit')
+		break
+	}
+
+	case 'build': {
+		await cliExec(['tsup-node'])
+		if (hasPackage('svelte')) await cliExec(['vite', 'build'])
+		if (hasPackage('next')) await cliExec(['next', 'build'])
+
 		break
 	}
 
 	case 'docker': {
 		if (hasDockerCompose() === false) break
 
-		await execCmd('docker', ['compose', 'down', '--remove-orphans'], 'inherit')
-		await execCmd('docker', ['compose', 'up', '--build', '--detach', '--wait'], 'inherit')
+		await execCmd(['docker', 'compose', 'down', '--remove-orphans'])
+		await execCmd(['docker', 'compose', 'up', '--build', '--detach', '--wait'])
 		break
 	}
 	default: {
-		await execCmd(cmd, args)
+		await cliExec([cmd, ...args], 'pipe')
 		break
 	}
 }

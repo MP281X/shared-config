@@ -13,3 +13,14 @@ export const hasPackage = (packageName: string) => {
 export const hasDockerCompose = () => {
 	return fs.existsSync(`${process.cwd()}/docker-compose.yaml`)
 }
+
+export const currentPackageRoot = (dir = import.meta.dirname): string => {
+	if (dir.trim() === '') return process.cwd()
+	if (dir === process.cwd()) return dir
+
+	const packageJSON = dir + '/package.json'
+	if (fs.existsSync(packageJSON)) return dir
+
+	const parentDir = dir.split('/').slice(0, -1).join('/')
+	return currentPackageRoot(parentDir)
+}
