@@ -2,9 +2,10 @@
 	"type": "module",
 	"name": "@mp281x/shared-config",
 	"scripts": {
+		"build": "tsup-node",
+
 		"fix": "./cli/index.ts fix",
-		"check": "./cli/index.ts check",
-		"build": "tsup-node"
+		"check": "./cli/index.ts check"
 	},
 
 	"bin": { "x": "./dist/cli/index.js" },
