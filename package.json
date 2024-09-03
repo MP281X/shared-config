@@ -21,7 +21,7 @@
 
 		"./tsup": {
 			"types": "./dist/configs/tsup.d.ts",
-			"import": "./dist/configs/tsup.ts"
+			"import": "./dist/configs/tsup.js"
 		},
 
 		"./tests": {
