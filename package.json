@@ -32,15 +32,16 @@
 
 	"files": ["./dist/**/*", "./configs/*"],
 
-	"dependencies": {
-		"@biomejs/biome": "latest",
-		"@effect/schema": "latest"
-	},
-
-	"devDependencies": {
+	"peerDependencies": {
 		"tsup": "^8",
 
+		"@biomejs/biome": "latest",
+
 		"typescript": "^5",
-		"@types/node": "^20"
-	}
+		"@types/node": "^22"
+	},
+
+	"peerDependenciesMeta": { "tsup": { "optional": true } },
+
+	"dependencies": { "@effect/schema": "latest" }
 }
