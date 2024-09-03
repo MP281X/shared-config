@@ -1,6 +1,7 @@
 {
 	"type": "module",
 	"name": "@mp281x/shared-config",
+
 	"scripts": {
 		"build": "tsup-node",
 
@@ -9,6 +10,8 @@
 	},
 
 	"bin": { "x": "./dist/cli/index.js" },
+
+	"files": ["./dist/**/*", "./configs/*"],
 
 	"exports": {
 		"./biome": "./configs/biome.jsonc",
@@ -30,18 +33,13 @@
 		}
 	},
 
-	"files": ["./dist/**/*", "./configs/*"],
-
-	"peerDependencies": {
-		"tsup": "^8",
-
+	"dependencies": {
 		"@biomejs/biome": "latest",
+		"@effect/schema": "latest",
 
-		"typescript": "^5",
-		"@types/node": "^22"
+		"tsup": "^8",
+		"typescript": "^5"
 	},
 
-	"peerDependenciesMeta": { "tsup": { "optional": true } },
-
-	"dependencies": { "@effect/schema": "latest" }
+	"devDependencies": { "@types/node": "^22" }
 }
