@@ -13,14 +13,14 @@
 		"./biome": "./configs/biome.jsonc",
 		"./tsconfig": "./configs/tsconfig.json",
 
+		".": {
+			"types": "./dist/stdlib/index.d.ts",
+			"import": "./dist/stdlib/index.js"
+		},
+
 		"./tsup": {
 			"types": "./dist/configs/tsup.d.ts",
 			"import": "./dist/configs/tsup.ts"
-		},
-
-		"./stdlib": {
-			"types": "./dist/stdlib/index.d.ts",
-			"import": "./dist/stdlib/index.js"
 		},
 
 		"./tests": {
@@ -33,9 +33,12 @@
 
 	"dependencies": {
 		"@biomejs/biome": "latest",
-		"@effect/schema": "latest",
+		"@effect/schema": "latest"
+	},
 
+	"devDependencies": {
 		"tsup": "^8",
+
 		"typescript": "^5",
 		"@types/node": "^20"
 	}

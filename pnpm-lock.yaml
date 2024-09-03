@@ -14,6 +14,7 @@ importers:
       '@effect/schema':
         specifier: latest
         version: 0.72.0(effect@3.6.7)
+    devDependencies:
       '@types/node':
         specifier: ^20
         version: 20.16.3
