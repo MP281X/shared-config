@@ -2,7 +2,6 @@ import { spawn } from 'node:child_process'
 import fs from 'node:fs'
 
 import { log, printLog } from './logger.ts'
-import { packageManager } from './projectData.ts'
 
 export const execCmd = async (cmd: string, args: readonly string[], stdio: 'pipe' | 'inherit' = 'pipe') => {
 	const cmdName = cmd.split('/').pop()?.split('.').shift()
@@ -60,6 +59,7 @@ export const readLogFile = async (paths: readonly string[]) => {
 	}
 }
 
-export const nodeExec = async (args: readonly string[], stdio: 'pipe' | 'inherit' = 'inherit') => {
-	await execCmd(packageManager(), args, stdio)
+export const nodeExec = async (rawArgs: readonly string[], stdio: 'pipe' | 'inherit' = 'inherit') => {
+	const [cmd, ...args] = rawArgs
+	await execCmd(cmd!, args, stdio)
 }
