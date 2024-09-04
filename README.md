@@ -14,19 +14,20 @@ To configure the package, use the following `package.json` or merge it with your
 
 ```jsonc
 {
-  "name": "projectName",
-	"type": "module",
+ "name": "projectName",
+ "type": "module",
 
-	"scripts": {
-        "dev": "x index.ts",
+ "scripts": {
+    "dev": "x index.ts",
+	
+    "fix": "x fix",
+    "test": "x test",
+    "check": "x check",
+    "setup": "x setup",
+    "docker": "x docker"
+ },
 
-		"fix": "x fix",
-        "test": "x test",
-		"check": "x check",
-		"setup": "x setup"
-	},
-
-	"devDependencies": { "@mp281x/shared-config": "latest" }
+ "devDependencies": { "@mp281x/shared-config": "latest" }
 }
 ```
 Install the packages and run the setup script
@@ -43,12 +44,6 @@ This package includes a CLI for filtering and highlighting useful information fr
 
 Prepend your command with x
 
-```json
-{
-	"scripts": "x vite dev"
-}
-```
-
 ```sh
-pnpm run x vite dev
+pnpm x index.ts
 ```
