@@ -49,9 +49,9 @@
 		"tsBuildInfoFile": ".tsbuildinfo", // set the name of the cache file
 
 		"baseUrl": "${configDir}", // path alias root
-		"rootDirs": ["${configDir}", "${configDir}/.codegen"] // virtual root for codegen files
+		"rootDirs": ["${configDir}"] // virtual root for codegen files
 	},
 
-	"exclude": ["${configDir}/**/node_modules", "${configDir}/**/dist", "${configDir}/**/.*"],
-	"include": ["${configDir}/src/**/*", "${configDir}/*.config.*", "${configDir}/index.ts", "${configDir}/.codegen/**/*"]
+	"exclude": ["${configDir}/**/node_modules", "${configDir}/**/dist"],
+	"include": ["${configDir}/index.ts", "${configDir}/src/**/*", "${configDir}/*.config.*", "${configDir}/.codegen/**/*"]
 }

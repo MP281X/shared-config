@@ -62,7 +62,7 @@ export const readLogFile = async (paths: readonly string[]) => {
 	}
 }
 
-export const cliExec = async (rawArgs: string[], stdio: 'pipe' | 'inherit' = 'inherit') => {
+export const cliExec = async (rawArgs: string[], stdio: 'pipe' | 'inherit' = 'pipe') => {
 	const packageRoot = currentPackageRoot()
 
 	const [rawCmd, ...args] = rawArgs as [string, ...string[]]

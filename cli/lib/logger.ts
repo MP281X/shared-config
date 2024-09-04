@@ -24,7 +24,8 @@ invalidLogs.push(
 	'work in progress:',
 	'Code style issues',
 	'Run npm run preview',
-	'> Using svelte-adapter-bun',
+	'Loading svelte-check',
+	'Getting Svelte diagnostics',
 	'===================================='
 )
 
@@ -40,8 +41,8 @@ invalidLogs.push(
 	'[BABEL] Note: The code generator'
 )
 
-// tsx/pnpm
-invalidLogs.push('> ', "Completed running '", ' workspace projects', 'EXIT CODE:')
+// tsx/pnpm/biome/...
+invalidLogs.push('> ', "Completed running '", ' workspace projects', 'EXIT CODE:', 'No fixes applied')
 
 const strIncludes = (str: string, includes: string[]) => {
 	for (const include of includes) if (str.includes(include)) return true

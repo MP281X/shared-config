@@ -1,7 +1,12 @@
 import fs from 'node:fs'
+import { hasPackage } from './projectData.ts'
 
 const tsconfig = `
 { "extends": ["@mp281x/shared-config/tsconfig"] }
+`.trimStart()
+
+const svelteTsConfig = `
+{ "extends": ["./.svelte-kit/tsconfig.json", "@mp281x/shared-config/tsconfig"] }
 `.trimStart()
 
 const biome = `
@@ -38,4 +43,6 @@ export const configProject = () => {
 	fs.writeFileSync('tsconfig.json', tsconfig)
 	fs.writeFileSync('biome.jsonc', biome)
 	fs.writeFileSync('.gitignore', gitignore)
+
+	if (hasPackage('svelte')) fs.writeFileSync('tsconfig.json', svelteTsConfig)
 }
