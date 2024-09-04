@@ -38,7 +38,13 @@ invalidLogs.push(
 	'- Experiments',
 	'✓ Starting...',
 	'· reactCompiler',
-	'[BABEL] Note: The code generator'
+	'Skipping linting',
+	'Collecting page data',
+	'Collecting build traces',
+	'Finalizing page optimization',
+	'Skipping validation of types',
+	'[BABEL] Note: The code generator',
+	'Creating an optimized production build'
 )
 
 // tsx/pnpm/biome/...
