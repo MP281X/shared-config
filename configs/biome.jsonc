@@ -18,11 +18,6 @@
 		"enabled": true,
 		"rules": {
 			"all": true,
-			"nursery": {
-				"noEmptyBlock": "off",
-				"useSortedClasses": "error",
-				"useImportExtensions": "error"
-			},
 			"performance": {
 				"noBarrelFile": "off",
 				"noReExportAll": "off",
@@ -38,7 +33,9 @@
 			},
 			"suspicious": {
 				"useAwait": "error",
+				"noConsole": "off",
 				"noConsoleLog": "off",
+				"noEmptyBlock": "off",
 				"noExplicitAny": "off",
 				"noFocusedTests": "warn",
 				"noArrayIndexKey": "off",
@@ -53,6 +50,7 @@
 				"noNamespaceImport": "off",
 				"noNonNullAssertion": "off",
 				"useBlockStatements": "off",
+				"useDefaultSwitchClause": "off",
 				"useShorthandArrayType": "error",
 				"useNamingConvention": { "level": "error", "options": { "strictCase": false } }
 			},
@@ -61,17 +59,19 @@
 				"noUnusedImports": "off",
 				"noNodejsModules": "off",
 				"noUnusedVariables": "off",
+				"useImportExtensions": "error",
 				"noUndeclaredVariables": "off"
-			}
+			},
+			"nursery": { "useSortedClasses": "error" }
 		}
 	},
 	"javascript": {
 		"formatter": {
-			"bracketSpacing": true,
 			"quoteStyle": "single",
+			"bracketSpacing": true,
 			"bracketSameLine": false,
-			"semicolons": "asNeeded",
 			"trailingCommas": "none",
+			"semicolons": "asNeeded",
 			"jsxQuoteStyle": "double",
 			"quoteProperties": "asNeeded",
 			"arrowParentheses": "asNeeded"

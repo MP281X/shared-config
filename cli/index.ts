@@ -66,7 +66,7 @@ switch (cmd) {
 	default: {
 		if (hasPackage('@mp281x/realtime')) await cliExec(['realtime'])
 
-		await cliExec([cmd, ...args])
+		await cliExec([cmd, ...args], 'pipe')
 		break
 	}
 }

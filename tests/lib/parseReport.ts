@@ -16,7 +16,7 @@ export async function parseReport(source: AsyncIterable<TestEvent>) {
 	const testStack: Test[] = []
 
 	function getParentTest() {
-		return testStack.length ? testStack[testStack.length - 1] : null
+		return testStack.length > 0 ? testStack[testStack.length - 1] : null
 	}
 
 	function formatFilePath(file: string | undefined) {
