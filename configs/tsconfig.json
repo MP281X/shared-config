@@ -46,10 +46,7 @@
 		"isolatedModules": true, // ensure that the types you write are checkable looking at a single file
 
 		"incremental": true, // cache some informations about the types to speed up the next typechecks
-		"tsBuildInfoFile": ".tsbuildinfo", // set the name of the cache file
-
-		"baseUrl": "${configDir}", // path alias root
-		"rootDirs": ["${configDir}"] // virtual root for codegen files
+		"tsBuildInfoFile": ".tsbuildinfo" // set the name of the cache file
 	},
 
 	"exclude": ["${configDir}/**/node_modules", "${configDir}/**/dist"],
