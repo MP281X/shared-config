@@ -52,7 +52,6 @@ const gitignore = `
 **/.env
 **/.DS_Store
 **/node_modules
-**/pnpm-lock.yaml
 `.trimStart()
 
 export const configProject = () => {
