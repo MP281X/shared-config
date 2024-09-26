@@ -20,6 +20,7 @@ const nextTsConfig = `
 const nextJSConfig = `
 /** @type {import('next').NextConfig} */
 export default {
+	output: 'standalone',
 	eslint: { ignoreDuringBuilds: true },
 	typescript: { ignoreBuildErrors: true }
 }
@@ -44,6 +45,10 @@ const gitignore = `
 **/.codegen/**/*
 **/*.tsbuildinfo
 
+# db
+**/*-journal
+**/*.sqlite
+
 # vite
 **/vite.config.js.timestamp-*
 **/vite.config.ts.timestamp-*
@@ -60,6 +65,6 @@ export const configProject = () => {
 	fs.writeFileSync('.gitignore', gitignore)
 
 	if (hasPackage('next')) fs.writeFileSync('tsconfig.json', nextTsConfig)
-	if (hasPackage('next')) fs.writeFileSync('next.config.mjs', nextJSConfig)
+	if (hasPackage('next')) fs.writeFileSync('next.config.js', nextJSConfig)
 	if (hasPackage('svelte')) fs.writeFileSync('tsconfig.json', svelteTsConfig)
 }
