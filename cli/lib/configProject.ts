@@ -42,6 +42,7 @@ const gitignore = `
 
 # generated files
 **/*.g.ts
+**/*.g.d.ts
 **/.codegen/**/*
 **/*.tsbuildinfo
 

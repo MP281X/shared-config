@@ -3,7 +3,7 @@
 
 	"organizeImports": { "enabled": true },
 	"vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
-	"files": { "ignore": ["**/*.g.ts"] },
+	"files": { "ignore": ["**/*.g.ts", "**/*.g.d.ts", "**/*.css"] },
 
 	"formatter": {
 		"enabled": true,
@@ -33,7 +33,7 @@
 				"noExcessiveCognitiveComplexity": "off"
 			},
 			"suspicious": {
-				"useAwait": "error",
+				"useAwait": "off",
 				"noConsole": "off",
 				"noConsoleLog": "off",
 				"noEmptyBlock": "off",
@@ -64,7 +64,8 @@
 				"noNodejsModules": "off",
 				"noUnusedVariables": "off",
 				"useImportExtensions": "error",
-				"noUndeclaredVariables": "off"
+				"noUndeclaredVariables": "off",
+				"noUndeclaredDependencies": "off"
 			},
 			"nursery": { "useSortedClasses": "error" }
 		}
