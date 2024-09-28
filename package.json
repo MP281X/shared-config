@@ -37,6 +37,9 @@
 		"@biomejs/biome": "latest",
 		"@effect/schema": "latest",
 
+		"clsx": "latest",
+		"tailwind-merge": "latest",
+
 		"tsup": "^8",
 		"typescript": "^5"
 	},
